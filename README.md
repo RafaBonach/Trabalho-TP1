@@ -5,5 +5,7 @@
 <table>
   <tr>
     <td align="center"><a href="https://github.com/RafaBonach"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/104152350?v=4" width="100px;" alt=""/><br /><sub><b>Rafael Bonach</b></sub></a><br />
+      <td align="center"><a href="https://github.com/Coffee-Owl"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/104152350?v=4" width="100px;" alt=""/><br /><sub><b>Yuri Gomes</b></sub></a><br />
+        <td align="center"><a href="https://github.com/lbritors"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/104152350?v=4" width="100px;" alt=""/><br /><sub><b>Letícia Brito</b></sub></a><br />
   </tr>
 </table>
