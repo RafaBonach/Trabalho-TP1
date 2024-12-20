@@ -29,10 +29,6 @@ public class TelaLogin extends javax.swing.JFrame {
         tituloCadastrarCliente = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lbEmail = new javax.swing.JLabel();
-        lbUsername = new javax.swing.JLabel();
-        txtConfSenha = new javax.swing.JTextField();
-        lbConfSenha = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         btnCadastrar = new javax.swing.JButton();
         lbPossuiConta = new javax.swing.JLabel();
@@ -44,7 +40,7 @@ public class TelaLogin extends javax.swing.JFrame {
         setTitle("Cadastro de jogador");
 
         tituloCadastrarCliente.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
-        tituloCadastrarCliente.setText("Cadastrar-se");
+        tituloCadastrarCliente.setText("PixelPoint");
 
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -52,35 +48,19 @@ public class TelaLogin extends javax.swing.JFrame {
             }
         });
 
-        lbEmail.setText("Endereço de Email");
+        lbEmail.setText("Insira seu nome de Usuário");
 
-        lbUsername.setText("Nome de usuario");
-
-        txtConfSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtConfSenhaActionPerformed(evt);
-            }
-        });
-
-        lbConfSenha.setText("Confirmar senha");
-
-        txtUsername.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsernameActionPerformed(evt);
-            }
-        });
-
-        btnCadastrar.setText("Cadastrar");
+        btnCadastrar.setText("Iniciar sessão");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCadastrarActionPerformed(evt);
             }
         });
 
-        lbPossuiConta.setText("Já possui uma conta?");
+        lbPossuiConta.setText("Não tem uma conta?");
 
         btnEntrar.setForeground(new java.awt.Color(0, 102, 255));
-        btnEntrar.setText("Entrar");
+        btnEntrar.setText("Cadastrar-se");
         btnEntrar.setBorder(null);
         btnEntrar.setHideActionText(true);
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
@@ -93,14 +73,16 @@ public class TelaLogin extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCadastrar)
-                    .addComponent(lbPossuiConta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbPossuiConta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEntrar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(btnCadastrar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,18 +110,15 @@ public class TelaLogin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(203, 203, 203)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbEmail)
-                    .addComponent(txtUsername)
-                    .addComponent(txtEmail)
-                    .addComponent(tituloCadastrarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtSenha)
-                    .addComponent(txtConfSenha))
-                .addGap(0, 201, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lbSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbEmail)
+                        .addComponent(txtEmail)
+                        .addComponent(tituloCadastrarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                        .addComponent(txtSenha))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 215, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,20 +130,12 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lbUsername)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(lbSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lbConfSenha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,20 +146,12 @@ public class TelaLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
-    private void txtConfSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtConfSenhaActionPerformed
-
-    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsernameActionPerformed
-
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        // TODO add your handling code here:
+        new TelaCadastroCliente().setVisible(true);
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
@@ -237,15 +200,11 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnEntrar;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lbConfSenha;
     private javax.swing.JLabel lbEmail;
     private javax.swing.JLabel lbPossuiConta;
     private javax.swing.JLabel lbSenha;
-    private javax.swing.JLabel lbUsername;
     private javax.swing.JLabel tituloCadastrarCliente;
-    private javax.swing.JTextField txtConfSenha;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtSenha;
-    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

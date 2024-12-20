@@ -188,7 +188,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        // TODO add your handling code here:
+        new TelaLogin().setVisible(true);
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
