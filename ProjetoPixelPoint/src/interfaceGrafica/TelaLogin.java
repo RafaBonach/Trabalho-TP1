@@ -4,17 +4,28 @@
  */
 package interfaceGrafica;
 
+import backend.Cliente;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rafaelb
  */
 public class TelaLogin extends javax.swing.JFrame {
-
-    /**
-     * Creates new form TelaCadastroCliente
-     */
+    
+    static ArrayList<Cliente> listaClientes = TelaCadastroCliente.listaClientes;
+    
     public TelaLogin() {
         initComponents();
+        
+        //Habilitar botões
+        btnCadastrar.setEnabled(true);
+        btnEntrar.setEnabled(true);
+        
+        //Habilitar campos de texto
+        txtEmail.setEnabled(true);
+        txtSenha.setEnabled(true);
     }
 
     /**
@@ -147,7 +158,34 @@ public class TelaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
+        if (txtEmail.getText().equals("") || txtSenha.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Insira o Email e a Senha!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        }else{
+            //Procurar clientes na lista de clientes
+            String email = txtEmail.getText();
+            String senha = txtSenha.getText();
+            
+            Cliente cliente;
+            for (int i=0; i<listaClientes.size(); i++){
+                cliente = listaClientes.get(i);
+                if(cliente.getEmail().equals(email) && cliente.getSenha().equals(senha)){
+                    //Entrar
+                }
+            }
+            JOptionPane.showMessageDialog(null,"Conta não cadastrada, tente outra conta ou cadastre-se.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            
+            //Limpar os campos
+            txtEmail.setText("");
+            txtSenha.setText("");
+            
+            //Habilitar botões
+            btnCadastrar.setEnabled(true);
+            btnEntrar.setEnabled(true);
+        
+            //Habilitar campos de texto
+            txtEmail.setEnabled(true);
+            txtSenha.setEnabled(true);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
