@@ -4,19 +4,43 @@
  */
 package interfaceGrafica;
 
+import backend.Cliente;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rafaelb
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaCadastroCliente
-     */
+    static ArrayList<Cliente> listaClientes;
+    
+    String botao;
+    
     public TelaCadastroCliente() {
         initComponents();
-    }
+        
+        //Cria Lista
+        listaClientes = new ArrayList();
+        
+        //Habilitar botões
+        btnCadastrar.setEnabled(true);
+        btnEntrar.setEnabled(true);
+        
+        //Habilitar campos de texto
+        cmbPais.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtUsername.setEnabled(true);
+        ftxtData.setEnabled(true);
+        cmbIdioma.setEnabled(true);
+        txtSenha.setEnabled(true);
+        txtConfSenha.setEnabled(true);
 
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,6 +116,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         lbIdioma.setText("Idioma");
 
         cmbIdioma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbIdioma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbIdiomaActionPerformed(evt);
+            }
+        });
 
         btnCadastrar.setText("Cadastrar");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -102,12 +131,10 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
         lbPossuiConta.setText("Já possui uma conta?");
 
-        btnEntrar.setBackground(new java.awt.Color(242, 242, 242));
         btnEntrar.setForeground(new java.awt.Color(0, 102, 255));
         btnEntrar.setText("Entrar");
         btnEntrar.setBorder(null);
         btnEntrar.setHideActionText(true);
-        btnEntrar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntrarActionPerformed(evt);
@@ -123,9 +150,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnCadastrar)
                     .addComponent(lbPossuiConta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEntrar)
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,21 +182,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addGap(203, 203, 203)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbData)
-                            .addComponent(ftxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbIdioma)
-                                .addContainerGap(140, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmbIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,7 +194,19 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                             .addComponent(txtConfSenha)
                             .addComponent(txtSenha)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 201, Short.MAX_VALUE))))
+                        .addGap(0, 201, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbData)
+                                    .addComponent(ftxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbIdioma)
+                                    .addComponent(cmbIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +243,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addComponent(txtConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -239,11 +263,47 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
+        int indexPais = cmbPais.getSelectedIndex();
+        int indexIdioma = cmbIdioma.getSelectedIndex();
+        if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
+                ftxtData.getText().equals("  /  /    ") || txtSenha.getText().equals("") || txtConfSenha.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        }else if (indexPais == 0 || indexIdioma == 0){
+            JOptionPane.showMessageDialog(null, "Você deve selecionar um pais e um idioma!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        }else{
+            String email = txtEmail.getText();
+            String username = txtUsername.getText();
+            String data = ftxtData.getText();
+            String senha = txtSenha.getText();
+            String confSenha = txtConfSenha.getText();
+            
+            if (senha.equals(confSenha)){
+                // Criando objeto
+                Cliente cliente = Cliente(username, email, senha, data);
+                
+                listaClientes.add(cliente);
+            }else{
+                JOptionPane.showMessageDialog(null,"A senha para confirmar deve ser igual a senha inserida!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            }
+            
+            //Habilitar botões
+        btnCadastrar.setEnabled(true);
+        btnEntrar.setEnabled(true);
+        
+        //Habilitar campos de texto
+        cmbPais.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtUsername.setEnabled(true);
+        ftxtData.setEnabled(true);
+        cmbIdioma.setEnabled(true);
+        txtSenha.setEnabled(true);
+        txtConfSenha.setEnabled(true);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        // TODO add your handling code here:
+        //Sair da tela
+        this.setVisible(false);
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void ftxtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDataActionPerformed
@@ -253,6 +313,10 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
+
+    private void cmbIdiomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbIdiomaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbIdiomaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,4 +374,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtSenha;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
+    private Cliente Cliente(String username, String email, String senha, String data) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
