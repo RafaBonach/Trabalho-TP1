@@ -221,7 +221,8 @@ public class TelaPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_ftxtUsernameActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        // TODO add your handling code here:
+        new TelaLogin().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void ftxtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtEmailActionPerformed

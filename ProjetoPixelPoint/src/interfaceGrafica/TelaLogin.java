@@ -166,14 +166,16 @@ public class TelaLogin extends javax.swing.JFrame {
             String senha = txtSenha.getText();
             
             Cliente cliente;
-            for (int i=0; i<listaClientes.size(); i++){
+            /*for (int i=0; i<listaClientes.size(); i++){
                 cliente = listaClientes.get(i);
                 if(cliente.getEmail().equals(email) && cliente.getSenha().equals(senha)){
                     //Entrar
                 }
             }
             JOptionPane.showMessageDialog(null,"Conta não cadastrada, tente outra conta ou cadastre-se.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            
+            */
+            new TelaPerfil().setVisible(true);
+            this.setVisible(false);
             //Limpar os campos
             txtEmail.setText("");
             txtSenha.setText("");
