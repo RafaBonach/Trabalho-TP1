@@ -1,6 +1,6 @@
 package backend;
 
-public class Usuario {
+abstract class Usuario {
     private String nomeUsuario;
     private String email;
     private String senha;

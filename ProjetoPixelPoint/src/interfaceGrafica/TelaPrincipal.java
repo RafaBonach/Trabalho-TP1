@@ -82,7 +82,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonJogosActionPerformed
 
     private void jButtonPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPerfilActionPerformed
-        new TelaLogin().setVisible(true);
+        new TelaLoginCliente().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonPerfilActionPerformed
 
@@ -111,10 +111,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
