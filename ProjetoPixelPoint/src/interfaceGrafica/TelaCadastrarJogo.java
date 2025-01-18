@@ -4,8 +4,11 @@
  */
 package interfaceGrafica;
 
-import backend.Biblioteca;
+import backend.BancoDeDados;
 import backend.Jogo;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -54,8 +57,9 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         jTextFieldGenero = new javax.swing.JTextField();
         jTextFieldRequisitos = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jButtonVoltar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Nome:");
 
@@ -78,6 +82,13 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         jLabel6.setText("Gênero:");
 
         jLabel7.setText("Requisitos:");
+
+        jButtonVoltar.setText("Voltar");
+        jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,9 +124,14 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(212, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                                .addComponent(jButtonVoltar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonOk)
@@ -124,8 +140,13 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonVoltar)))
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,7 +205,12 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
             preco = Float.parseFloat(jTextFieldPreco.getText());
             versao = Float.parseFloat(jTextFieldVersao.getText());
             Jogo jogo = new Jogo (nome, id, preco, versao, genero, requisitos);
-            Biblioteca.jogos.add(jogo);
+            TelaPrincipal.jogos.add(jogo);
+            try {
+                BancoDeDados.atualizaBD(TelaPrincipal.jogos);
+            } catch (IOException ex) {
+                Logger.getLogger(TelaCadastrarJogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
             JOptionPane.showMessageDialog(null,"Jogo Cadastrado!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }
         
@@ -196,6 +222,11 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         jTextFieldGenero.setText("");
         jTextFieldRequisitos.setText("");
     }//GEN-LAST:event_jButtonOkActionPerformed
+
+    private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
+        new TelaLoja().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,10 +257,6 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -241,6 +268,7 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonOk;
+    private javax.swing.JButton jButtonVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

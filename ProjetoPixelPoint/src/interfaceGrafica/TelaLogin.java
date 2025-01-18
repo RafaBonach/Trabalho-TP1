@@ -174,7 +174,7 @@ public class TelaLogin extends javax.swing.JFrame {
             }
             JOptionPane.showMessageDialog(null,"Conta não cadastrada, tente outra conta ou cadastre-se.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             */
-            new TelaPerfil().setVisible(true);
+            new TelaPrincipal().setVisible(true);
             this.setVisible(false);
             //Limpar os campos
             txtEmail.setText("");

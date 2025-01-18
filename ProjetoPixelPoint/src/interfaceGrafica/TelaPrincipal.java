@@ -4,17 +4,54 @@
  */
 package interfaceGrafica;
 
+import backend.BancoDeDados;
+import backend.Jogo;
+import java.awt.Component;
+import java.awt.PopupMenu;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author yuria
  */
 public class TelaPrincipal extends javax.swing.JFrame {
+        
+        public static List<Jogo> jogos = new ArrayList();
+        /*
+        static {
+        Jogo jogo1 = new Jogo("Dark Souls", 1, 10, (float) 1.0, "Ação", "Windows");
+        Jogo jogo2 = new Jogo("Minecraft", 1, 25, (float) 2.7, "Sobrevivência", "Windows");
+        Jogo jogo3 = new Jogo("Doom", 1, 15, (float) 1.0, "FPS", "Windows");
+        jogos.add(jogo1);
+        jogos.add(jogo2);
+        jogos.add(jogo3);
+        }
+        */
+    
+    @Override
+    public void add(PopupMenu popup) {
+        super.add(popup); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
 
+    @Override
+    public Component add(Component comp) {
+        return super.add(comp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+    
     /**
      * Creates new form MainJFrame
      */
     public TelaPrincipal() {
         initComponents();
+            try {
+                jogos = BancoDeDados.leBD();
+            } catch (IOException ex) {
+                Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     /**
@@ -32,7 +69,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButtonJogos.setText("Biblioteca");
+        jButtonJogos.setText("Loja");
         jButtonJogos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonJogosActionPerformed(evt);
@@ -77,12 +114,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonJogosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJogosActionPerformed
-        new TelaBiblioteca().setVisible(true);
+        new TelaLoja().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonJogosActionPerformed
 
     private void jButtonPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPerfilActionPerformed
-        new TelaLogin().setVisible(true);
+        new TelaPerfil().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonPerfilActionPerformed
 
@@ -111,10 +148,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
