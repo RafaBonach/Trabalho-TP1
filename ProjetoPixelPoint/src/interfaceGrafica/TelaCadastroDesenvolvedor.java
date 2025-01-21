@@ -33,7 +33,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
         txtUsername.setEnabled(true);
         ftxtData.setEnabled(true);
         txtSenha.setEnabled(true);
-        txtConfSenha.setEnabled(true);
+        txtConfirmaSenha.setEnabled(true);
 
     }
     
@@ -235,7 +235,6 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnRevelarSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(1, 1, 1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbConfSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,14 +257,14 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
-                ftxtData.getText().equals("  /  /    ") || txtSenha.getText().equals("") || txtConfSenha.getText().equals("")){
+                ftxtData.getText().equals("  /  /    ") || txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
             String username = txtUsername.getText();
             String data = ftxtData.getText();
             String senha = txtSenha.getText();
-            String confSenha = txtConfSenha.getText();
+            String confSenha = txtConfirmaSenha.getText();
             
             if (senha.equals(confSenha)){
                 // Criando objeto
@@ -285,7 +284,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
         txtUsername.setEnabled(true);
         ftxtData.setEnabled(true);
         txtSenha.setEnabled(true);
-        txtConfSenha.setEnabled(true);
+        txtConfirmaSenha.setEnabled(true);
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 

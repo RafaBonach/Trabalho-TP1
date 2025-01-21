@@ -29,13 +29,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         btnEntrar.setEnabled(true);
         
         //Habilitar campos de texto
-        cmbPais.setEnabled(true);
         txtEmail.setEnabled(true);
         txtUsername.setEnabled(true);
         ftxtData.setEnabled(true);
-        cmbIdioma.setEnabled(true);
         txtSenha.setEnabled(true);
-        txtConfSenha.setEnabled(true);
+        txtConfirmaSenha.setEnabled(true);
 
     }
     
@@ -262,19 +260,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        int indexPais = cmbPais.getSelectedIndex();
-        int indexIdioma = cmbIdioma.getSelectedIndex();
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
-                ftxtData.getText().equals("  /  /    ") || txtSenha.getText().equals("") || txtConfSenha.getText().equals("")){
+                ftxtData.getText().equals("  /  /    ") || txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-        }else if (indexPais == 0 || indexIdioma == 0){
-            JOptionPane.showMessageDialog(null, "Você deve selecionar um pais e um idioma!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
             String username = txtUsername.getText();
             String data = ftxtData.getText();
             String senha = txtSenha.getText();
-            String confSenha = txtConfSenha.getText();
+            String confSenha = txtConfirmaSenha.getText();
             
             if (senha.equals(confSenha)){
                 // Criando objeto
@@ -290,13 +284,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         btnEntrar.setEnabled(true);
         
         //Habilitar campos de texto
-        cmbPais.setEnabled(true);
         txtEmail.setEnabled(true);
         txtUsername.setEnabled(true);
         ftxtData.setEnabled(true);
-        cmbIdioma.setEnabled(true);
         txtSenha.setEnabled(true);
-        txtConfSenha.setEnabled(true);
+        txtConfirmaSenha.setEnabled(true);
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
