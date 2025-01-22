@@ -4,8 +4,8 @@
  */
 package interfaceGrafica;
 
-import interfaceGrafica.TelaCadastrarJogo;
 import backend.Biblioteca;
+import interfaceGrafica.TelaCadastrarJogo;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -150,6 +150,10 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TelaBiblioteca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

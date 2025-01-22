@@ -4,18 +4,34 @@
  */
 package interfaceGrafica;
 
+import backend.Cliente;
+import backend.Desenvolvedor;
+import java.util.ArrayList;
+
 /**
  *
  * @author rafaelb
  */
 public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaDesenvolvedor
-     */
+    static ArrayList<Desenvolvedor> listaDesenvolvedores = TelaCadastroDesenvolvedor.listaDesenvolvedores;
+    private char previousEchoChar = '\u2022';
+    
     public TelaLoginDesenvolvedor() {
         initComponents();
-    }
+        
+//Habilitar botões
+        btnLogin.setEnabled(true);
+        btnCadastrar.setEnabled(true);
+        btnRevelarSenha.setEnabled(true);
+        
+        //Habilitar campos de texto
+        txtNomeDesenvolvedor.setEnabled(true);
+        txtSenha.setEnabled(true);
+        
+        //Limpa campos de texto
+        txtNomeDesenvolvedor.setText("");
+        txtSenha.setText("");    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,7 +49,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         txtSenha = new javax.swing.JPasswordField();
         btnRevelarSenha = new javax.swing.JButton();
         lbRevelarSenha = new javax.swing.JLabel();
-        btnLogar = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
         lbPossuiConta = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
 
@@ -74,11 +90,11 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         lbRevelarSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         lbRevelarSenha.setText("Revelar");
 
-        btnLogar.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        btnLogar.setText("Iniciar Sessão");
-        btnLogar.addActionListener(new java.awt.event.ActionListener() {
+        btnLogin.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        btnLogin.setText("Iniciar Sessão");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogarActionPerformed(evt);
+                btnLoginActionPerformed(evt);
             }
         });
 
@@ -112,7 +128,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(353, 353, 353)
-                .addComponent(btnLogar)
+                .addComponent(btnLogin)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(324, 324, 324)
@@ -139,7 +155,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRevelarSenha))
                 .addGap(68, 68, 68)
-                .addComponent(btnLogar)
+                .addComponent(btnLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPossuiConta)
@@ -162,9 +178,9 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
-    private void btnLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogarActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnLogarActionPerformed
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,7 +220,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JButton btnLogar;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRevelarSenha;
     private javax.swing.JLabel lbNomeDesenvolvedor;
     private javax.swing.JLabel lbPossuiConta;

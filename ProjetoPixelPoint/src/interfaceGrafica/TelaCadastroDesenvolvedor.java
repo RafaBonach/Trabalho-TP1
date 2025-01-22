@@ -5,6 +5,7 @@
 package interfaceGrafica;
 
 import backend.Cliente;
+import backend.Desenvolvedor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
-    static ArrayList<Cliente> listaClientes;
+    static ArrayList<Desenvolvedor> listaDesenvolvedores;
     
     String botao;
     
@@ -22,7 +23,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
         initComponents();
         
         //Cria Lista
-        listaClientes = new ArrayList();
+        listaDesenvolvedores = new ArrayList();
         
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -268,9 +269,9 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
             
             if (senha.equals(confSenha)){
                 // Criando objeto
-                Cliente cliente = Cliente(username, email, senha, data);
+                Desenvolvedor desenvolvedor = new Desenvolvedor(username, email, senha);
                 
-                listaClientes.add(cliente);
+                listaDesenvolvedores.add(desenvolvedor);
             }else{
                 JOptionPane.showMessageDialog(null,"A senha para confirmar deve ser igual a senha inserida!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             }
