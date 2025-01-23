@@ -7,13 +7,15 @@ package interfaceGrafica;
 import backend.Cliente;
 import backend.Desenvolvedor;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author rafaelb
  */
 public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
-
+    
+    // Inicializando a lista de desenvolvedores e a variavel de mostrar senha
     static ArrayList<Desenvolvedor> listaDesenvolvedores = TelaCadastroDesenvolvedor.listaDesenvolvedores;
     private char previousEchoChar = '\u2022';
     
@@ -31,7 +33,8 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         
         //Limpa campos de texto
         txtNomeDesenvolvedor.setText("");
-        txtSenha.setText("");    }
+        txtSenha.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -104,6 +107,11 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         btnCadastrar.setForeground(new java.awt.Color(0, 102, 255));
         btnCadastrar.setText("Cadastrar-se");
         btnCadastrar.setBorder(null);
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,12 +183,47 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
-        
+        if (txtSenha.getEchoChar() != '\u0000'){
+            previousEchoChar = txtSenha.getEchoChar();
+            txtSenha.setEchoChar('\u0000');
+        }else txtSenha.setEchoChar(previousEchoChar);
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        if(txtNomeDesenvolvedor.getText().equals("") || txtSenha.getText().equals("")){
+           JOptionPane.showMessageDialog(null,"Insira o Email e a Senha!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        }else{
+            String nomeDesenvolvedor = txtNomeDesenvolvedor.getText();
+            String senha = txtSenha.getText();
+            boolean dadosCorrespondentes = false;
+            for(Desenvolvedor desenvolvedor:listaDesenvolvedores){
+                if(desenvolvedor.getNomeUsuario().equals(nomeDesenvolvedor) && txtSenha.getText().equals(senha)) {
+                    new TelaPerfilDesenvolvedor().setVisible(true);
+                    this.setVisible(false);
+                    dadosCorrespondentes = true;
+                    break;
+                }
+            }
+            if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            
+            //Limpar senha
+            txtSenha.setText("");
+            
+            //Habilitar botões
+            btnLogin.setEnabled(true);
+            btnCadastrar.setEnabled(true);
+        
+            //Habilitar campos de texto
+            txtNomeDesenvolvedor.setEnabled(true);
+            txtSenha.setEnabled(true);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // TODO add your handling code here:
+        new TelaCadastroDesenvolvedor().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -205,18 +205,18 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             //Procurar clientes na lista de clientes
             String email = txtEmail.getText();
             String senha = txtSenha.getText();
-            
+            boolean dadosCorrespondentes = false;
             for (Cliente cliente:listaClientes){
-                if(!cliente.getEmail().equals(email) || !cliente.getSenha().equals(senha)){
-                    JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                }else{
+                if(cliente.getEmail().equals(email) && cliente.getSenha().equals(senha)){
                     new TelaPerfilCliente().setVisible(true);
                     this.setVisible(false);
+                    dadosCorrespondentes = true;
                     break;
                 }
             }
-            
-            //Limpar Email
+            if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+
+            //Limpar email
             txtSenha.setText("");
             
             //Habilitar botões
