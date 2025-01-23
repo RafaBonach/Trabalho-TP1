@@ -4,17 +4,54 @@
  */
 package interfaceGrafica;
 
+import backend.BancoDeDados;
+import backend.Jogo;
+import java.awt.Component;
+import java.awt.PopupMenu;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author yuria
  */
 public class TelaPrincipal extends javax.swing.JFrame {
+        
+        public static List<Jogo> jogos = new ArrayList();
+        /*
+        static {
+        Jogo jogo1 = new Jogo("Dark Souls", 1, 10, (float) 1.0, "Ação", "Windows");
+        Jogo jogo2 = new Jogo("Minecraft", 1, 25, (float) 2.7, "Sobrevivência", "Windows");
+        Jogo jogo3 = new Jogo("Doom", 1, 15, (float) 1.0, "FPS", "Windows");
+        jogos.add(jogo1);
+        jogos.add(jogo2);
+        jogos.add(jogo3);
+        }
+        */
+    
+    @Override
+    public void add(PopupMenu popup) {
+        super.add(popup); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
 
+    @Override
+    public Component add(Component comp) {
+        return super.add(comp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+    
     /**
      * Creates new form MainJFrame
      */
     public TelaPrincipal() {
         initComponents();
+            try {
+                jogos = BancoDeDados.leBD();
+            } catch (IOException ex) {
+                Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     /**
@@ -26,26 +63,34 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButtonJogos = new javax.swing.JButton();
+        btnLoja = new javax.swing.JButton();
         tituloCadastrarCliente = new javax.swing.JLabel();
-        jButtonPerfil = new javax.swing.JButton();
+        btnUsuario = new javax.swing.JButton();
+        btnDesenvolvedor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButtonJogos.setText("Biblioteca");
-        jButtonJogos.addActionListener(new java.awt.event.ActionListener() {
+        btnLoja.setText("Loja");
+        btnLoja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonJogosActionPerformed(evt);
+                btnLojaActionPerformed(evt);
             }
         });
 
         tituloCadastrarCliente.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
         tituloCadastrarCliente.setText("PixelPoint");
 
-        jButtonPerfil.setText("Perfil de Úsuario");
-        jButtonPerfil.addActionListener(new java.awt.event.ActionListener() {
+        btnUsuario.setText("Login de Úsuario");
+        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPerfilActionPerformed(evt);
+                btnUsuarioActionPerformed(evt);
+            }
+        });
+
+        btnDesenvolvedor.setText("Login Desenvolvedor");
+        btnDesenvolvedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesenvolvedorActionPerformed(evt);
             }
         });
 
@@ -57,8 +102,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(112, 112, 112)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(tituloCadastrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonJogos, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLoja, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnDesenvolvedor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(113, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -67,24 +114,31 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(tituloCadastrarCliente)
                 .addGap(45, 45, 45)
-                .addComponent(jButtonJogos)
+                .addComponent(btnLoja)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonPerfil)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addComponent(btnUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDesenvolvedor)
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonJogosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJogosActionPerformed
-        new TelaBiblioteca().setVisible(true);
+    private void btnLojaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLojaActionPerformed
+        new TelaLoja().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButtonJogosActionPerformed
+    }//GEN-LAST:event_btnLojaActionPerformed
 
-    private void jButtonPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPerfilActionPerformed
-        new TelaLogin().setVisible(true);
+    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
+        new TelaLoginCliente().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButtonPerfilActionPerformed
+    }//GEN-LAST:event_btnUsuarioActionPerformed
+
+    private void btnDesenvolvedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesenvolvedorActionPerformed
+        new TelaLoginDesenvolvedor().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnDesenvolvedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,10 +169,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -129,8 +179,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonJogos;
-    private javax.swing.JButton jButtonPerfil;
+    private javax.swing.JButton btnDesenvolvedor;
+    private javax.swing.JButton btnLoja;
+    private javax.swing.JButton btnUsuario;
     private javax.swing.JLabel tituloCadastrarCliente;
     // End of variables declaration//GEN-END:variables
 }

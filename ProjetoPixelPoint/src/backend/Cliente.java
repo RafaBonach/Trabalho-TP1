@@ -5,7 +5,7 @@ public class Cliente extends Usuario {
     private String dataNascimento;
     private String nacionalidade;
     private String idioma;
-    private float saldoCarteira;
+    private double saldoCarteira;
     private String endereco;
 
     // Construtores
@@ -13,7 +13,7 @@ public class Cliente extends Usuario {
         super(nomeUsuario, email, senha);
         this.dataNascimento = dataNascimento;
     }
-    public Cliente(String nomeUsuario, String email, String senha, String dataRegistro, String dataNascimento, String nacionalidade, String idioma, float saldoCarteira, String endereco) {
+    public Cliente(String nomeUsuario, String email, String senha, String dataRegistro, String dataNascimento, String nacionalidade, String idioma, double saldoCarteira, String endereco) {
         super(nomeUsuario, email, senha, dataRegistro);
         this.dataNascimento = dataNascimento;
         this.nacionalidade = nacionalidade;
@@ -47,11 +47,11 @@ public class Cliente extends Usuario {
         this.idioma = idioma;
     }
 
-    public float getSaldoCarteira() {
+    public double getSaldoCarteira() {
         return saldoCarteira;
     }
 
-    public void setSaldoCarteira(float saldoCarteira) {
+    public void setSaldoCarteira(double saldoCarteira) {
         this.saldoCarteira = saldoCarteira;
     }
 

@@ -27,8 +27,11 @@
               <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="tituloCadastrarCliente" alignment="2" min="-2" pref="175" max="-2" attributes="0"/>
-                  <Component id="jButtonPerfil" alignment="2" min="-2" pref="125" max="-2" attributes="0"/>
-                  <Component id="jButtonJogos" alignment="2" min="-2" pref="125" max="-2" attributes="0"/>
+                  <Component id="btnLoja" alignment="2" min="-2" pref="125" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="btnDesenvolvedor" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnUsuario" alignment="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="113" max="32767" attributes="0"/>
           </Group>
@@ -40,21 +43,23 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tituloCadastrarCliente" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-              <Component id="jButtonJogos" min="-2" max="-2" attributes="0"/>
+              <Component id="btnLoja" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButtonPerfil" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="150" max="32767" attributes="0"/>
+              <Component id="btnUsuario" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnDesenvolvedor" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="121" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="jButtonJogos">
+    <Component class="javax.swing.JButton" name="btnLoja">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Biblioteca"/>
+        <Property name="text" type="java.lang.String" value="Loja"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonJogosActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLojaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="tituloCadastrarCliente">
@@ -65,12 +70,20 @@
         <Property name="text" type="java.lang.String" value="PixelPoint"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonPerfil">
+    <Component class="javax.swing.JButton" name="btnUsuario">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Perfil de &#xda;suario"/>
+        <Property name="text" type="java.lang.String" value="Login de &#xda;suario"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPerfilActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUsuarioActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnDesenvolvedor">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Login Desenvolvedor"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDesenvolvedorActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

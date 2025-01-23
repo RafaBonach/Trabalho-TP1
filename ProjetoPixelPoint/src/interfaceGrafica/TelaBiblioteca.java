@@ -5,6 +5,7 @@
 package interfaceGrafica;
 
 import backend.Biblioteca;
+import interfaceGrafica.TelaCadastrarJogo;
 import javax.swing.table.DefaultTableModel;
 
 /**

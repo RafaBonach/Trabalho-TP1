@@ -8,6 +8,10 @@ public class Desenvolvedor extends Usuario {
     private int id;
     private String website;
     private String descricao;
+    
+    public Desenvolvedor(String email, String nomeUsuario, String senha){
+        super(nomeUsuario, email, senha);
+    }
 
     // Construtor
     public Desenvolvedor(String nomeUsuario, String email, String senha, String dataRegistro, int id, String website, String descricao) {
