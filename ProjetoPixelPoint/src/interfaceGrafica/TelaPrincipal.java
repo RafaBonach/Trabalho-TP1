@@ -127,17 +127,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void btnLojaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLojaActionPerformed
         new TelaLoja().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnLojaActionPerformed
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
         new TelaLoginCliente().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
     private void btnDesenvolvedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesenvolvedorActionPerformed
         new TelaLoginDesenvolvedor().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnDesenvolvedorActionPerformed
 
     /**

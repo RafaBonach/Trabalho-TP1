@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
 public class TelaCadastroCliente extends javax.swing.JFrame {
 
     static ArrayList<Cliente> listaClientes;
-    
     String botao;
+    private char previousEchoChar = '\u2022';
     
     public TelaCadastroCliente() {
         initComponents();
@@ -60,6 +60,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         btnCadastrar = new javax.swing.JButton();
         lbPossuiConta = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
         lbSenha = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
         txtConfirmaSenha = new javax.swing.JPasswordField();
@@ -127,6 +128,13 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             }
         });
 
+        btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,13 +142,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(lbPossuiConta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(116, 116, 116)
-                        .addComponent(btnCadastrar)))
+                        .addComponent(btnCadastrar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSair)
+                            .addComponent(lbPossuiConta))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -152,17 +162,17 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPossuiConta)
                     .addComponent(btnEntrar))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSair)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         lbSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         lbSenha.setText("Senha");
 
         txtSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        txtSenha.setText("jPasswordField1");
 
         txtConfirmaSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        txtConfirmaSenha.setText("jPasswordField2");
 
         lbRevelaSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         lbRevelaSenha.setText("Revelar");
@@ -230,7 +240,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ftxtData)
                         .addGap(1, 1, 1)))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbSenha)
                     .addComponent(lbRevelaSenha))
@@ -243,8 +252,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -294,7 +303,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         //Sair da tela
-        this.setVisible(false);
+        new TelaLoginCliente().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void ftxtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDataActionPerformed
@@ -302,8 +312,21 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_ftxtDataActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
-
+        if (txtSenha.getEchoChar() != '\u0000' && txtConfirmaSenha.getEchoChar() != '\u0000'){
+            previousEchoChar = txtSenha.getEchoChar();
+            txtSenha.setEchoChar('\u0000');
+            txtConfirmaSenha.setEchoChar('\u0000');
+        }else{
+            txtSenha.setEchoChar(previousEchoChar);
+            txtConfirmaSenha.setEchoChar(previousEchoChar);
+        }
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        // TODO add your handling code here:
+        new TelaPrincipal().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,6 +367,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnEntrar;
     private javax.swing.JButton btnRevelarSenha;
+    private javax.swing.JButton btnSair;
     private javax.swing.JFormattedTextField ftxtData;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbConfSenha;

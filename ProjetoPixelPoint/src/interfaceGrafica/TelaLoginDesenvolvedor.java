@@ -55,6 +55,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         lbPossuiConta = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,7 +77,6 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         lbSenha.setText("Insira a senha");
 
         txtSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        txtSenha.setText("teste");
         txtSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSenhaActionPerformed(evt);
@@ -113,6 +113,13 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
             }
         });
 
+        btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,6 +151,10 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCadastrar)
                 .addContainerGap(329, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(389, 389, 389)
+                .addComponent(btnVoltar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,7 +179,9 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPossuiConta)
                     .addComponent(btnCadastrar))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnVoltar)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         pack();
@@ -222,8 +235,14 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         // TODO add your handling code here:
         new TelaCadastroDesenvolvedor().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        // TODO add your handling code here:
+        new TelaPrincipal().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,6 +284,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRevelarSenha;
+    private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel lbNomeDesenvolvedor;
     private javax.swing.JLabel lbPossuiConta;
     private javax.swing.JLabel lbRevelarSenha;

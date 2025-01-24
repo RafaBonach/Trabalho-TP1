@@ -1,3 +1,2 @@
 Dark Souls|1|10.0|1.0|Ação|Windows
 Minecraft|1|25.0|2.7|Sobrevivência|Windows
-Doom|1|15.0|1.0|FPS|Windows

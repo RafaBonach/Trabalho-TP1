@@ -98,6 +98,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         jButtonRemoverJogo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Perfil do Desenvolvedor");
 
         tabelaJogos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -218,7 +219,7 @@ public final class TelaLoja extends javax.swing.JFrame {
 
     private void jButtonCadastrarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarJogoActionPerformed
         new TelaCadastrarJogo().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButtonCadastrarJogoActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
