@@ -18,6 +18,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     // Inicializando a lista de desenvolvedores e a variavel de mostrar senha
     static ArrayList<Desenvolvedor> listaDesenvolvedores = TelaCadastroDesenvolvedor.listaDesenvolvedores;
     private char previousEchoChar = '\u2022';
+    Desenvolvedor desenvolvedorSelecionado;
     
     public TelaLoginDesenvolvedor() {
         initComponents();
@@ -212,6 +213,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
             for(Desenvolvedor desenvolvedor:listaDesenvolvedores){
                 if(desenvolvedor.getNomeUsuario().equals(nomeDesenvolvedor) && txtSenha.getText().equals(senha)) {
                     new TelaPerfilDesenvolvedor().setVisible(true);
+                    desenvolvedorSelecionado = desenvolvedor;
                     this.setVisible(false);
                     dadosCorrespondentes = true;
                     break;

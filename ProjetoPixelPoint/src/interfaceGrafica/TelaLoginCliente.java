@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 public class TelaLoginCliente extends javax.swing.JFrame {
     
     static ArrayList<Cliente> listaClientes = TelaCadastroCliente.listaClientes;
+    static Cliente clienteSelecionado;
     private char previousEchoChar = '\u2022';
     
     public TelaLoginCliente() {
@@ -224,6 +225,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             for (Cliente cliente:listaClientes){
                 if(cliente.getEmail().equals(email) && cliente.getSenha().equals(senha)){
                     new TelaPerfilCliente().setVisible(true);
+                    clienteSelecionado = cliente;
                     this.setVisible(false);
                     dadosCorrespondentes = true;
                     break;
