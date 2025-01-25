@@ -4,7 +4,6 @@
  */
 package interfaceGrafica;
 
-import backend.Cliente;
 import backend.Desenvolvedor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -273,6 +272,9 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"A senha para confirmar deve ser igual a senha inserida!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             }
             
+            new TelaLoginDesenvolvedor().setVisible(true);
+            this.setVisible(false);
+            
             //Habilitar botões
         btnCadastrar.setEnabled(true);
         btnEntrar.setEnabled(true);
@@ -367,7 +369,4 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
-    private Cliente Cliente(String username, String email, String senha, String data) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

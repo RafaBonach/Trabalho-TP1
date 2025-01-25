@@ -272,7 +272,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
-                ftxtData.getText().equals("  /  /    ") || txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
+                ftxtData.getText().equals("") || txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
@@ -309,7 +309,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         //Sair da tela
         new TelaLoginCliente().setVisible(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void ftxtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDataActionPerformed

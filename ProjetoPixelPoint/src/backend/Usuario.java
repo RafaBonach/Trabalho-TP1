@@ -7,16 +7,15 @@ abstract class Usuario {
     private String dataRegistro;
 
     // Construtores
+
+    public Usuario() {
+    }
+    
+    
     public Usuario(String nomeUsuario, String email, String senha) {
         this.nomeUsuario = nomeUsuario;
         this.email = email;
         this.senha = senha;
-    }
-    public Usuario(String nomeUsuario, String email, String senha, String dataRegistro) {
-        this.nomeUsuario = nomeUsuario;
-        this.email = email;
-        this.senha = senha;
-        this.dataRegistro = dataRegistro;
     }
 
     

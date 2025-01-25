@@ -4,7 +4,6 @@
  */
 package interfaceGrafica;
 
-import backend.Cliente;
 import backend.Desenvolvedor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -16,9 +15,9 @@ import javax.swing.JOptionPane;
 public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     
     // Inicializando a lista de desenvolvedores e a variavel de mostrar senha
-    static ArrayList<Desenvolvedor> listaDesenvolvedores = TelaCadastroDesenvolvedor.listaDesenvolvedores;
+    static ArrayList<Desenvolvedor> listaDesenvolvedores;
     private char previousEchoChar = '\u2022';
-    Desenvolvedor desenvolvedorSelecionado;
+    static Desenvolvedor desenvolvedorSelecionado;
     
     public TelaLoginDesenvolvedor() {
         initComponents();
@@ -210,17 +209,22 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
             String nomeDesenvolvedor = txtNomeDesenvolvedor.getText();
             String senha = txtSenha.getText();
             boolean dadosCorrespondentes = false;
+            listaDesenvolvedores =  TelaCadastroDesenvolvedor.listaDesenvolvedores;
+            try{
             for(Desenvolvedor desenvolvedor:listaDesenvolvedores){
                 if(desenvolvedor.getNomeUsuario().equals(nomeDesenvolvedor) && txtSenha.getText().equals(senha)) {
-                    new TelaPerfilDesenvolvedor().setVisible(true);
                     desenvolvedorSelecionado = desenvolvedor;
+                    new TelaPerfilDesenvolvedor().setVisible(true);
                     this.setVisible(false);
                     dadosCorrespondentes = true;
                     break;
                 }
             }
             if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null,"Nenhum Desenvolvedor registrado ainda, cadastre-se para inserir seus jogos na PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                this.btnCadastrarActionPerformed(evt);
+            }
             //Limpar senha
             txtSenha.setText("");
             

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class TelaLoginCliente extends javax.swing.JFrame {
     
-    static ArrayList<Cliente> listaClientes = TelaCadastroCliente.listaClientes;
+    static ArrayList<Cliente> listaClientes;
     static Cliente clienteSelecionado;
     private char previousEchoChar = '\u2022';
     
@@ -222,17 +222,22 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             String email = txtEmail.getText();
             String senha = txtSenha.getText();
             boolean dadosCorrespondentes = false;
+            listaClientes = TelaCadastroCliente.listaClientes;
+            try{
             for (Cliente cliente:listaClientes){
                 if(cliente.getEmail().equals(email) && cliente.getSenha().equals(senha)){
-                    new TelaPerfilCliente().setVisible(true);
                     clienteSelecionado = cliente;
+                    new TelaPerfilCliente().setVisible(true);
                     this.setVisible(false);
                     dadosCorrespondentes = true;
                     break;
                 }
             }
             if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null,"Nenhum cliente registrado ainda, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                this.btnCadastrarActionPerformed(evt);
+            }
             //Limpar email
             txtSenha.setText("");
             

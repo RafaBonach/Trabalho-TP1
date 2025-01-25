@@ -38,17 +38,18 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         txtID.setEnabled(false);
         ftxtDataRegistro.setEnabled(false);
         txtSenha.setEnabled(false);
-        txtEmail.setEnabled(false);
         ftxtDataNascimento.setEnabled(false);
+        txtEmail.setEnabled(false);
+        txtEndereco.setEditable(false);
         
-        //Carregar informações do cliente
+        // Carregar informações do cliente
         txtUsuario.setText(cliente.getNomeUsuario());
         txtID.setText("");
         ftxtDataRegistro.setText(cliente.getDataRegistro());
         txtSenha.setText(cliente.getSenha());
         txtEmail.setText(cliente.getEmail());
         ftxtDataNascimento.setText(cliente.getDataNascimento());
-        
+        txtEndereco.setText(cliente.getEndereco());
     }
     
     public void carregaLista(){
@@ -177,7 +178,13 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
         txtEmail.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
+        txtEndereco.setEditable(false);
         txtEndereco.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        txtEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEnderecoActionPerformed(evt);
+            }
+        });
 
         tblJogos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -269,8 +276,8 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                                                 .addGap(108, 108, 108)
                                                 .addComponent(lbDataRegistro))
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(ftxtDataRegistro))))
                                     .addComponent(lbEndereco)
                                     .addComponent(lbEmail))
@@ -300,12 +307,14 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                     .addComponent(lbRevelarSenha))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtID)
                     .addComponent(ftxtDataRegistro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(lbEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -368,7 +377,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         btnSalvar.setEnabled(true);
         btnEditar.setEnabled(false);
         btnSair.setEnabled(true);
-        btnExcluirConta.setEnabled(true);
+        btnExcluirConta.setEnabled(false);
         
         // Habilitar e desabilitar campos de Texto
         txtUsuario.setEnabled(true);
@@ -377,14 +386,14 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         txtSenha.setEnabled(true);
         txtEmail.setEnabled(true);
         ftxtDataNascimento.setEnabled(true);
-        txtEmail.setEnabled(true);
+        txtEndereco.setEnabled(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("") ||
             ftxtDataNascimento.getText().equals("") || txtEndereco.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         } else{
             String usuario = txtUsuario.getName();
             String senha = txtSenha.getText();
@@ -401,29 +410,35 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
             }
             
             // Inicializando os botões
-        btnLoja.setEnabled(true);
-        btnSalvar.setEnabled(false);
-        btnEditar.setEnabled(true);
-        btnSair.setEnabled(true);
-        btnExcluirConta.setEnabled(true);
-        
-        // Desabilitando campos de Texto
-        txtUsuario.setEnabled(false);
-        txtID.setEnabled(false);
-        ftxtDataRegistro.setEnabled(false);
-        txtSenha.setEnabled(false);
-        txtEmail.setEnabled(false);
-        ftxtDataNascimento.setEnabled(false);
-        
-        //Carregar informações do cliente
-        txtUsuario.setText(cliente.getNomeUsuario());
-        txtID.setText("");
-        ftxtDataRegistro.setText(cliente.getDataRegistro());
-        txtSenha.setText(cliente.getSenha());
-        txtEmail.setText(cliente.getEmail());
-        ftxtDataNascimento.setText(cliente.getDataNascimento());
+            btnLoja.setEnabled(true);
+            btnSalvar.setEnabled(false);
+            btnEditar.setEnabled(true);
+            btnSair.setEnabled(true);
+            btnExcluirConta.setEnabled(true);
+
+            // Desabilitando campos de Texto
+            txtUsuario.setEnabled(false);
+            txtID.setEnabled(false);
+            ftxtDataRegistro.setEnabled(false);
+            txtSenha.setEnabled(false);
+            txtEmail.setEnabled(false);
+            ftxtDataNascimento.setEnabled(false);
+            txtEndereco.setEnabled(false);
+
+            //Carregar informações do cliente
+            txtUsuario.setText(cliente.getNomeUsuario());
+            txtID.setText("");
+            ftxtDataRegistro.setText(cliente.getDataRegistro());
+            txtSenha.setText(cliente.getSenha());
+            txtEmail.setText(cliente.getEmail());
+            ftxtDataNascimento.setText(cliente.getDataNascimento());
+            txtEndereco.setText(cliente.getEndereco());
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEnderecoActionPerformed
 
     /**
      * @param args the command line arguments
