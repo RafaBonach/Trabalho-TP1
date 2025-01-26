@@ -262,28 +262,41 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
             String username = txtUsername.getText();
             String senha = txtSenha.getText();
             String confSenha = txtConfirmaSenha.getText();
+            boolean equalName = false;
             
-            if (senha.equals(confSenha)){
-                // Criando objeto
-                Desenvolvedor desenvolvedor = new Desenvolvedor(username, email, senha);
-                
-                listaDesenvolvedores.add(desenvolvedor);
-            }else{
-                JOptionPane.showMessageDialog(null,"A senha para confirmar deve ser igual a senha inserida!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            if (listaDesenvolvedores.isEmpty() == false){
+                for(Desenvolvedor des:listaDesenvolvedores){
+                    if (des.getNomeUsuario().equals(username)){
+                        JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                        equalName = true;
+                        break;
+                    }
+                }   
             }
             
-            new TelaLoginDesenvolvedor().setVisible(true);
-            this.setVisible(false);
+            if (equalName == false){
+                if (senha.equals(confSenha)){
+                    // Criando objeto
+                    Desenvolvedor desenvolvedor = new Desenvolvedor(username, email, senha);
+
+                    listaDesenvolvedores.add(desenvolvedor);
+
+                    new TelaLoginDesenvolvedor().setVisible(true);
+                    this.setVisible(false);
+                }else{
+                    JOptionPane.showMessageDialog(null,"A senha para confirmar deve ser igual a senha inserida!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                }
+            }
             
             //Habilitar botões
-        btnCadastrar.setEnabled(true);
-        btnEntrar.setEnabled(true);
-        
-        //Habilitar campos de texto
-        txtEmail.setEnabled(true);
-        txtUsername.setEnabled(true);
-        txtSenha.setEnabled(true);
-        txtConfirmaSenha.setEnabled(true);
+            btnCadastrar.setEnabled(true);
+            btnEntrar.setEnabled(true);
+
+            //Habilitar campos de texto
+            txtEmail.setEnabled(true);
+            txtUsername.setEnabled(true);
+            txtSenha.setEnabled(true);
+            txtConfirmaSenha.setEnabled(true);
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 

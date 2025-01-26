@@ -27,11 +27,11 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         btnRevelarSenha.setEnabled(true);
         
         //Habilitar campos de texto
-        txtEmail.setEnabled(true);
+        txtUsername.setEnabled(true);
         txtSenha.setEnabled(true);
         
         //Limpa campos de texto
-        txtEmail.setText("");
+        txtUsername.setText("");
         txtSenha.setText("");
     }
 
@@ -45,7 +45,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     private void initComponents() {
 
         tituloCadastrarCliente = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         lbEmail = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
@@ -64,10 +64,10 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         tituloCadastrarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tituloCadastrarCliente.setText("PixelPoint");
 
-        txtEmail.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+        txtUsername.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
+                txtUsernameActionPerformed(evt);
             }
         });
 
@@ -168,7 +168,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbEmail)
                             .addComponent(tituloCadastrarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                            .addComponent(txtEmail)
+                            .addComponent(txtUsername)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,7 +190,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbSenha)
@@ -210,22 +210,22 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
+    }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        if (txtEmail.getText().equals("") || txtSenha.getText().equals("")){
+        if (txtUsername.getText().equals("") || txtSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Insira o Email e a Senha!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             //Procurar clientes na lista de clientes
-            String email = txtEmail.getText();
+            String username = txtUsername.getText();
             String senha = txtSenha.getText();
             boolean dadosCorrespondentes = false;
             listaClientes = TelaCadastroCliente.listaClientes;
             try{
             for (Cliente cliente:listaClientes){
-                if(cliente.getEmail().equals(email) && cliente.getSenha().equals(senha)){
+                if(cliente.getNomeUsuario().equals(username) && cliente.getSenha().equals(senha)){
                     clienteSelecionado = cliente;
                     new TelaPerfilCliente().setVisible(true);
                     this.setVisible(false);
@@ -246,7 +246,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             btnCadastrar.setEnabled(true);
         
             //Habilitar campos de texto
-            txtEmail.setEnabled(true);
+            txtUsername.setEnabled(true);
             txtSenha.setEnabled(true);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -326,7 +326,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     private javax.swing.JLabel lbRevelarSenha;
     private javax.swing.JLabel lbSenha;
     private javax.swing.JLabel tituloCadastrarCliente;
-    private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtSenha;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

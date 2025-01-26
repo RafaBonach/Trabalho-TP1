@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelaPerfilCliente extends javax.swing.JFrame {
     
     static ArrayList<Jogo> listaJogos;
+    static ArrayList<Cliente> listaClientes = TelaLoginCliente.listaClientes;
     static Cliente cliente = TelaLoginCliente.clienteSelecionado;
     private char previousEchoChar = '\u2022';
     String botao;
@@ -178,7 +179,6 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
         txtEmail.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
-        txtEndereco.setEditable(false);
         txtEndereco.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         txtEndereco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,13 +401,30 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
             String dataNascimento = ftxtDataNascimento.getText();
             String endereco = txtEndereco.getText();
             
-            if(botao.equals("editar")){
+            boolean equalName = false;
+            for(Cliente cli:listaClientes){
+                if (cli.getNomeUsuario().equals(usuario)){
+                    JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                    equalName = true;
+                    break;
+                }
+            }
+            
+            if (equalName == false){
                 cliente.setNomeUsuario(usuario);
                 cliente.setSenha(senha);
                 cliente.setEmail(email);
                 cliente.setDataNascimento(dataNascimento);
                 cliente.setEndereco(endereco);
+                for(Cliente cli:listaClientes){
+                    if (cli.getEmail().equals(email)){
+                        listaClientes.remove(cli);
+                        listaClientes.add(cliente);
+                    }
+                }   
             }
+            
+            
             
             // Inicializando os botões
             btnLoja.setEnabled(true);

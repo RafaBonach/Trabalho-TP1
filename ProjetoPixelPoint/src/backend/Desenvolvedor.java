@@ -4,10 +4,13 @@
  */
 package backend;
 
+import java.util.ArrayList;
+
 public class Desenvolvedor extends Usuario {
     private int id;
     private String website;
     private String descricao;
+    private ArrayList<Jogo> jogosCriados;
 
     public Desenvolvedor() {
     }
@@ -40,6 +43,14 @@ public class Desenvolvedor extends Usuario {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public ArrayList<Jogo> getJogosCriados() {
+        return jogosCriados;
+    }
+
+    public void setJogosCriados(ArrayList<Jogo> jogosCriados) {
+        this.jogosCriados = jogosCriados;
     }
     
     @Override

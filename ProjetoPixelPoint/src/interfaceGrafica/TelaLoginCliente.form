@@ -31,7 +31,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lbEmail" min="-2" max="-2" attributes="0"/>
                           <Component id="tituloCadastrarCliente" alignment="0" pref="422" max="32767" attributes="0"/>
-                          <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtUsername" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lbSenha" min="-2" pref="107" max="-2" attributes="0"/>
@@ -62,7 +62,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="lbEmail" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtEmail" min="-2" max="-2" attributes="0"/>
+              <Component id="txtUsername" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lbSenha" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -93,14 +93,14 @@
         <Property name="text" type="java.lang.String" value="PixelPoint"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtEmail">
+    <Component class="javax.swing.JTextField" name="txtUsername">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Liberation Sans" size="18" style="0"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEmailActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUsernameActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbEmail">

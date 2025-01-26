@@ -14,10 +14,14 @@ public class Compra {
     }
     
     public double clienteSaldo(){
-        return cliente.getSaldoCarteira();
+        return cliente.getSaldoCarteira(cliente.getSenha());
     }
     
-    public void clienteNovoSaldo(){
-        cliente.setSaldoCarteira(cliente.getSaldoCarteira()-jogo.getPreco());
+    public void efetuaCompra(){
+        cliente.subtraiSaldo(jogo.getPreco(), cliente.getSenha());
+    }
+    
+    public void cancelaCompra(){
+        cliente.somaSaldo(jogo.getPreco(), cliente.getSenha());
     }
 }
