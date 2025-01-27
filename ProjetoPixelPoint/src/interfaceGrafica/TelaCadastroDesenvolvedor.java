@@ -277,8 +277,11 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
             if (equalName == false){
                 if (senha.equals(confSenha)){
                     // Criando objeto
+                    int id = listaDesenvolvedores.size()+1;
+                    
                     Desenvolvedor desenvolvedor = new Desenvolvedor(username, email, senha);
-
+                    desenvolvedor.setId(id);
+                    
                     listaDesenvolvedores.add(desenvolvedor);
 
                     new TelaLoginDesenvolvedor().setVisible(true);

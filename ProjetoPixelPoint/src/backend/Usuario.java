@@ -4,7 +4,7 @@ abstract class Usuario {
     private String nomeUsuario;
     private String email;
     private String senha;
-    private String dataRegistro;
+    private int id;
 
     // Construtores
 
@@ -18,6 +18,13 @@ abstract class Usuario {
         this.senha = senha;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
     public String getNomeUsuario() {
         return nomeUsuario;
@@ -43,17 +50,8 @@ abstract class Usuario {
         this.senha = senha;
     }
     
-    public String getDataRegistro() {
-        return dataRegistro;
-    }
-
-    public void setDataRegistro(String dataRegistro) {
-        this.dataRegistro = dataRegistro;
-    }
-    
     public String toSting(){
         return "Usuario: " + nomeUsuario +
-                "\nEmail: " + email +
-                "\nData de Registro: "+ dataRegistro;
+                "\nEmail: " + email;
     }
 }

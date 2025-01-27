@@ -9,6 +9,8 @@ import backend.Jogo;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -37,20 +39,44 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         // Desabilitando campos de Texto
         txtUsuario.setEnabled(false);
         txtID.setEnabled(false);
-        ftxtDataRegistro.setEnabled(false);
         txtSenha.setEnabled(false);
         ftxtDataNascimento.setEnabled(false);
+        ftxtSaldo.setEnabled(false);
         txtEmail.setEnabled(false);
-        txtEndereco.setEditable(false);
+        txtEndereco.setEnabled(false);
+        
+        // Inicializa os campos formatados
+        this.aplicaMascara();
         
         // Carregar informações do cliente
         txtUsuario.setText(cliente.getNomeUsuario());
-        txtID.setText("");
-        ftxtDataRegistro.setText(cliente.getDataRegistro());
+        txtID.setText(String.valueOf(cliente.getId()));
         txtSenha.setText(cliente.getSenha());
         txtEmail.setText(cliente.getEmail());
-        ftxtDataNascimento.setText(cliente.getDataNascimento());
         txtEndereco.setText(cliente.getEndereco());
+        
+        // Carregando as informações do Cliente nos campos formatados
+        if (cliente.getDataNascimento().matches("\\d{2}/\\d{2}/\\d{4}")) {
+            ftxtDataNascimento.setText(cliente.getDataNascimento());
+        }
+        if (cliente.getSaldoCarteira(cliente.getSenha()) == 0){
+            ftxtSaldo.setText("R$0.00");
+        }else{
+            ftxtSaldo.setText(String.format("R$%f.2f", cliente.getSaldoCarteira(cliente.getSenha())));
+        }
+        
+        // Ativando botões de frameAlteraSaldo
+        btnCancelar.setEnabled(true);
+        btnConfirmar.setEnabled(true);
+        
+        // Inicializa campos formatados de frameAlteraSaldo
+        double saldo = cliente.getSaldoCarteira(cliente.getSenha());
+        if (saldo == 0){
+            ftxtSaldoAtual.setText("R$0.00");
+            ftxtNovoSaldo.setText("R$0.00");
+        }else{
+            ftxtSaldoAtual.setText(mascaraValor(saldo));
+        }
     }
     
     public void carregaLista(){
@@ -72,6 +98,34 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         
     }
     
+    public void aplicaMascara(){
+        try{
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            
+            ftxtDataNascimento.setFormatterFactory(new DefaultFormatterFactory(mascara));
+            
+            mascara = new MaskFormatter("R$#.##");
+            mascara.setPlaceholderCharacter('_');
+            
+            ftxtValorAplicado.setFormatterFactory(new DefaultFormatterFactory(mascara));
+        } catch (Exception e){
+            System.err.println(e);
+        }
+    }
+    
+    public String mascaraValor(Double valorAplicado){
+        return String.format("R$%.2f", valorAplicado);
+    }
+    
+    // Lembrar de converter a String em float
+    /*
+    public double DesmascaraValor(String mascara){
+        mascara = mascara.replace('R', '');
+        mascara = mascara.replace('$', '');
+    }
+    */
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,6 +138,17 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        javax.swing.JFrame frameAlteraSaldo = new javax.swing.JFrame();
+        jLabel2 = new javax.swing.JLabel();
+        lbSaldo = new javax.swing.JLabel();
+        ftxtSaldoAtual = new javax.swing.JFormattedTextField();
+        lbSaldo2 = new javax.swing.JLabel();
+        ftxtValorAplicado = new javax.swing.JFormattedTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        lbSaldo1 = new javax.swing.JLabel();
+        ftxtNovoSaldo = new javax.swing.JFormattedTextField();
+        btnConfirmar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         lbTitulo = new javax.swing.JLabel();
         lbUsername = new javax.swing.JLabel();
         lbSenha = new javax.swing.JLabel();
@@ -95,12 +160,9 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         lbID = new javax.swing.JLabel();
-        lbDataRegistro = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
-        ftxtDataRegistro = new javax.swing.JFormattedTextField();
         txtUsuario = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        txtEndereco = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblJogos = new javax.swing.JTable();
         lbJogos = new javax.swing.JLabel();
@@ -109,10 +171,116 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         btnExcluirConta = new javax.swing.JButton();
         lbRevelarSenha = new javax.swing.JLabel();
         btnRevelarSenha = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        ftxtSaldo = new javax.swing.JFormattedTextField();
+        btnSaldo = new javax.swing.JButton();
+        txtEndereco = new javax.swing.JTextField();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
+
+        frameAlteraSaldo.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                frameAlteraSaldoComponentHidden(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Colocar saldo na conta");
+
+        lbSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo.setText("Saldo Atual:");
+
+        ftxtSaldoAtual.setEditable(false);
+        ftxtSaldoAtual.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        ftxtSaldoAtual.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        ftxtSaldoAtual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftxtSaldoAtualActionPerformed(evt);
+            }
+        });
+
+        lbSaldo2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo2.setText("Valor aplicado:");
+
+        ftxtValorAplicado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        ftxtValorAplicado.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        jSeparator1.setForeground(new java.awt.Color(51, 51, 0));
+
+        lbSaldo1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo1.setText("Novo Saldo:");
+
+        ftxtNovoSaldo.setEditable(false);
+        ftxtNovoSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        ftxtNovoSaldo.setText("R$0,00");
+        ftxtNovoSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        btnConfirmar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        btnConfirmar.setForeground(new java.awt.Color(0, 153, 51));
+        btnConfirmar.setText("Confirmar");
+
+        btnCancelar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        btnCancelar.setText("Cancelar");
+
+        javax.swing.GroupLayout frameAlteraSaldoLayout = new javax.swing.GroupLayout(frameAlteraSaldo.getContentPane());
+        frameAlteraSaldo.getContentPane().setLayout(frameAlteraSaldoLayout);
+        frameAlteraSaldoLayout.setHorizontalGroup(
+            frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                        .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbSaldo)
+                                    .addComponent(lbSaldo2)
+                                    .addComponent(lbSaldo1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ftxtSaldoAtual)
+                                    .addComponent(ftxtValorAplicado, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(ftxtNovoSaldo))))
+                        .addGap(0, 57, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        frameAlteraSaldoLayout.setVerticalGroup(
+            frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel2)
+                .addGap(46, 46, 46)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSaldo)
+                    .addComponent(ftxtSaldoAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSaldo2)
+                    .addComponent(ftxtValorAplicado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ftxtNovoSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbSaldo1))
+                .addGap(18, 18, 18)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConfirmar)
+                    .addComponent(btnCancelar))
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -158,33 +326,14 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         lbID.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         lbID.setText("ID");
 
-        lbDataRegistro.setText("Data de Registro");
-
         txtID.setEditable(false);
         txtID.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         txtID.setText("00000");
         txtID.setBorder(null);
 
-        ftxtDataRegistro.setEditable(false);
-        ftxtDataRegistro.setBorder(null);
-        ftxtDataRegistro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        ftxtDataRegistro.setText("12/12/2000");
-        ftxtDataRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ftxtDataRegistroActionPerformed(evt);
-            }
-        });
-
         txtUsuario.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
         txtEmail.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-
-        txtEndereco.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        txtEndereco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEnderecoActionPerformed(evt);
-            }
-        });
 
         tblJogos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -236,6 +385,21 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel1.setText("Saldo na conta");
+
+        ftxtSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+
+        btnSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        btnSaldo.setText("Alterar Saldo");
+        btnSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaldoActionPerformed(evt);
+            }
+        });
+
+        txtEndereco.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -258,11 +422,8 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbJogos)
-                            .addComponent(lbDataNascimento)
                             .addComponent(lbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtEmail)
-                            .addComponent(ftxtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEndereco)
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,27 +431,35 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(lbID)
-                                                .addGap(108, 108, 108)
-                                                .addComponent(lbDataRegistro))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(ftxtDataRegistro))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lbID)
+                                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(lbEndereco)
-                                    .addComponent(lbEmail))
-                                .addGap(24, 24, 24)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lbDataNascimento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lbEmail)
+                                        .addComponent(ftxtDataNascimento)))
+                                .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lbSenha)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtSenha)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lbSenha)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 83, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(ftxtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnSaldo))))))
+                            .addComponent(txtEndereco))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -301,14 +470,12 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbID)
-                    .addComponent(lbDataRegistro)
                     .addComponent(lbUsername)
                     .addComponent(lbSenha)
                     .addComponent(lbRevelarSenha))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtID)
-                    .addComponent(ftxtDataRegistro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -316,21 +483,26 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                             .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ftxtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftxtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSaldo))
+                .addGap(47, 47, 47)
                 .addComponent(lbEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lbDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ftxtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addComponent(lbEndereco)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addComponent(lbJogos)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
@@ -348,10 +520,6 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         new TelaLoginCliente().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnSairActionPerformed
-
-    private void ftxtDataRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDataRegistroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ftxtDataRegistroActionPerformed
 
     private void btnLojaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLojaActionPerformed
         // TODO add your handling code here:
@@ -382,7 +550,6 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         // Habilitar e desabilitar campos de Texto
         txtUsuario.setEnabled(true);
         txtID.setEnabled(false);
-        ftxtDataRegistro.setEnabled(false);
         txtSenha.setEnabled(true);
         txtEmail.setEnabled(true);
         ftxtDataNascimento.setEnabled(true);
@@ -392,7 +559,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("") ||
-            ftxtDataNascimento.getText().equals("") || txtEndereco.getText().equals("")){
+            !ftxtDataNascimento.getText().matches("\\d{2}/\\d{2}/\\d{4}") || txtEndereco.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         } else{
             String usuario = txtUsuario.getName();
@@ -416,15 +583,8 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                 cliente.setEmail(email);
                 cliente.setDataNascimento(dataNascimento);
                 cliente.setEndereco(endereco);
-                for(Cliente cli:listaClientes){
-                    if (cli.getEmail().equals(email)){
-                        listaClientes.remove(cli);
-                        listaClientes.add(cliente);
-                    }
-                }   
+                listaClientes.set(cliente.getId()-1, cliente); 
             }
-            
-            
             
             // Inicializando os botões
             btnLoja.setEnabled(true);
@@ -436,26 +596,34 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
             // Desabilitando campos de Texto
             txtUsuario.setEnabled(false);
             txtID.setEnabled(false);
-            ftxtDataRegistro.setEnabled(false);
             txtSenha.setEnabled(false);
             txtEmail.setEnabled(false);
             ftxtDataNascimento.setEnabled(false);
             txtEndereco.setEnabled(false);
+            ftxtSaldo.setEnabled(false);
 
             //Carregar informações do cliente
             txtUsuario.setText(cliente.getNomeUsuario());
             txtID.setText("");
-            ftxtDataRegistro.setText(cliente.getDataRegistro());
             txtSenha.setText(cliente.getSenha());
             txtEmail.setText(cliente.getEmail());
             ftxtDataNascimento.setText(cliente.getDataNascimento());
             txtEndereco.setText(cliente.getEndereco());
+            ftxtSaldo.setText(String.valueOf(cliente.getSaldoCarteira(cliente.getSenha())));
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
+    private void btnSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaldoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEnderecoActionPerformed
+    }//GEN-LAST:event_btnSaldoActionPerformed
+
+    private void frameAlteraSaldoComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_frameAlteraSaldoComponentHidden
+        // TODO add your handling code here:
+    }//GEN-LAST:event_frameAlteraSaldoComponentHidden
+
+    private void ftxtSaldoAtualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtSaldoAtualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftxtSaldoAtualActionPerformed
 
     /**
      * @param args the command line arguments
@@ -494,24 +662,35 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluirConta;
     private javax.swing.JButton btnLoja;
     private javax.swing.JButton btnRevelarSenha;
     private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnSaldo;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JFormattedTextField ftxtDataNascimento;
-    private javax.swing.JFormattedTextField ftxtDataRegistro;
+    private javax.swing.JFormattedTextField ftxtNovoSaldo;
+    private javax.swing.JFormattedTextField ftxtSaldo;
+    private javax.swing.JFormattedTextField ftxtSaldoAtual;
+    private javax.swing.JFormattedTextField ftxtValorAplicado;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lbDataNascimento;
-    private javax.swing.JLabel lbDataRegistro;
     private javax.swing.JLabel lbEmail;
     private javax.swing.JLabel lbEndereco;
     private javax.swing.JLabel lbID;
     private javax.swing.JLabel lbJogos;
     private javax.swing.JLabel lbRevelarSenha;
+    private javax.swing.JLabel lbSaldo;
+    private javax.swing.JLabel lbSaldo1;
+    private javax.swing.JLabel lbSaldo2;
     private javax.swing.JLabel lbSenha;
     private javax.swing.JLabel lbTitulo;
     private javax.swing.JLabel lbUsername;

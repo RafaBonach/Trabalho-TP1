@@ -36,7 +36,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         btnSalvar.setEnabled(false);
         
         // Desabilitando campos de Texto
-        ftxtDataRegistro.setEditable(false);
         txtDescricao.setEditable(false);
         txtEmail.setEditable(false);
         txtID.setEditable(false);
@@ -45,7 +44,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         txtWebsite.setEditable(false);
         
         // Carregar informações do ciente
-        ftxtDataRegistro.setText(desenvolvedor.getDataRegistro());
         txtDescricao.setText(desenvolvedor.getDescricao());
         txtEmail.setText(desenvolvedor.getEmail());
         txtID.setText("");
@@ -81,6 +79,17 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        frameAlteraSaldo = new javax.swing.JFrame();
+        jLabel1 = new javax.swing.JLabel();
+        lbSaldo = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        lbSaldo2 = new javax.swing.JLabel();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        lbSaldo1 = new javax.swing.JLabel();
+        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         lbTitulo = new javax.swing.JLabel();
         lbUsername = new javax.swing.JLabel();
         lbSenha = new javax.swing.JLabel();
@@ -90,9 +99,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         lbID = new javax.swing.JLabel();
-        lbDataRegistro = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
-        ftxtDataRegistro = new javax.swing.JFormattedTextField();
         txtUsuario = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtEndereço = new javax.swing.JTextField();
@@ -114,6 +121,97 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Colocar saldo na conta");
+
+        lbSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo.setText("Saldo Atual:");
+
+        jFormattedTextField1.setEditable(false);
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        jFormattedTextField1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        lbSaldo2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo2.setText("Valor aplicado:");
+
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        jFormattedTextField2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        jSeparator1.setForeground(new java.awt.Color(51, 51, 0));
+
+        lbSaldo1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo1.setText("Novo Saldo:");
+
+        jFormattedTextField3.setEditable(false);
+        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        jFormattedTextField3.setText("R$0,00");
+        jFormattedTextField3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        jButton1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 153, 51));
+        jButton1.setText("Confirmar");
+
+        jButton2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jButton2.setText("Cancelar");
+
+        javax.swing.GroupLayout frameAlteraSaldoLayout = new javax.swing.GroupLayout(frameAlteraSaldo.getContentPane());
+        frameAlteraSaldo.getContentPane().setLayout(frameAlteraSaldoLayout);
+        frameAlteraSaldoLayout.setHorizontalGroup(
+            frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                        .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbSaldo)
+                                    .addComponent(lbSaldo2)
+                                    .addComponent(lbSaldo1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jFormattedTextField1)
+                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jFormattedTextField3))))
+                        .addGap(0, 57, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        frameAlteraSaldoLayout.setVerticalGroup(
+            frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addGap(46, 46, 46)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSaldo)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSaldo2)
+                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbSaldo1))
+                .addGap(18, 18, 18)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,22 +252,10 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         lbID.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         lbID.setText("ID");
 
-        lbDataRegistro.setText("Data de Registro");
-
         txtID.setEditable(false);
         txtID.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         txtID.setText("00000");
         txtID.setBorder(null);
-
-        ftxtDataRegistro.setEditable(false);
-        ftxtDataRegistro.setBorder(null);
-        ftxtDataRegistro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        ftxtDataRegistro.setText("12/12/2000");
-        ftxtDataRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ftxtDataRegistroActionPerformed(evt);
-            }
-        });
 
         txtUsuario.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
@@ -286,21 +372,15 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(lbID)
-                                                        .addGap(108, 108, 108)
-                                                        .addComponent(lbDataRegistro))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(ftxtDataRegistro)))))
-                                        .addGap(24, 24, 24)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lbID)
+                                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(lbSenha)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(btnRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -324,7 +404,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbID)
-                    .addComponent(lbDataRegistro)
                     .addComponent(lbUsername)
                     .addComponent(lbSenha)
                     .addComponent(lbRevelarSenha))
@@ -335,8 +414,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                         .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ftxtDataRegistro)))
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(lbEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -376,10 +454,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
-    private void ftxtDataRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDataRegistroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ftxtDataRegistroActionPerformed
-
     private void btnCriarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarJogoActionPerformed
         // TODO add your handling code here:
         
@@ -416,7 +490,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         btnSalvar.setEnabled(true);
         
         // Habilitar e desabilitar campos de Texto
-        ftxtDataRegistro.setEditable(false);
         txtDescricao.setEditable(true);
         txtEmail.setEditable(true);
         txtID.setEditable(false);
@@ -455,7 +528,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
             btnSalvar.setEnabled(false);
             
             // Desabilitando campos de Texto
-            ftxtDataRegistro.setEditable(false);
             txtDescricao.setEditable(false);
             txtEmail.setEditable(false);
             txtID.setEditable(false);
@@ -464,7 +536,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
             txtWebsite.setEditable(false);
             
             // Carregar informações do ciente
-            ftxtDataRegistro.setText(desenvolvedor.getDataRegistro());
             txtDescricao.setText(desenvolvedor.getDescricao());
             txtEmail.setText(desenvolvedor.getEmail());
             txtID.setText("");
@@ -520,18 +591,27 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JButton btnRevelarSenha;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JFormattedTextField ftxtDataRegistro;
+    private javax.swing.JFrame frameAlteraSaldo;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JFormattedTextField jFormattedTextField3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JLabel lbDataRegistro;
     private javax.swing.JLabel lbDescrição;
     private javax.swing.JLabel lbEmail;
     private javax.swing.JLabel lbEndereco;
     private javax.swing.JLabel lbID;
     private javax.swing.JLabel lbJogos;
     private javax.swing.JLabel lbRevelarSenha;
+    private javax.swing.JLabel lbSaldo;
+    private javax.swing.JLabel lbSaldo1;
+    private javax.swing.JLabel lbSaldo2;
     private javax.swing.JLabel lbSenha;
     private javax.swing.JLabel lbTitulo;
     private javax.swing.JLabel lbUsername;

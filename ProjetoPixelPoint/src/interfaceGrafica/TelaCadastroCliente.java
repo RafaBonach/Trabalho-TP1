@@ -7,6 +7,8 @@ package interfaceGrafica;
 import backend.Cliente;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -34,10 +36,22 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         ftxtData.setEnabled(true);
         txtSenha.setEnabled(true);
         txtConfirmaSenha.setEnabled(true);
+        
+        aplicaMascara();
 
     }
     
-    
+    public void aplicaMascara(){
+        try{
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            
+            ftxtData.setFormatterFactory(new DefaultFormatterFactory(mascara));
+            
+        } catch (Exception e){
+            System.err.println(e);
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -272,7 +286,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
-                ftxtData.getText().equals("") || txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
+                !ftxtData.getText().matches("\\d{2}/\\d{2}/\\d{4}") || txtSenha.getText().equals("") || 
+                txtConfirmaSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
@@ -296,7 +311,10 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             if (equalName == false){
                 if (senha.equals(confSenha)){
                     // Criando objeto
+                    int id = listaClientes.size()+1;
+                    
                     Cliente cliente = new Cliente(username, email, senha, data);
+                    cliente.setId(id);
 
                     listaClientes.add(cliente);
 
