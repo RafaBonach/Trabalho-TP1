@@ -38,6 +38,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtConfirmaSenha.setEnabled(true);
         
         aplicaMascara();
+        
+        Cliente cliente = new Cliente("teste", "teste", "teste", "13/05/2004");
+        listaClientes.add(cliente);
 
     }
     

@@ -22,7 +22,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     public TelaLoginDesenvolvedor() {
         initComponents();
         
-//Habilitar botões
+        //Habilitar botões
         btnLogin.setEnabled(true);
         btnCadastrar.setEnabled(true);
         btnRevelarSenha.setEnabled(true);
