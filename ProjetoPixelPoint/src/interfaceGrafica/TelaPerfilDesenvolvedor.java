@@ -53,7 +53,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     }
     
     public void carregaLista(){
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos"},0);
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos", "Preço"},0);
         for(Jogo jogos:listaJogos){
             Object linha[] = new Object[]{jogos.getNome(),
                                         jogos.getGenero(),
@@ -271,7 +271,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Gênero", "Requisitos", "Preço"
             }
         ));
         jScrollPane2.setViewportView(tblJogos);
