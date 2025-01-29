@@ -7,7 +7,6 @@ package backend;
 import java.util.ArrayList;
 
 public class Desenvolvedor extends Usuario {
-    private int id;
     private String website;
     private String descricao;
     private ArrayList<Jogo> jogosCriados;
@@ -16,19 +15,11 @@ public class Desenvolvedor extends Usuario {
     }
     
     
-    public Desenvolvedor(String email, String nomeUsuario, String senha){
+    public Desenvolvedor(String nomeUsuario, String email, String senha){
         super(nomeUsuario, email, senha);
     }
 
     // Getters e Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getWebsite() {
         return website;
     }
@@ -56,7 +47,6 @@ public class Desenvolvedor extends Usuario {
     @Override
     public String toString(){
         return super.toSting() + 
-                "\nID: " + id +
                 "\nWebsite: " + website + 
                 "\nDescrição: " + descricao;
     }

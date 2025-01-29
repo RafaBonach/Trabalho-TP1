@@ -22,6 +22,8 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     public TelaLoginDesenvolvedor() {
         initComponents();
         
+        inicializaListaDesenvolvedores();
+        
         //Habilitar botões
         btnLogin.setEnabled(true);
         btnCadastrar.setEnabled(true);
@@ -34,6 +36,21 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         //Limpa campos de texto
         txtNomeDesenvolvedor.setText("");
         txtSenha.setText("");
+    }
+    
+    private void inicializaListaDesenvolvedores(){
+        try {
+            listaDesenvolvedores = TelaCadastroDesenvolvedor.listaDesenvolvedores;
+            if (listaDesenvolvedores.isEmpty()){
+                Desenvolvedor desenvolvedor = new Desenvolvedor("teste", "teste", "teste");
+                listaDesenvolvedores.add(desenvolvedor);
+            }
+        } catch (Exception e){
+            System.err.println(e);
+            listaDesenvolvedores = new ArrayList<>();
+            Desenvolvedor desenvolvedor = new Desenvolvedor("teste", "teste", "teste");
+            listaDesenvolvedores.add(desenvolvedor);
+        }
     }
 
     /**
@@ -210,21 +227,23 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
             String senha = txtSenha.getText();
             boolean dadosCorrespondentes = false;
             listaDesenvolvedores =  TelaCadastroDesenvolvedor.listaDesenvolvedores;
+            
             try{
-            for(Desenvolvedor desenvolvedor:listaDesenvolvedores){
-                if(desenvolvedor.getNomeUsuario().equals(nomeDesenvolvedor) && txtSenha.getText().equals(senha)) {
-                    desenvolvedorSelecionado = desenvolvedor;
-                    new TelaPerfilDesenvolvedor().setVisible(true);
-                    this.setVisible(false);
-                    dadosCorrespondentes = true;
-                    break;
+                for(Desenvolvedor desenvolvedor:listaDesenvolvedores){
+                    if(desenvolvedor.getNomeUsuario().equals(nomeDesenvolvedor) && txtSenha.getText().equals(senha)) {
+                        desenvolvedorSelecionado = desenvolvedor;
+                        new TelaPerfilDesenvolvedor().setVisible(true);
+                        this.dispose();
+                        dadosCorrespondentes = true;
+                        break;
+                    }
                 }
-            }
-            if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             } catch (Exception e){
                 JOptionPane.showMessageDialog(null,"Nenhum Desenvolvedor registrado ainda, cadastre-se para inserir seus jogos na PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                 this.btnCadastrarActionPerformed(evt);
             }
+            
             //Limpar senha
             txtSenha.setText("");
             

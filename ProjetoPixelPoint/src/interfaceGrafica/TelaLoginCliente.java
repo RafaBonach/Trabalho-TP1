@@ -22,7 +22,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     public TelaLoginCliente() {
         initComponents();
         
-        inicializaArrayList();
+        inicializaListaClientes();
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -38,10 +38,12 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         txtSenha.setText("");
     }
     
-    private void inicializaArrayList(){
+    private void inicializaListaClientes(){
         try{
             listaClientes = TelaCadastroCliente.listaClientes;
             if (listaClientes.isEmpty()){
+                Cliente cliente = new Cliente("teste", "teste", "teste", "13/05/2004");
+                listaClientes.add(cliente);
             }
         } catch (Exception e){
             System.err.println(e);
@@ -246,7 +248,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                     if(cliente.getNomeUsuario().equals(username) && cliente.getSenha().equals(senha)){
                         clienteSelecionado = cliente;
                         new TelaPerfilCliente().setVisible(true);
-                        this.setVisible(false);
+                        this.dispose();
                         dadosCorrespondentes = true;
                         break;
                     }
