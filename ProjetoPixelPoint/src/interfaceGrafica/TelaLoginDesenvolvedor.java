@@ -226,7 +226,6 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
             String nomeDesenvolvedor = txtNomeDesenvolvedor.getText();
             String senha = txtSenha.getText();
             boolean dadosCorrespondentes = false;
-            listaDesenvolvedores =  TelaCadastroDesenvolvedor.listaDesenvolvedores;
             
             try{
                 for(Desenvolvedor desenvolvedor:listaDesenvolvedores){

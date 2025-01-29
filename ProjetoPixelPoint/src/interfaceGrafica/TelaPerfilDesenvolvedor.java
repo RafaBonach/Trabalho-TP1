@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     
     static ArrayList<Jogo> listaJogos;
+    static ArrayList<Desenvolvedor> listaDesenvolvedores;
     static Desenvolvedor desenvolvedor = TelaLoginDesenvolvedor.desenvolvedorSelecionado;
     private char previousEchoChar = '\u2022';
     String botao;
@@ -26,6 +27,37 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     public TelaPerfilDesenvolvedor() {
         initComponents();
         
+        this.inicializaListaDesenvolvedores();
+        this.setInicial();
+        
+    }
+    
+    public void carregaTabelaJogos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos", "Preço"},0);
+        for(Jogo jogos:listaJogos){
+            Object linha[] = new Object[]{jogos.getNome(),
+                                        jogos.getGenero(),
+                                        jogos.getRequisitos()};
+            modelo.addRow(linha);
+        }
+        // Alocando modelo na tabela
+        tblJogos.setModel(modelo);
+        
+        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(10);
+        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(10);
+    }
+
+    private void inicializaListaDesenvolvedores(){
+        try{
+            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
+        } catch (Exception e){
+            System.err.println(e);
+            listaDesenvolvedores = new ArrayList<>();
+        }
+    }
+    
+    private void setInicial(){
         // Inicializando os botões
         btnCriarJogo.setEnabled(true);
         btnEditar.setEnabled(true);
@@ -46,28 +78,14 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         // Carregar informações do ciente
         txtDescricao.setText(desenvolvedor.getDescricao());
         txtEmail.setText(desenvolvedor.getEmail());
-        txtID.setText("");
+        txtID.setText(String.format("%d", desenvolvedor.getId()));
         txtSenha.setText(desenvolvedor.getSenha());
         txtUsuario.setText(desenvolvedor.getNomeUsuario());
         txtWebsite.setText(desenvolvedor.getWebsite());
+        
+        botao = null;
     }
     
-    public void carregaLista(){
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos", "Preço"},0);
-        for(Jogo jogos:listaJogos){
-            Object linha[] = new Object[]{jogos.getNome(),
-                                        jogos.getGenero(),
-                                        jogos.getRequisitos()};
-            modelo.addRow(linha);
-        }
-        // Alocando modelo na tabela
-        tblJogos.setModel(modelo);
-        
-        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(30);
-        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(10);
-        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(10);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -242,7 +260,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         });
 
         btnSair.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnSair.setText("Voltar");
+        btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSairActionPerformed(evt);
@@ -450,13 +468,17 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        new TelaLoja().setVisible(true);
-        this.dispose();
+        if(botao == null){
+            new TelaLoja().setVisible(true);
+            this.dispose();
+        } else{
+            this.setInicial();
+        }
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnCriarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarJogoActionPerformed
         // TODO add your handling code here:
-        
+        new TelaCadastrarJogo().setVisible(true);
     }//GEN-LAST:event_btnCriarJogoActionPerformed
 
     private void btnExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirContaActionPerformed
@@ -500,48 +522,35 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("") ||
-            txtDescricao.getText().equals("") || txtWebsite.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Os campos principais precisam ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         } else{
-            String usuario = txtUsuario.getName();
-            String senha = txtSenha.getText();
-            String email = txtEmail.getText();
-            String descricao = txtDescricao.getText();
-            String website = txtWebsite.getText();
-            
             if(botao.equals("editar")){
-                desenvolvedor.setNomeUsuario(usuario);
-                desenvolvedor.setSenha(senha);
-                desenvolvedor.setEmail(email);
-                desenvolvedor.setDescricao(descricao);
-                desenvolvedor.setWebsite(website);
+                String usuario = txtUsuario.getName();
+                String senha = txtSenha.getText();
+                String email = txtEmail.getText();
+                String descricao = txtDescricao.getText();
+                String website = txtWebsite.getText();
+                
+                boolean equalName = false;
+                for(Desenvolvedor des:listaDesenvolvedores){
+                    if(des.getNomeUsuario().equals(usuario) && des.getId() != desenvolvedor.getId()){
+                        JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                        equalName = true;
+                        break;
+                    }
+                }
+                
+                if (equalName == false){
+                    desenvolvedor.setNomeUsuario(usuario);
+                    desenvolvedor.setSenha(senha);
+                    desenvolvedor.setEmail(email);
+                    desenvolvedor.setDescricao(descricao);
+                    desenvolvedor.setWebsite(website);
+                    
+                    this.setInicial();
+                }
             }
-            
-            // Inicializando os botões
-            btnCriarJogo.setEnabled(true);
-            btnEditar.setEnabled(true);
-            btnExcluirConta.setEnabled(true);
-            btnExcluirJogo.setEnabled(false);
-            btnRevelarSenha.setEnabled(true);
-            btnSair.setEnabled(true);
-            btnSalvar.setEnabled(false);
-            
-            // Desabilitando campos de Texto
-            txtDescricao.setEditable(false);
-            txtEmail.setEditable(false);
-            txtID.setEditable(false);
-            txtSenha.setEditable(false);
-            txtUsuario.setEditable(false);
-            txtWebsite.setEditable(false);
-            
-            // Carregar informações do ciente
-            txtDescricao.setText(desenvolvedor.getDescricao());
-            txtEmail.setText(desenvolvedor.getEmail());
-            txtID.setText("");
-            txtSenha.setText(desenvolvedor.getSenha());
-            txtUsuario.setText(desenvolvedor.getNomeUsuario());
-            txtWebsite.setText(desenvolvedor.getWebsite());
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
