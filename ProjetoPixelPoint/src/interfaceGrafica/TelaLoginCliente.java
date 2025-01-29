@@ -50,7 +50,6 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             listaClientes = new ArrayList<>();
             Cliente cliente = new Cliente("teste", "teste", "teste", "13/05/2004");
             listaClientes.add(cliente);
-            System.out.println(listaClientes);
         }
     }
 
