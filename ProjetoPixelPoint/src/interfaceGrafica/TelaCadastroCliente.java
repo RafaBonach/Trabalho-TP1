@@ -16,16 +16,15 @@ import javax.swing.text.MaskFormatter;
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
 
-    static ArrayList<Cliente> listaClientes;
+    public static ArrayList<Cliente> listaClientes;
     String botao;
     private char previousEchoChar = '\u2022';
     
     public TelaCadastroCliente() {
         initComponents();
         
-        //Cria Lista
-        listaClientes = new ArrayList();
-        
+        this.inicializaArrayList();
+                
         //Habilitar botões
         btnCadastrar.setEnabled(true);
         btnEntrar.setEnabled(true);
@@ -39,12 +38,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         
         aplicaMascara();
         
-        Cliente cliente = new Cliente("teste", "teste", "teste", "13/05/2004");
-        listaClientes.add(cliente);
+        System.out.println(listaClientes);
 
     }
     
-    public void aplicaMascara(){
+    private void aplicaMascara(){
         try{
             MaskFormatter mascara = new MaskFormatter("##/##/####");
             mascara.setPlaceholderCharacter('_');
@@ -53,6 +51,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             
         } catch (Exception e){
             System.err.println(e);
+        }
+    }
+    
+    private void inicializaArrayList(){
+        try{
+            listaClientes = TelaLoginCliente.listaClientes;
+        } catch (Exception e){
+            System.err.println(e);
+            listaClientes = new ArrayList<>();
         }
     }
     
@@ -314,7 +321,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             if (equalName == false){
                 if (senha.equals(confSenha)){
                     // Criando objeto
-                    int id = listaClientes.size()+1;
+                    int id = listaClientes.size();
                     
                     Cliente cliente = new Cliente(username, email, senha, data);
                     cliente.setId(id);
@@ -322,7 +329,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                     listaClientes.add(cliente);
 
                     new TelaLoginCliente().setVisible(true);
-                    this.setVisible(false);
+                    this.dispose();
                 }else{
                     JOptionPane.showMessageDialog(null,"A senha para confirmar deve ser igual a senha inserida!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                 }
@@ -344,7 +351,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         //Sair da tela
         new TelaLoginCliente().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void ftxtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDataActionPerformed
@@ -364,7 +371,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
-        new TelaPrincipal().setVisible(true);
+        new TelaLoginCliente().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 

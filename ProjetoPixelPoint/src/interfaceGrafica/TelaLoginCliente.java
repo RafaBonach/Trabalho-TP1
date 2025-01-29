@@ -5,6 +5,7 @@
 package interfaceGrafica;
 
 import backend.Cliente;
+import interfaceGrafica.TelaCadastroCliente;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -21,6 +22,8 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     public TelaLoginCliente() {
         initComponents();
         
+        inicializaArrayList();
+        
         //Habilitar botões
         btnLogin.setEnabled(true);
         btnCadastrar.setEnabled(true);
@@ -34,6 +37,21 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         txtUsername.setText("");
         txtSenha.setText("");
     }
+    
+    private void inicializaArrayList(){
+        try{
+            listaClientes = TelaCadastroCliente.listaClientes;
+            if (listaClientes.isEmpty()){
+            }
+        } catch (Exception e){
+            System.err.println(e);
+            listaClientes = new ArrayList<>();
+            Cliente cliente = new Cliente("teste", "teste", "teste", "13/05/2004");
+            listaClientes.add(cliente);
+            System.out.println(listaClientes);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -222,18 +240,20 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             String username = txtUsername.getText();
             String senha = txtSenha.getText();
             boolean dadosCorrespondentes = false;
-            listaClientes = TelaCadastroCliente.listaClientes;
+            
             try{
-            for (Cliente cliente:listaClientes){
-                if(cliente.getNomeUsuario().equals(username) && cliente.getSenha().equals(senha)){
-                    clienteSelecionado = cliente;
-                    new TelaPerfilCliente().setVisible(true);
-                    this.setVisible(false);
-                    dadosCorrespondentes = true;
-                    break;
+                for (Cliente cliente:listaClientes){
+                    if(cliente.getNomeUsuario().equals(username) && cliente.getSenha().equals(senha)){
+                        clienteSelecionado = cliente;
+                        new TelaPerfilCliente().setVisible(true);
+                        this.setVisible(false);
+                        dadosCorrespondentes = true;
+                        break;
+                    }
                 }
-            }
-            if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+
+                if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+
             } catch (Exception e){
                 JOptionPane.showMessageDialog(null,"Nenhum cliente registrado ainda, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                 this.btnCadastrarActionPerformed(evt);

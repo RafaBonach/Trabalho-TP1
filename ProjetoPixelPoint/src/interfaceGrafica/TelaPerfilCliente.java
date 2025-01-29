@@ -23,16 +23,21 @@ import javax.swing.text.NumberFormatter;
 public class TelaPerfilCliente extends javax.swing.JFrame {
     
     static ArrayList<Jogo> listaJogos;
-    static ArrayList<Cliente> listaClientes = TelaLoginCliente.listaClientes;
+    static ArrayList<Cliente> listaClientes;
     static Cliente cliente = TelaLoginCliente.clienteSelecionado;
     private char previousEchoChar = '\u2022';
     String botao;
+    
     
     /**
      * Creates new form TelaPerfil
      */
     public TelaPerfilCliente() {
         initComponents();
+        
+        this.inicializaArrayList();
+        
+        botao = null;
         
         // Inicializando os botões
         btnLoja.setEnabled(true);
@@ -64,17 +69,17 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         if (cliente.getDataNascimento().matches("\\d{2}/\\d{2}/\\d{4}")) {
             ftxtDataNascimento.setText(cliente.getDataNascimento());
         }
-        if (cliente.getSaldoCarteira(cliente.getSenha()) != 0){
-            String saldo = String.format("%.2f", cliente.getSaldoCarteira(cliente.getSenha()));
-            ftxtSaldo.setText(saldo);
+        if (cliente.getSaldoCarteira(cliente.getSenha()) >= 0){
+            ftxtSaldo.setValue(cliente.getSaldoCarteira(cliente.getSenha()));
         }
+        
+        System.out.println(listaClientes);
     }
     
-    public void carregaLista(){
+    public void carregaTabelaJogos(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos"},0);
         for(Jogo jogos:listaJogos){
-            Object linha[] = new Object[]{
-                                        jogos.getNome(),
+            Object linha[] = new Object[]{jogos.getNome(),
                                         jogos.getGenero(),
                                         jogos.getRequisitos()};
             modelo.addRow(linha);
@@ -82,14 +87,12 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         // Alocando modelo na tabela
         tblJogos.setModel(modelo);
         
-        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(30);
-        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(10);
-        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(10);
-        
-        
+        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(100);
     }
     
-    public void aplicaMascara(){
+    private void aplicaMascara(){
         try{
             MaskFormatter mascara = new MaskFormatter("##/##/####");
             mascara.setPlaceholderCharacter('_');
@@ -99,17 +102,58 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
             // Configurando o formato de número para moeda
             NumberFormat formatoMonetario = DecimalFormat.getCurrencyInstance(new Locale("pt", "BR"));
             NumberFormatter formatter = new NumberFormatter(formatoMonetario);
-            formatter.setValueClass(Double.class); // Define o tipo de valor
             formatter.setMinimum(0.0); // Define o valor mínimo permitido
             formatter.setMaximum(Double.MAX_VALUE); // Define o valor máximo permitido
             formatter.setAllowsInvalid(false); // Evita entradas inválidas
-            formatter.setCommitsOnValidEdit(true); // Atualiza o valor ao editar
             
             // Criando o JFormattedTextField com o formatter
             ftxtSaldo.setFormatterFactory(new DefaultFormatterFactory(formatter));
+            ftxtSaldo.setValue(0);
         } catch (Exception e){
             System.err.println(e);
+        }   
+    }
+    
+    private void inicializaArrayList(){
+        try{
+            listaClientes = TelaLoginCliente.listaClientes;
+        } catch (Exception e){
+            System.err.println(e);
+            listaClientes = new ArrayList<>();
         }
+    }
+
+    
+    // Ele vai modificar para ficar com as informações iguais ao inicializar a classe
+    private void setInicial(){
+        // Inicializando os botões
+        btnLoja.setEnabled(true);
+        btnSalvar.setEnabled(false);
+        btnEditar.setEnabled(true);
+        btnSair.setEnabled(true);
+        btnExcluirConta.setEnabled(true);
+        btnAlteraSaldo.setEnabled(true);
+        
+
+        // Desabilitando campos de Texto
+        txtUsuario.setEnabled(false);
+        txtID.setEnabled(false);
+        txtSenha.setEnabled(false);
+        txtEmail.setEnabled(false);
+        ftxtDataNascimento.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        ftxtSaldo.setEnabled(false);
+
+        //Carregar informações do cliente
+        txtUsuario.setText(cliente.getNomeUsuario());
+        txtID.setText(String.format("%d", cliente.getId()));
+        txtSenha.setText(cliente.getSenha());
+        txtEmail.setText(cliente.getEmail());
+        ftxtDataNascimento.setText(cliente.getDataNascimento());
+        txtEndereco.setText(cliente.getEndereco());
+        ftxtSaldo.setValue(cliente.getSaldoCarteira(cliente.getSenha()));
+
+        botao = null;
     }
     
     /**
@@ -209,13 +253,13 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
         tblJogos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Gênero", "Requisitos"
             }
         ));
         jScrollPane2.setViewportView(tblJogos);
@@ -280,6 +324,9 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbEndereco)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(btnLoja)
                         .addGap(46, 46, 46)
@@ -306,7 +353,6 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lbID)
                                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(lbEndereco)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(lbDataNascimento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lbEmail)
@@ -363,18 +409,18 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                     .addComponent(ftxtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ftxtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAlteraSaldo))
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
                 .addComponent(lbEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
+                .addGap(18, 18, 18)
                 .addComponent(lbEndereco)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addComponent(lbJogos)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                .addComponent(lbJogos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
@@ -389,8 +435,13 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        new TelaLoginCliente().setVisible(true);
-        this.setVisible(false);
+        if (botao == null){
+            new TelaLoginCliente().setVisible(true);
+            this.dispose();
+        } else{
+            // Volta para as configurações iniciais, com os valores alterados
+            this.setInicial();
+        }
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnLojaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLojaActionPerformed
@@ -418,6 +469,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         btnEditar.setEnabled(false);
         btnSair.setEnabled(true);
         btnExcluirConta.setEnabled(false);
+        btnAlteraSaldo.setEnabled(false);
         
         // Habilitar e desabilitar campos de Texto
         txtUsuario.setEnabled(true);
@@ -430,12 +482,12 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("") ||
-            !ftxtDataNascimento.getText().matches("\\d{2}/\\d{2}/\\d{4}") || txtEndereco.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-        } else{
-            if (botao.equals("editar")){
-                String usuario = txtUsuario.getName();
+        if (botao.equals("editar")){
+            if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("") ||
+                !ftxtDataNascimento.getText().matches("\\d{2}/\\d{2}/\\d{4}")){
+                JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            } else{
+                String usuario = txtUsuario.getText();
                 String senha = txtSenha.getText();
                 String email = txtEmail.getText();
                 String dataNascimento = ftxtDataNascimento.getText();
@@ -443,7 +495,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
                 boolean equalName = false;
                 for(Cliente cli:listaClientes){
-                    if (cli.getNomeUsuario().equals(usuario)){
+                    if (cli.getNomeUsuario().equals(usuario) && cli.getId() != cliente.getId()){
                         JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                         equalName = true;
                         break;
@@ -456,45 +508,26 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                     cliente.setEmail(email);
                     cliente.setDataNascimento(dataNascimento);
                     cliente.setEndereco(endereco);
-                    listaClientes.set(cliente.getId()-1, cliente); 
+                    listaClientes.set(cliente.getId(), cliente); 
+                    
+                    System.out.println("\n" + cliente + "\n" + listaClientes);
+                    
+                    // Volta para as configurações iniciais, com os valores alterados
+                    this.setInicial();
                 }
-            } else if (botao.equals("alterar saldo")){
-                String saldo = ftxtSaldo.getText().substring(3);
-                saldo = saldo.replace(',', '.');
-                double novoSaldo = Double.parseDouble(saldo);
-                if (novoSaldo < 0){
-                    JOptionPane.showMessageDialog(null,"Insira um valor valido maior ou igual a 0", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                }else {
-                    cliente.setSaldoCarteira(novoSaldo, cliente.getSenha());
-                }    
             }
-            
-            String saldo = String.format("%.2f", cliente.getSaldoCarteira(cliente.getSenha()));
-            
-            // Inicializando os botões
-            btnLoja.setEnabled(true);
-            btnSalvar.setEnabled(false);
-            btnEditar.setEnabled(true);
-            btnSair.setEnabled(true);
-            btnExcluirConta.setEnabled(true);
-
-            // Desabilitando campos de Texto
-            txtUsuario.setEnabled(false);
-            txtID.setEnabled(false);
-            txtSenha.setEnabled(false);
-            txtEmail.setEnabled(false);
-            ftxtDataNascimento.setEnabled(false);
-            txtEndereco.setEnabled(false);
-            ftxtSaldo.setEnabled(false);
-
-            //Carregar informações do cliente
-            txtUsuario.setText(cliente.getNomeUsuario());
-            txtID.setText("");
-            txtSenha.setText(cliente.getSenha());
-            txtEmail.setText(cliente.getEmail());
-            ftxtDataNascimento.setText(cliente.getDataNascimento());
-            txtEndereco.setText(cliente.getEndereco());
-            ftxtSaldo.setText(saldo);
+        } else if (botao.equals("alterar saldo")){
+            if ((double) ftxtSaldo.getValue() < 0){
+                JOptionPane.showMessageDialog(null,"Insira um valor valido maior que 0", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            } else{
+                double saldo = (double) ftxtSaldo.getValue();
+                cliente.setSaldoCarteira(saldo, cliente.getSenha());
+                
+                // Volta para as configurações iniciais, com os valores alterados
+                this.setInicial();
+                
+                System.out.println("\n" + cliente + "\n" + listaClientes);
+            }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -510,6 +543,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         btnEditar.setEnabled(false);
         btnSair.setEnabled(true);
         btnExcluirConta.setEnabled(true);
+        btnAlteraSaldo.setEnabled(false);
         
     }//GEN-LAST:event_btnAlteraSaldoActionPerformed
 
