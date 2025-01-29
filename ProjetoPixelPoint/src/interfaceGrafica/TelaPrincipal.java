@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public class TelaPrincipal extends javax.swing.JFrame {
         
         public static List<Jogo> jogos = new ArrayList();
-        /*
         static {
         Jogo jogo1 = new Jogo("Dark Souls", 1, 10, (float) 1.0, "Ação", "Windows");
         Jogo jogo2 = new Jogo("Minecraft", 1, 25, (float) 2.7, "Sobrevivência", "Windows");
@@ -30,7 +29,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jogos.add(jogo2);
         jogos.add(jogo3);
         }
-        */
     
     @Override
     public void add(PopupMenu popup) {
