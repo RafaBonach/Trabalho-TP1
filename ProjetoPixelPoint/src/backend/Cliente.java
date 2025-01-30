@@ -1,13 +1,13 @@
 package backend;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Cliente extends Usuario {
     
     private String dataNascimento;
     private double saldoCarteira;
     private String endereco;
-    private ArrayList<Jogo> listaJogos;
+    private List<Jogo> listaJogos;
 
     // Construtores
 
@@ -29,15 +29,12 @@ public class Cliente extends Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-    public double getSaldoCarteira(String senha) {
-        if(super.getSenha().equals(senha)){
-            return saldoCarteira;
-        }
-        return -1;
+    public double getSaldoCarteira() {
+        return saldoCarteira;
     }
 
-    public boolean setSaldoCarteira(double saldoCarteira, String senha) {
-        if(super.getSenha().equals(senha) && saldoCarteira >= 0){
+    public boolean setSaldoCarteira(double saldoCarteira) {
+        if(saldoCarteira >= 0){
             this.saldoCarteira = saldoCarteira;
             return true;
         }
@@ -52,36 +49,29 @@ public class Cliente extends Usuario {
         this.endereco = endereco;
     }
 
-    public ArrayList<Jogo> getListaJogos() {
+    public List<Jogo> getListaJogos() {
         return listaJogos;
     }
 
-    public void setListaJogos(ArrayList<Jogo> listaJogos) {
+    public void setListaJogos(List<Jogo> listaJogos) {
         this.listaJogos = listaJogos;
     }
     
-    public boolean somaSaldo(double valor, String senha){
-        try{
-            if(super.getSenha().equals(senha) && valor >= 0){
-                this.saldoCarteira += valor;
-                return true;
-            }
-            return false;
-        }catch (Exception e){
-            return this.setSaldoCarteira(valor, senha);
+    public boolean somaSaldo(double valor){
+        if(valor >= 0){
+            this.saldoCarteira += valor;
+            return true;
         }
+        return false;
     }
     
-    public boolean subtraiSaldo(double valor, String senha){
-        try{
-            if(super.getSenha().equals(senha) && valor >= 0 && this.saldoCarteira-valor >= 0){
-                this.saldoCarteira -= valor;
-                return true;
-            }
-            return false;
-        }catch (Exception e){
-            return false;
+    public boolean subtraiSaldo(double valor){
+        if(valor >= 0 && (this.saldoCarteira-valor) >= 0){
+            this.saldoCarteira -= valor;
+            return true;
         }
+        return false;
+        
     }
     
     @Override

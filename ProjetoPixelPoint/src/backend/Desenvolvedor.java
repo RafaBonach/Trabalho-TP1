@@ -4,12 +4,12 @@
  */
 package backend;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Desenvolvedor extends Usuario {
     private String website;
     private String descricao;
-    private ArrayList<Jogo> jogosCriados;
+    private List<Jogo> jogosCriados;
 
     public Desenvolvedor() {
     }
@@ -36,11 +36,11 @@ public class Desenvolvedor extends Usuario {
         this.descricao = descricao;
     }
 
-    public ArrayList<Jogo> getJogosCriados() {
+    public List<Jogo> getJogosCriados() {
         return jogosCriados;
     }
 
-    public void setJogosCriados(ArrayList<Jogo> jogosCriados) {
+    public void setJogosCriados(List<Jogo> jogosCriados) {
         this.jogosCriados = jogosCriados;
     }
     
