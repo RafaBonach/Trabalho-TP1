@@ -53,7 +53,12 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtSaldo.setBorder(null);
         ftxtSaldo.setForeground(new java.awt.Color(51, 51, 255));
         ftxtSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-        ftxtSaldo.setText("teste");
+        ftxtSaldo.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        ftxtSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftxtSaldoActionPerformed(evt);
+            }
+        });
 
         lbPreco.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         lbPreco.setText("Preço:");
@@ -62,7 +67,7 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtPreco.setBorder(null);
         ftxtPreco.setForeground(new java.awt.Color(255, 51, 51));
         ftxtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-        ftxtPreco.setText("Teste");
+        ftxtPreco.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
         lbSaldoRestante1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         lbSaldoRestante1.setText("Saldo");
@@ -73,7 +78,7 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtSaldoRestante.setEditable(false);
         ftxtSaldoRestante.setBorder(null);
         ftxtSaldoRestante.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-        ftxtSaldoRestante.setText("teste");
+        ftxtSaldoRestante.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         ftxtSaldoRestante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ftxtSaldoRestanteActionPerformed(evt);
@@ -170,6 +175,10 @@ public class TelaComprar extends javax.swing.JFrame {
     private void ftxtSaldoRestanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtSaldoRestanteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ftxtSaldoRestanteActionPerformed
+
+    private void ftxtSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftxtSaldoActionPerformed
 
     /**
      * @param args the command line arguments

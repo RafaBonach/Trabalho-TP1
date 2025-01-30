@@ -21,8 +21,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     public TelaCadastroDesenvolvedor() {
         initComponents();
         
-        //Cria Lista
-        listaDesenvolvedores = new ArrayList();
+        this.inicializaListaDesenvolvedores();
         
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -36,7 +35,15 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     }
     
-    
+    private void inicializaListaDesenvolvedores(){
+        try{
+            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
+        } catch (Exception e){
+            System.err.println(e);
+            listaDesenvolvedores = new ArrayList<>();
+        }
+    }
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -185,7 +192,18 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                 .addContainerGap(186, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbEmail)
+                            .addComponent(tituloCadastrarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+                            .addComponent(txtEmail)
+                            .addComponent(lbUsername)
+                            .addComponent(txtUsername))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -194,22 +212,10 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                                         .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(lbSenha))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(lbRevelarSenha)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(93, 93, 93)))
-                        .addContainerGap(222, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbEmail)
-                            .addComponent(tituloCadastrarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-                            .addComponent(txtEmail)
-                            .addComponent(lbUsername)
-                            .addComponent(txtUsername))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbRevelarSenha)
+                                    .addComponent(btnRevelarSenha))))
+                        .addContainerGap(212, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,10 +236,8 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                     .addComponent(lbRevelarSenha))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)))
+                    .addComponent(txtSenha)
+                    .addComponent(btnRevelarSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addComponent(lbConfSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,7 +259,8 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
+        if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
+                txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
@@ -277,7 +282,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
             if (equalName == false){
                 if (senha.equals(confSenha)){
                     // Criando objeto
-                    int id = listaDesenvolvedores.size()+1;
+                    int id = listaDesenvolvedores.size();
                     
                     Desenvolvedor desenvolvedor = new Desenvolvedor(username, email, senha);
                     desenvolvedor.setId(id);

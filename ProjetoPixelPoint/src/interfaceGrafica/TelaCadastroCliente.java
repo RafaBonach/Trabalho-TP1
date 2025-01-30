@@ -315,7 +315,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                         break;
                     }
                 }
-            
             }
             
             if (equalName == false){

@@ -37,6 +37,12 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         
         this.inicializaArrayList();
         
+        // Inicializa os campos formatados
+        this.aplicaMascara();
+        
+        this.setInicial();
+        
+        /*
         botao = null;
         
         // Inicializando os botões
@@ -55,9 +61,6 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         txtEmail.setEnabled(false);
         txtEndereco.setEnabled(false);
         
-        // Inicializa os campos formatados
-        this.aplicaMascara();
-        
         // Carregar informações do cliente
         txtUsuario.setText(cliente.getNomeUsuario());
         txtID.setText(String.valueOf(cliente.getId()));
@@ -72,6 +75,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         if (cliente.getSaldoCarteira(cliente.getSenha()) >= 0){
             ftxtSaldo.setValue(cliente.getSaldoCarteira(cliente.getSenha()));
         }
+        */
         
         System.out.println(listaClientes);
     }
@@ -217,6 +221,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         lbDataNascimento.setText("Data de Nascimento");
 
         ftxtDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        ftxtDataNascimento.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
         txtSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
@@ -284,6 +289,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         });
 
         btnExcluirConta.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        btnExcluirConta.setForeground(new java.awt.Color(255, 51, 102));
         btnExcluirConta.setText("Excluir Conta");
         btnExcluirConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -305,6 +311,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         jLabel1.setText("Saldo na conta");
 
         ftxtSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        ftxtSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
         btnAlteraSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnAlteraSaldo.setText("Alterar Saldo");
