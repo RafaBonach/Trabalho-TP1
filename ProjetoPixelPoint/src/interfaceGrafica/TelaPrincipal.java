@@ -40,6 +40,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         
         //Criando alguns Clientes para Teste
         Cliente cliente = new Cliente("Rafael", "rafa.bonach@gmail.com", "2853", "13/05/2004");
+        cliente.adicionaJogo(jogo3);
         clientes.add(cliente);
     }
     
@@ -77,10 +78,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     // Função teste das listas
     private void mostraListas(){
+        System.out.println("Jogos:");
         for(Jogo j:jogos) System.out.println(j);
-        System.out.println();
-        for(Cliente c:clientes) System.out.println(c);
-        System.out.println();
+        System.out.println("\nClientes:");
+        for(Cliente c:clientes){
+            System.out.println(c);
+            List<Jogo> ljc = c.getListaJogos();
+            for(Jogo j:ljc){
+                System.out.println(j);
+            }
+        }
+        System.out.println("\nDesenvolvedores");
         for(Desenvolvedor d:desenvolvedores) System.out.println(d);
     }
 
