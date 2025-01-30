@@ -4,18 +4,70 @@
  */
 package interfaceGrafica;
 
+import backend.Compra;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
+
 /**
  *
  * @author rafaelb
  */
 public class TelaComprar extends javax.swing.JFrame {
-
+    
+    private Compra transferencia = new Compra(TelaLoja.jogo, TelaPerfilCliente.cliente);
+    
     /**
      * Creates new form comprar
      */
     public TelaComprar() {
         initComponents();
+        
+        // Aplica a mascara em todos os JFormattedTextField
+        aplicaMascara();
+        
+        // Inicializa botões
+        btnCancelar.setEnabled(true);
+        btnConfirmar.setEnabled(true);
+        
+        // Desabilita campos de texto
+        ftxtSaldo.setEnabled(false);
+        ftxtSaldoRestante.setEnabled(false);
+        ftxtPreco.setEnabled(false);
+        
+        // Inicializa os valores nos campos de texto
+        ftxtSaldo.setValue(transferencia.clienteSaldo());
+        ftxtPreco.setValue(transferencia.precoJogo());
+        ftxtSaldoRestante.setValue((double) ftxtSaldo.getValue() - (double) ftxtPreco.getValue());
     }
+    
+    private void aplicaMascara(){
+        try{
+            // Configurando o formato de número para moeda
+            NumberFormat formatoMonetario = DecimalFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            NumberFormatter formatter = new NumberFormatter(formatoMonetario);
+            formatter.setMinimum(0.0); // Define o valor mínimo permitido
+            formatter.setMaximum(Double.MAX_VALUE); // Define o valor máximo permitido
+            formatter.setAllowsInvalid(false); // Evita entradas inválidas
+            
+            // Criando o JFormattedTextField com o formatter
+            ftxtSaldo.setFormatterFactory(new DefaultFormatterFactory(formatter));
+            ftxtSaldo.setValue(0);
+            
+            ftxtSaldoRestante.setFormatterFactory(new DefaultFormatterFactory(formatter));
+            ftxtSaldoRestante.setValue(0);
+            
+            ftxtPreco.setFormatterFactory(new DefaultFormatterFactory(formatter));
+            ftxtPreco.setValue(0);
+            
+        } catch (Exception e){
+            System.err.println(e);
+        }   
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,7 +105,12 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtSaldo.setBorder(null);
         ftxtSaldo.setForeground(new java.awt.Color(51, 51, 255));
         ftxtSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-        ftxtSaldo.setText("teste");
+        ftxtSaldo.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        ftxtSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftxtSaldoActionPerformed(evt);
+            }
+        });
 
         lbPreco.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         lbPreco.setText("Preço:");
@@ -62,7 +119,7 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtPreco.setBorder(null);
         ftxtPreco.setForeground(new java.awt.Color(255, 51, 51));
         ftxtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-        ftxtPreco.setText("Teste");
+        ftxtPreco.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
         lbSaldoRestante1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         lbSaldoRestante1.setText("Saldo");
@@ -73,7 +130,7 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtSaldoRestante.setEditable(false);
         ftxtSaldoRestante.setBorder(null);
         ftxtSaldoRestante.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-        ftxtSaldoRestante.setText("teste");
+        ftxtSaldoRestante.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         ftxtSaldoRestante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ftxtSaldoRestanteActionPerformed(evt);
@@ -85,6 +142,11 @@ public class TelaComprar extends javax.swing.JFrame {
 
         btnConfirmar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -165,11 +227,43 @@ public class TelaComprar extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        new TelaLoja().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void ftxtSaldoRestanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtSaldoRestanteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ftxtSaldoRestanteActionPerformed
+
+    private void ftxtSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftxtSaldoActionPerformed
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        // TODO add your handling code here:
+        int compraRealizada = transferencia.efetuaCompra();
+        switch (compraRealizada) {
+            case 0 -> {
+                int resposta = JOptionPane.showConfirmDialog(
+                        null, // Componente pai (null para janela centralizada)
+                        "Gostaria de comprar " + TelaLoja.jogo.getNome() + "?", // Mensagem exibida
+                        "Confirmação", // Título da janela
+                        JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
+                );  
+                
+                // Verifica qual botão foi pressionado
+                if (resposta == JOptionPane.NO_OPTION) transferencia.cancelaCompra();
+                else JOptionPane.showMessageDialog(null,"Jogo adquirido com sucesso!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                
+            }
+            case 1 -> JOptionPane.showMessageDialog(null,"Saldo insuficiente, coloque mais saldo na conta para comprar este jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            case 2 -> JOptionPane.showMessageDialog(null,"Esta compra já foi realizada", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            default -> {}
+        }
+        
+        new TelaLoja().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnConfirmarActionPerformed
 
     /**
      * @param args the command line arguments

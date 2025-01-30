@@ -4,19 +4,88 @@
  */
 package interfaceGrafica;
 
+import backend.Desenvolvedor;
+import backend.Jogo;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author rafaelb
  */
 public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
-
+    
+    static ArrayList<Jogo> listaJogos;
+    static ArrayList<Desenvolvedor> listaDesenvolvedores;
+    static Desenvolvedor desenvolvedor = TelaLoginDesenvolvedor.desenvolvedorSelecionado;
+    private char previousEchoChar = '\u2022';
+    String botao;
     /**
      * Creates new form TelaPerfil
      */
     public TelaPerfilDesenvolvedor() {
         initComponents();
+        
+        this.inicializaListaDesenvolvedores();
+        this.setInicial();
+        
+    }
+    
+    public void carregaTabelaJogos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos", "Preço"},0);
+        for(Jogo jogos:listaJogos){
+            Object linha[] = new Object[]{jogos.getNome(),
+                                        jogos.getGenero(),
+                                        jogos.getRequisitos()};
+            modelo.addRow(linha);
+        }
+        // Alocando modelo na tabela
+        tblJogos.setModel(modelo);
+        
+        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(10);
+        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(10);
     }
 
+    private void inicializaListaDesenvolvedores(){
+        try{
+            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
+        } catch (Exception e){
+            System.err.println(e);
+            listaDesenvolvedores = new ArrayList<>();
+        }
+    }
+    
+    private void setInicial(){
+        // Inicializando os botões
+        btnCriarJogo.setEnabled(true);
+        btnEditar.setEnabled(true);
+        btnExcluirConta.setEnabled(true);
+        btnExcluirJogo.setEnabled(false);
+        btnRevelarSenha.setEnabled(true);
+        btnSair.setEnabled(true);
+        btnSalvar.setEnabled(false);
+        
+        // Desabilitando campos de Texto
+        txtDescricao.setEditable(false);
+        txtEmail.setEditable(false);
+        txtID.setEditable(false);
+        txtSenha.setEditable(false);
+        txtUsuario.setEditable(false);
+        txtWebsite.setEditable(false);
+        
+        // Carregar informações do ciente
+        txtDescricao.setText(desenvolvedor.getDescricao());
+        txtEmail.setText(desenvolvedor.getEmail());
+        txtID.setText(String.format("%d", desenvolvedor.getId()));
+        txtSenha.setText(desenvolvedor.getSenha());
+        txtUsuario.setText(desenvolvedor.getNomeUsuario());
+        txtWebsite.setText(desenvolvedor.getWebsite());
+        
+        botao = null;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,20 +97,27 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        frameAlteraSaldo = new javax.swing.JFrame();
+        jLabel1 = new javax.swing.JLabel();
+        lbSaldo = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        lbSaldo2 = new javax.swing.JLabel();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        lbSaldo1 = new javax.swing.JLabel();
+        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         lbTitulo = new javax.swing.JLabel();
         lbUsername = new javax.swing.JLabel();
         lbSenha = new javax.swing.JLabel();
         lbEmail = new javax.swing.JLabel();
-        lbDataNascimento = new javax.swing.JLabel();
-        ftxtDataNascimento = new javax.swing.JFormattedTextField();
         txtSenha = new javax.swing.JPasswordField();
         lbEndereco = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         lbID = new javax.swing.JLabel();
-        lbDataRegistro = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
-        ftxtDataRegistro = new javax.swing.JFormattedTextField();
         txtUsuario = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtEndereço = new javax.swing.JTextField();
@@ -58,11 +134,102 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         lbDescrição = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDescricao = new javax.swing.JTextArea();
-        btnExclirJogo = new javax.swing.JButton();
+        btnExcluirJogo = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Colocar saldo na conta");
+
+        lbSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo.setText("Saldo Atual:");
+
+        jFormattedTextField1.setEditable(false);
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        jFormattedTextField1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        lbSaldo2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo2.setText("Valor aplicado:");
+
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        jFormattedTextField2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        jSeparator1.setForeground(new java.awt.Color(51, 51, 0));
+
+        lbSaldo1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbSaldo1.setText("Novo Saldo:");
+
+        jFormattedTextField3.setEditable(false);
+        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
+        jFormattedTextField3.setText("R$0,00");
+        jFormattedTextField3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+
+        jButton1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 153, 51));
+        jButton1.setText("Confirmar");
+
+        jButton2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jButton2.setText("Cancelar");
+
+        javax.swing.GroupLayout frameAlteraSaldoLayout = new javax.swing.GroupLayout(frameAlteraSaldo.getContentPane());
+        frameAlteraSaldo.getContentPane().setLayout(frameAlteraSaldoLayout);
+        frameAlteraSaldoLayout.setHorizontalGroup(
+            frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                        .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameAlteraSaldoLayout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbSaldo)
+                                    .addComponent(lbSaldo2)
+                                    .addComponent(lbSaldo1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jFormattedTextField1)
+                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jFormattedTextField3))))
+                        .addGap(0, 57, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        frameAlteraSaldoLayout.setVerticalGroup(
+            frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frameAlteraSaldoLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addGap(46, 46, 46)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSaldo)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbSaldo2)
+                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbSaldo1))
+                .addGap(18, 18, 18)
+                .addGroup(frameAlteraSaldoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,11 +246,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         lbEmail.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         lbEmail.setText("Email");
 
-        lbDataNascimento.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        lbDataNascimento.setText("Data de Nascimento");
-
-        ftxtDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-
         txtSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
         lbEndereco.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -91,6 +253,11 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
         btnSalvar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnSair.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnSair.setText("Sair");
@@ -103,22 +270,10 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         lbID.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         lbID.setText("ID");
 
-        lbDataRegistro.setText("Data de Registro");
-
         txtID.setEditable(false);
         txtID.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         txtID.setText("00000");
         txtID.setBorder(null);
-
-        ftxtDataRegistro.setEditable(false);
-        ftxtDataRegistro.setBorder(null);
-        ftxtDataRegistro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        ftxtDataRegistro.setText("12/12/2000");
-        ftxtDataRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ftxtDataRegistroActionPerformed(evt);
-            }
-        });
 
         txtUsuario.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
@@ -134,7 +289,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Gênero", "Requisitos", "Preço"
             }
         ));
         jScrollPane2.setViewportView(tblJogos);
@@ -152,8 +307,14 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
         btnEditar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnExcluirConta.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        btnExcluirConta.setForeground(new java.awt.Color(255, 51, 102));
         btnExcluirConta.setText("Excluir Conta");
         btnExcluirConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,11 +345,11 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         txtDescricao.setRows(5);
         jScrollPane3.setViewportView(txtDescricao);
 
-        btnExclirJogo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnExclirJogo.setText("Excluir Jogo");
-        btnExclirJogo.addActionListener(new java.awt.event.ActionListener() {
+        btnExcluirJogo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        btnExcluirJogo.setText("Excluir Jogo");
+        btnExcluirJogo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExclirJogoActionPerformed(evt);
+                btnExcluirJogoActionPerformed(evt);
             }
         });
 
@@ -200,67 +361,55 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCriarJogo)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExclirJogo)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSalvar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSair)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnExcluirConta)
-                        .addGap(87, 87, 87))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtEndereço)
                             .addComponent(lbEndereco)
-                            .addComponent(lbEmail)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbDataNascimento)
-                                    .addComponent(ftxtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(96, 96, 96)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbWebsite)
-                                    .addComponent(txtWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lbEmail))
                         .addGap(77, 77, 77))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lbUsername)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSair)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCriarJogo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnExcluirJogo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSalvar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnExcluirConta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lbUsername)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(lbID)
-                                                    .addGap(108, 108, 108)
-                                                    .addComponent(lbDataRegistro))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(ftxtDataRegistro)))))
-                                    .addGap(24, 24, 24)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lbSenha)
-                                            .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING)))
-                                .addComponent(jScrollPane3))
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lbSenha)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(jScrollPane3))
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(77, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbWebsite)
                             .addComponent(lbJogos)
                             .addComponent(lbDescrição))
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -273,7 +422,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbID)
-                    .addComponent(lbDataRegistro)
                     .addComponent(lbUsername)
                     .addComponent(lbSenha)
                     .addComponent(lbRevelarSenha))
@@ -284,20 +432,15 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                         .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ftxtDataRegistro)))
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(lbEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbWebsite))
+                .addComponent(lbWebsite)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftxtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbEndereco)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -310,14 +453,14 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addComponent(lbJogos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvar)
                     .addComponent(btnSair)
                     .addComponent(btnCriarJogo)
+                    .addComponent(btnExcluirJogo)
+                    .addComponent(btnSalvar)
                     .addComponent(btnEditar)
-                    .addComponent(btnExcluirConta)
-                    .addComponent(btnExclirJogo))
+                    .addComponent(btnExcluirConta))
                 .addGap(14, 14, 14))
         );
 
@@ -325,29 +468,91 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        new TelaLoginCliente().setVisible(true);
-        this.setVisible(false);
+        if(botao == null){
+            new TelaLoja().setVisible(true);
+            this.dispose();
+        } else{
+            this.setInicial();
+        }
     }//GEN-LAST:event_btnSairActionPerformed
-
-    private void ftxtDataRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDataRegistroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ftxtDataRegistroActionPerformed
 
     private void btnCriarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarJogoActionPerformed
         // TODO add your handling code here:
+        new TelaCadastrarJogo().setVisible(true);
     }//GEN-LAST:event_btnCriarJogoActionPerformed
 
     private void btnExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirContaActionPerformed
         // TODO add your handling code here:
+        new TelaCadastrarJogo().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnExcluirContaActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
-
+        if (txtSenha.getEchoChar() != '\u0000'){
+            previousEchoChar = txtSenha.getEchoChar();
+            txtSenha.setEchoChar('\u0000');
+        }else txtSenha.setEchoChar(previousEchoChar);
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
-    private void btnExclirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclirJogoActionPerformed
+    private void btnExcluirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirJogoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnExclirJogoActionPerformed
+    }//GEN-LAST:event_btnExcluirJogoActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        botao = "editar";
+        
+        // Habilitar e desabilitar botoes
+        btnCriarJogo.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnExcluirConta.setEnabled(false);
+        btnExcluirJogo.setEnabled(false);
+        btnRevelarSenha.setEnabled(true);
+        btnSair.setEnabled(false);
+        btnSalvar.setEnabled(true);
+        
+        // Habilitar e desabilitar campos de Texto
+        txtDescricao.setEditable(true);
+        txtEmail.setEditable(true);
+        txtID.setEditable(false);
+        txtSenha.setEditable(true);
+        txtUsuario.setEditable(true);
+        txtWebsite.setEditable(true);
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+        if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Os campos principais precisam ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        } else{
+            if(botao.equals("editar")){
+                String usuario = txtUsuario.getName();
+                String senha = txtSenha.getText();
+                String email = txtEmail.getText();
+                String descricao = txtDescricao.getText();
+                String website = txtWebsite.getText();
+                
+                boolean equalName = false;
+                for(Desenvolvedor des:listaDesenvolvedores){
+                    if(des.getNomeUsuario().equals(usuario) && des.getId() != desenvolvedor.getId()){
+                        JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                        equalName = true;
+                        break;
+                    }
+                }
+                
+                if (equalName == false){
+                    desenvolvedor.setNomeUsuario(usuario);
+                    desenvolvedor.setSenha(senha);
+                    desenvolvedor.setEmail(email);
+                    desenvolvedor.setDescricao(descricao);
+                    desenvolvedor.setWebsite(website);
+                    
+                    this.setInicial();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -390,25 +595,32 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCriarJogo;
     private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnExclirJogo;
     private javax.swing.JButton btnExcluirConta;
+    private javax.swing.JButton btnExcluirJogo;
     private javax.swing.JButton btnRevelarSenha;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JFormattedTextField ftxtDataNascimento;
-    private javax.swing.JFormattedTextField ftxtDataRegistro;
+    private javax.swing.JFrame frameAlteraSaldo;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JFormattedTextField jFormattedTextField3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JLabel lbDataNascimento;
-    private javax.swing.JLabel lbDataRegistro;
     private javax.swing.JLabel lbDescrição;
     private javax.swing.JLabel lbEmail;
     private javax.swing.JLabel lbEndereco;
     private javax.swing.JLabel lbID;
     private javax.swing.JLabel lbJogos;
     private javax.swing.JLabel lbRevelarSenha;
+    private javax.swing.JLabel lbSaldo;
+    private javax.swing.JLabel lbSaldo1;
+    private javax.swing.JLabel lbSaldo2;
     private javax.swing.JLabel lbSenha;
     private javax.swing.JLabel lbTitulo;
     private javax.swing.JLabel lbUsername;
