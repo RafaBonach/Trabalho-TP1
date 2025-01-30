@@ -82,9 +82,6 @@ public final class TelaLoja extends javax.swing.JFrame {
         tabelaJogos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
     
-    private void carregaInfoCliente(){
-        
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,6 +102,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         jCheckBoxPesquisaGenero = new javax.swing.JCheckBox();
         jButtonComprar = new javax.swing.JButton();
         jButtonRemoverJogo = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Perfil do Desenvolvedor");
@@ -177,6 +175,13 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Acessar Perfil");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -193,7 +198,9 @@ public final class TelaLoja extends javax.swing.JFrame {
                         .addComponent(jCheckBoxPesquisaNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxPesquisaGenero)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(26, 26, 26)
                         .addComponent(jButtonVoltar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButtonCadastrarJogo)
@@ -212,7 +219,8 @@ public final class TelaLoja extends javax.swing.JFrame {
                     .addComponent(jButtonPesquisar)
                     .addComponent(jTextFieldPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxPesquisaNome)
-                    .addComponent(jCheckBoxPesquisaGenero))
+                    .addComponent(jCheckBoxPesquisaGenero)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -264,9 +272,9 @@ public final class TelaLoja extends javax.swing.JFrame {
                 new TelaComprar().setVisible(true);
                 this.dispose();
             } catch (Exception e){
-                System.err.print(e);
+                System.err.println(e);
                 
-                JOptionPane.showMessageDialog(null,"Nenuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Nenhuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                 
                 new TelaLoginCliente().setVisible(true);
                 this.dispose();
@@ -303,6 +311,21 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButtonRemoverJogoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            new TelaPerfilCliente().setVisible(true);
+            this.dispose();
+        } catch(Exception e){
+            System.err.println(e);
+                
+            JOptionPane.showMessageDialog(null,"Nenhuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+
+            new TelaLoginCliente().setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,6 +370,7 @@ public final class TelaLoja extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCadastrarJogo;
     private javax.swing.JButton jButtonComprar;
     private javax.swing.JButton jButtonPesquisar;

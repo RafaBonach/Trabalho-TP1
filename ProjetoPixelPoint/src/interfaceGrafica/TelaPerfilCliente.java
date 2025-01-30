@@ -24,7 +24,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     
     static List<Jogo> listaJogos = TelaPrincipal.jogos;
     static List<Cliente> listaClientes = TelaPrincipal.clientes;
-    static Cliente cliente = TelaLoginCliente.cliente;
+    static Cliente cliente;
     private char previousEchoChar = '\u2022';
     String botao;
     
@@ -34,9 +34,12 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
      */
     public TelaPerfilCliente() {
         initComponents();
+        cliente = TelaLoginCliente.cliente;
         
         // Inicializa os campos formatados
         this.aplicaMascara();
+        
+        this.carregaTabelaJogos();
         
         this.setInicial();
         
@@ -78,14 +81,16 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         System.out.println(listaClientes);
     }
     
-    public void carregaTabelaJogos(){
+    private void carregaTabelaJogos(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos"},0);
-        for(Jogo jogos:listaJogos){
-            Object linha[] = new Object[]{jogos.getNome(),
-                                        jogos.getGenero(),
-                                        jogos.getRequisitos()};
+        List<Jogo> lJogosAdq = cliente.getListaJogos();
+        for(int i = 0; i<lJogosAdq.size(); i++){
+            Object linha[] = new Object[]{lJogosAdq.get(i).getNome(),
+                                        lJogosAdq.get(i).getGenero(),
+                                        lJogosAdq.get(i).getRequisitos()};
             modelo.addRow(linha);
         }
+        
         // Alocando modelo na tabela
         tblJogos.setModel(modelo);
         
@@ -433,6 +438,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         // Se botao for igual a nulo, quer dizer que ele não está editando nenhuma informações e quer voltar para a tela de login/tela anterior
         if (botao == null){
             new TelaLoginCliente().setVisible(true);
+            cliente = null;
             this.dispose();
         }
         // Se não, ele quer voltar para a tela inicial sem fazer as alterações
@@ -444,6 +450,8 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
     private void btnLojaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLojaActionPerformed
         // TODO add your handling code here:
+        new TelaLoja().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnLojaActionPerformed
 
     private void btnExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirContaActionPerformed

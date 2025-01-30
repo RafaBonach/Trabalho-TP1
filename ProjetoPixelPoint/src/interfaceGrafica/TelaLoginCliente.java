@@ -14,12 +14,14 @@ import javax.swing.JOptionPane;
  */
 public class TelaLoginCliente extends javax.swing.JFrame {
     
-    static List<Cliente> listaClientes = TelaPrincipal.clientes;
+    static List<Cliente> listaClientes;
     static Cliente cliente;
     private char previousEchoChar = '\u2022';
     
     public TelaLoginCliente() {
         initComponents();
+        
+        listaClientes = TelaPrincipal.clientes;
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -221,26 +223,29 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             //Procurar clientes na lista de clientes
             String username = txtUsername.getText();
             String senha = txtSenha.getText();
-            boolean dadosCorrespondentes = false;
+            boolean nomeCorrespondente = false;
+            boolean senhaCorrespondente = false;
             
-            try{
-                for (Cliente c:listaClientes){
-                    if(c.getNomeUsuario().equals(username) && c.getSenha().equals(senha)){
+            for (Cliente c:listaClientes){
+                if(c.getNomeUsuario().equals(username)){
+                    nomeCorrespondente = true;
+                    if(c.getSenha().equals(senha)){
+                        senhaCorrespondente = true;
                         cliente = c;
                         new TelaPerfilCliente().setVisible(true);
                         this.dispose();
-                        dadosCorrespondentes = true;
                         break;
                     }
                 }
+            }
 
-                if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-
-            } catch (Exception e){
-                System.err.println(e);
-                JOptionPane.showMessageDialog(null,"Nenhum cliente registrado ainda, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            if (nomeCorrespondente) {
+                if (!senhaCorrespondente) JOptionPane.showMessageDialog(null,"Senha invalida", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            }else {
+                JOptionPane.showMessageDialog(null,"Nenhuma conta registrada com essas informações, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                 this.btnCadastrarActionPerformed(evt);
             }
+            
             //Limpar email
             txtSenha.setText("");
             
