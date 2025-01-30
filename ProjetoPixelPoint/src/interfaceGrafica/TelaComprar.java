@@ -242,25 +242,24 @@ public class TelaComprar extends javax.swing.JFrame {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
         int compraRealizada = transferencia.efetuaCompra();
-        if (compraRealizada == 0){
-            int resposta = JOptionPane.showConfirmDialog(
-                null, // Componente pai (null para janela centralizada)
-                "Gostaria de comprar " + TelaLoja.jogo.getNome() + "?", // Mensagem exibida
-                "Confirmação", // Título da janela
-                JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
-            );
-
-            // Verifica qual botão foi pressionado
-            if (resposta == JOptionPane.NO_OPTION) transferencia.cancelaCompra();
-            else{
-                /**
-                 * Inserir ação de colocar o jogo na lista do cliente.
-                 */
-                JOptionPane.showMessageDialog(null,"Jogo adquirido com sucesso!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        switch (compraRealizada) {
+            case 0 -> {
+                int resposta = JOptionPane.showConfirmDialog(
+                        null, // Componente pai (null para janela centralizada)
+                        "Gostaria de comprar " + TelaLoja.jogo.getNome() + "?", // Mensagem exibida
+                        "Confirmação", // Título da janela
+                        JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
+                );  
+                
+                // Verifica qual botão foi pressionado
+                if (resposta == JOptionPane.NO_OPTION) transferencia.cancelaCompra();
+                else JOptionPane.showMessageDialog(null,"Jogo adquirido com sucesso!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                
             }
-        } else if(compraRealizada == 1){
-            JOptionPane.showMessageDialog(null,"Saldo insuficiente, coloque mais saldo na conta para comprar este jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-        } else if(compraRealizada == 2) JOptionPane.showMessageDialog(null,"Esta compra já foi realizada", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            case 1 -> JOptionPane.showMessageDialog(null,"Saldo insuficiente, coloque mais saldo na conta para comprar este jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            case 2 -> JOptionPane.showMessageDialog(null,"Esta compra já foi realizada", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            default -> {}
+        }
         
         new TelaLoja().setVisible(true);
         this.dispose();

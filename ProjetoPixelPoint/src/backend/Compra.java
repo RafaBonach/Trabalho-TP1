@@ -26,6 +26,7 @@ public class Compra {
         }
         // Compra Realizada com sucesso
         else if(cliente.subtraiSaldo(jogo.getPreco())){
+            cliente.adicionaJogo(jogo);
             return 0;
         }
         // Saldo insuficiente
@@ -41,6 +42,7 @@ public class Compra {
         }
         // Cancelamento da compra realizado com sucesso
         else if(cliente.somaSaldo(jogo.getPreco())){
+            cliente.removeJogo(jogo);
             return 0;
         }
         // Preço de jogo invalido
