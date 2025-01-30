@@ -5,7 +5,7 @@
 package interfaceGrafica;
 
 import backend.Cliente;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -16,14 +16,12 @@ import javax.swing.text.MaskFormatter;
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
 
-    public static ArrayList<Cliente> listaClientes;
+    public static List<Cliente> listaClientes = TelaPrincipal.clientes;
     String botao;
     private char previousEchoChar = '\u2022';
     
     public TelaCadastroCliente() {
         initComponents();
-        
-        this.inicializaArrayList();
                 
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -37,9 +35,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtConfirmaSenha.setEnabled(true);
         
         aplicaMascara();
-        
-        System.out.println(listaClientes);
-
     }
     
     private void aplicaMascara(){
@@ -51,15 +46,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             
         } catch (Exception e){
             System.err.println(e);
-        }
-    }
-    
-    private void inicializaArrayList(){
-        try{
-            listaClientes = TelaLoginCliente.listaClientes;
-        } catch (Exception e){
-            System.err.println(e);
-            listaClientes = new ArrayList<>();
         }
     }
     
@@ -320,12 +306,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             if (equalName == false){
                 if (senha.equals(confSenha)){
                     // Criando objeto
-                    int id = listaClientes.size();
-                    
                     Cliente cliente = new Cliente(username, email, senha, data);
-                    cliente.setId(id);
-
                     listaClientes.add(cliente);
+                    
+                    int id = listaClientes.indexOf(cliente);
+                    cliente.setId(id);
+                    
+                    /**
+                     * Inserir aqui as informações no banco de dados quando ele estiver pronto
+                    */
 
                     new TelaLoginCliente().setVisible(true);
                     this.dispose();
@@ -369,9 +358,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        // TODO add your handling code here:
-        new TelaLoginCliente().setVisible(true);
-        this.dispose();
+        // Mesma ação do botão entrar
+        this.btnEntrarActionPerformed(evt);
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**

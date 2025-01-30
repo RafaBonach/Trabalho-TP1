@@ -8,7 +8,7 @@ import backend.Cliente;
 import backend.Jogo;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,9 +22,9 @@ import javax.swing.text.NumberFormatter;
  */
 public class TelaPerfilCliente extends javax.swing.JFrame {
     
-    static ArrayList<Jogo> listaJogos;
-    static ArrayList<Cliente> listaClientes;
-    static Cliente cliente = TelaLoginCliente.clienteSelecionado;
+    static List<Jogo> listaJogos = TelaPrincipal.jogos;
+    static List<Cliente> listaClientes = TelaPrincipal.clientes;
+    static Cliente cliente = TelaLoginCliente.cliente;
     private char previousEchoChar = '\u2022';
     String botao;
     
@@ -34,8 +34,6 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
      */
     public TelaPerfilCliente() {
         initComponents();
-        
-        this.inicializaArrayList();
         
         // Inicializa os campos formatados
         this.aplicaMascara();
@@ -118,16 +116,6 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         }   
     }
     
-    private void inicializaArrayList(){
-        try{
-            listaClientes = TelaLoginCliente.listaClientes;
-        } catch (Exception e){
-            System.err.println(e);
-            listaClientes = new ArrayList<>();
-        }
-    }
-
-    
     // Ele vai modificar para ficar com as informações iguais ao inicializar a classe
     private void setInicial(){
         // Inicializando os botões
@@ -155,7 +143,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         txtEmail.setText(cliente.getEmail());
         ftxtDataNascimento.setText(cliente.getDataNascimento());
         txtEndereco.setText(cliente.getEndereco());
-        ftxtSaldo.setValue(cliente.getSaldoCarteira(cliente.getSenha()));
+        ftxtSaldo.setValue(cliente.getSaldoCarteira());
 
         botao = null;
     }
@@ -442,10 +430,13 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        // Se botao for igual a nulo, quer dizer que ele não está editando nenhuma informações e quer voltar para a tela de login/tela anterior
         if (botao == null){
             new TelaLoginCliente().setVisible(true);
             this.dispose();
-        } else{
+        }
+        // Se não, ele quer voltar para a tela inicial sem fazer as alterações
+        else{
             // Volta para as configurações iniciais, com os valores alterados
             this.setInicial();
         }
@@ -503,7 +494,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                 boolean equalName = false;
                 for(Cliente cli:listaClientes){
                     if (cli.getNomeUsuario().equals(usuario) && cli.getId() != cliente.getId()){
-                        JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira outro nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                         equalName = true;
                         break;
                     }
@@ -517,6 +508,10 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                     cliente.setEndereco(endereco);
                     listaClientes.set(cliente.getId(), cliente); 
                     
+                    /**
+                     * Inserir aqui as informações no banco de dados quando ele estiver pronto
+                    */
+                    
                     System.out.println("\n" + cliente + "\n" + listaClientes);
                     
                     // Volta para as configurações iniciais, com os valores alterados
@@ -524,17 +519,16 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                 }
             }
         } else if (botao.equals("alterar saldo")){
-            if ((double) ftxtSaldo.getValue() < 0){
+            double saldo = (double) ftxtSaldo.getValue();
+            boolean saldoAlterado = cliente.setSaldoCarteira(saldo);
+            
+            if (!saldoAlterado){
                 JOptionPane.showMessageDialog(null,"Insira um valor valido maior que 0", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            } else{
-                double saldo = (double) ftxtSaldo.getValue();
-                cliente.setSaldoCarteira(saldo, cliente.getSenha());
-                
-                // Volta para as configurações iniciais, com os valores alterados
-                this.setInicial();
-                
-                System.out.println("\n" + cliente + "\n" + listaClientes);
-            }
+            } 
+            // Volta para as configurações iniciais, com os valores alterados
+            this.setInicial();
+
+            System.out.println("\n" + cliente + "\n" + listaClientes);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

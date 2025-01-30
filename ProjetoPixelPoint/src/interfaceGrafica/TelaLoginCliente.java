@@ -5,8 +5,7 @@
 package interfaceGrafica;
 
 import backend.Cliente;
-import interfaceGrafica.TelaCadastroCliente;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,14 +14,12 @@ import javax.swing.JOptionPane;
  */
 public class TelaLoginCliente extends javax.swing.JFrame {
     
-    static ArrayList<Cliente> listaClientes;
-    static Cliente clienteSelecionado;
+    static List<Cliente> listaClientes = TelaPrincipal.clientes;
+    static Cliente cliente;
     private char previousEchoChar = '\u2022';
     
     public TelaLoginCliente() {
         initComponents();
-        
-        inicializaListaClientes();
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -37,22 +34,6 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         txtUsername.setText("");
         txtSenha.setText("");
     }
-    
-    private void inicializaListaClientes(){
-        try{
-            listaClientes = TelaCadastroCliente.listaClientes;
-            if (listaClientes.isEmpty()){
-                Cliente cliente = new Cliente("teste", "teste", "teste", "13/05/2004");
-                listaClientes.add(cliente);
-            }
-        } catch (Exception e){
-            System.err.println(e);
-            listaClientes = new ArrayList<>();
-            Cliente cliente = new Cliente("teste", "teste", "teste", "13/05/2004");
-            listaClientes.add(cliente);
-        }
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -243,9 +224,9 @@ public class TelaLoginCliente extends javax.swing.JFrame {
             boolean dadosCorrespondentes = false;
             
             try{
-                for (Cliente cliente:listaClientes){
-                    if(cliente.getNomeUsuario().equals(username) && cliente.getSenha().equals(senha)){
-                        clienteSelecionado = cliente;
+                for (Cliente c:listaClientes){
+                    if(c.getNomeUsuario().equals(username) && c.getSenha().equals(senha)){
+                        cliente = c;
                         new TelaPerfilCliente().setVisible(true);
                         this.dispose();
                         dadosCorrespondentes = true;
@@ -256,6 +237,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                 if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
 
             } catch (Exception e){
+                System.err.println(e);
                 JOptionPane.showMessageDialog(null,"Nenhum cliente registrado ainda, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                 this.btnCadastrarActionPerformed(evt);
             }
