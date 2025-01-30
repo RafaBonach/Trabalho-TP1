@@ -5,8 +5,9 @@
 package interfaceGrafica;
 
 import backend.BancoDeDados;
-import interfaceGrafica.TelaCadastrarJogo;
+import backend.Jogo;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,6 +18,10 @@ import javax.swing.table.DefaultTableModel;
  * @author yuria
  */
 public final class TelaLoja extends javax.swing.JFrame {
+    
+    public static List<Jogo> listaJogos = TelaPrincipal.jogos;
+    public static Jogo jogo;
+    
 
     /**
      * Creates new form JogoJFrame
@@ -31,41 +36,41 @@ public final class TelaLoja extends javax.swing.JFrame {
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Nome","Preço","Gênero","Requisitos"},0);
         tabelaJogos.setModel(modelo);
         if (jCheckBoxPesquisaNome.isSelected()){
-            for(int i=0;i<TelaPrincipal.jogos.size();i++){
+            for(int i=0;i<listaJogos.size();i++){
                 if (!jTextFieldPesquisa.getText().trim().isEmpty()){
-                    if (TelaPrincipal.jogos.get(i).getNome().contains(jTextFieldPesquisa.getText())){
-                        Object linha[] = new Object[]{TelaPrincipal.jogos.get(i).getNome(),
-                                            String.format("%.2f", TelaPrincipal.jogos.get(i).getPreco()) + " R$",
-                                            TelaPrincipal.jogos.get(i).getGenero(),
-                                            TelaPrincipal.jogos.get(i).getRequisitos()};
+                    if (listaJogos.get(i).getNome().contains(jTextFieldPesquisa.getText())){
+                        Object linha[] = new Object[]{listaJogos.get(i).getNome(),
+                                            String.format("%.2f", listaJogos.get(i).getPreco()) + " R$",
+                                            listaJogos.get(i).getGenero(),
+                                            listaJogos.get(i).getRequisitos()};
                         modelo.addRow(linha);
                     }
                 }
                 else {
-                    Object linha[] = new Object[]{TelaPrincipal.jogos.get(i).getNome(),
-                                            String.format("%.2f", TelaPrincipal.jogos.get(i).getPreco()) + " R$",
-                                            TelaPrincipal.jogos.get(i).getGenero(),
-                                            TelaPrincipal.jogos.get(i).getRequisitos()};
+                    Object linha[] = new Object[]{listaJogos.get(i).getNome(),
+                                            String.format("%.2f", listaJogos.get(i).getPreco()) + " R$",
+                                            listaJogos.get(i).getGenero(),
+                                            listaJogos.get(i).getRequisitos()};
                     modelo.addRow(linha);
                 }
             }
         }
         else {
-            for(int i=0;i<TelaPrincipal.jogos.size();i++){
+            for(int i=0;i<listaJogos.size();i++){
                 if (!jTextFieldPesquisa.getText().trim().isEmpty()){
-                    if (TelaPrincipal.jogos.get(i).getGenero().contains(jTextFieldPesquisa.getText())){
-                        Object linha[] = new Object[]{TelaPrincipal.jogos.get(i).getNome(),
-                                            String.format("%.2f", TelaPrincipal.jogos.get(i).getPreco()) + " R$",
-                                            TelaPrincipal.jogos.get(i).getGenero(),
-                                            TelaPrincipal.jogos.get(i).getRequisitos()};
+                    if (listaJogos.get(i).getGenero().contains(jTextFieldPesquisa.getText())){
+                        Object linha[] = new Object[]{listaJogos.get(i).getNome(),
+                                            String.format("%.2f", listaJogos.get(i).getPreco()) + " R$",
+                                            listaJogos.get(i).getGenero(),
+                                            listaJogos.get(i).getRequisitos()};
                         modelo.addRow(linha);
                     }
                 }
                 else {
-                    Object linha[] = new Object[]{TelaPrincipal.jogos.get(i).getNome(),
-                                            String.format("%.2f", TelaPrincipal.jogos.get(i).getPreco()) + " R$",
-                                            TelaPrincipal.jogos.get(i).getGenero(),
-                                            TelaPrincipal.jogos.get(i).getRequisitos()};
+                    Object linha[] = new Object[]{listaJogos.get(i).getNome(),
+                                            String.format("%.2f", listaJogos.get(i).getPreco()) + " R$",
+                                            listaJogos.get(i).getGenero(),
+                                            listaJogos.get(i).getRequisitos()};
                     modelo.addRow(linha);
                 }
             }
@@ -75,6 +80,10 @@ public final class TelaLoja extends javax.swing.JFrame {
         tabelaJogos.getColumnModel().getColumn(1).setPreferredWidth(1);
         tabelaJogos.getColumnModel().getColumn(2).setPreferredWidth(200);
         tabelaJogos.getColumnModel().getColumn(3).setPreferredWidth(100);
+    }
+    
+    private void carregaInfoCliente(){
+        
     }
 
     /**
@@ -232,7 +241,7 @@ public final class TelaLoja extends javax.swing.JFrame {
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
         new TelaPrincipal().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jCheckBoxPesquisaNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPesquisaNomeActionPerformed
@@ -249,7 +258,19 @@ public final class TelaLoja extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Nenhum jogo selecionado", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }
         else {
-            System.out.println(TelaPrincipal.jogos.get(i).getNome());
+            try {
+                System.out.println(listaJogos.get(i).getNome());
+                jogo = listaJogos.get(i);
+                new TelaComprar().setVisible(true);
+                this.dispose();
+            } catch (Exception e){
+                System.err.print(e);
+                
+                JOptionPane.showMessageDialog(null,"Nenuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                
+                new TelaLoginCliente().setVisible(true);
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_jButtonComprarActionPerformed
 
@@ -261,7 +282,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         else {
             int resposta = JOptionPane.showConfirmDialog(
             null, // Componente pai (null para janela centralizada)
-            "Gostaria de remover " + TelaPrincipal.jogos.get(i).getNome() + "?", // Mensagem exibida
+            "Gostaria de remover " + listaJogos.get(i).getNome() + "?", // Mensagem exibida
             "Confirmação", // Título da janela
             JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
             );
@@ -269,10 +290,10 @@ public final class TelaLoja extends javax.swing.JFrame {
             // Verifica qual botão foi pressionado
             if (resposta == JOptionPane.YES_OPTION) {
                 //Remove o jogo da lista de jogos
-                TelaPrincipal.jogos.remove(i);
+                listaJogos.remove(i);
                 //Remove o jogo do banco de dados
                 try {
-                    BancoDeDados.atualizaBD(TelaPrincipal.jogos);
+                    BancoDeDados.atualizaBD(listaJogos);
                 } catch (IOException ex) {
                     Logger.getLogger(TelaCadastrarJogo.class.getName()).log(Level.SEVERE, null, ex);
                 }
