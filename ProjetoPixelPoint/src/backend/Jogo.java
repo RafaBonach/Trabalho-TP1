@@ -74,4 +74,10 @@ public class Jogo {
     public void setRequisitos(String requisitos){
         this.requisitos = requisitos;
     }
+
+    @Override
+    public String toString() {
+        return "Jogo{" + "nome=" + nome + ", id=" + id + ", preco=" + preco + ", versao=" + versao + ", genero=" + genero + ", requisitos=" + requisitos + '}';
+    }
+    
 }
