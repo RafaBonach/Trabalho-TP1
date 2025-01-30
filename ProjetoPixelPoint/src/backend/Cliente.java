@@ -1,5 +1,6 @@
 package backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente extends Usuario {
@@ -12,11 +13,13 @@ public class Cliente extends Usuario {
     // Construtores
 
     public Cliente() {
+        this.listaJogos = new ArrayList<>();
     }
     
     
     public Cliente(String nomeUsuario, String email, String senha, String dataNascimento){
         super(nomeUsuario, email, senha);
+        this.listaJogos = new ArrayList<>();
         this.dataNascimento = dataNascimento;
     }
 
@@ -70,8 +73,15 @@ public class Cliente extends Usuario {
             this.saldoCarteira -= valor;
             return true;
         }
-        return false;
-        
+        return false;   
+    }
+    
+    public void adicionaJogo(Jogo jogo){
+        listaJogos.add(jogo);
+    }
+    
+    public void removeJogo(Jogo jogo){
+        listaJogos.remove(jogo);
     }
     
     @Override
