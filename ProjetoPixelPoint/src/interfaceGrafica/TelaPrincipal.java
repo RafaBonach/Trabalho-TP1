@@ -5,6 +5,8 @@
 package interfaceGrafica;
 
 import backend.BancoDeDados;
+import backend.Cliente;
+import backend.Desenvolvedor;
 import backend.Jogo;
 import java.awt.Component;
 import java.awt.PopupMenu;
@@ -20,15 +22,26 @@ import java.util.logging.Logger;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
         
-        public static List<Jogo> jogos = new ArrayList();
-        static {
+    public static List<Jogo> jogos = new ArrayList();
+    public static List<Cliente> clientes = new ArrayList();
+    public static List<Desenvolvedor> desenvolvedores = new ArrayList();
+    static {
+        // Criando alguns jogos para Teste
         Jogo jogo1 = new Jogo("Dark Souls", 1, 10, (float) 1.0, "Ação", "Windows");
         Jogo jogo2 = new Jogo("Minecraft", 1, 25, (float) 2.7, "Sobrevivência", "Windows");
         Jogo jogo3 = new Jogo("Doom", 1, 15, (float) 1.0, "FPS", "Windows");
         jogos.add(jogo1);
         jogos.add(jogo2);
         jogos.add(jogo3);
-        }
+        
+        // Criando alguns Desenvolvedores para Teste
+        Desenvolvedor desenvolvedor = new Desenvolvedor("Dumativa", "dumativa@dumativa.com.br", "1234");
+        desenvolvedores.add(desenvolvedor);
+        
+        //Criando alguns Clientes para Teste
+        Cliente cliente = new Cliente("Rafael", "rafa.bonach@gmail.com", "2853", "13/05/2004");
+        clientes.add(cliente);
+    }
     
     @Override
     public void add(PopupMenu popup) {
@@ -45,11 +58,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
-            try {
-                jogos = BancoDeDados.leBD();
-            } catch (IOException ex) {
-                Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        
+        mostraListas();
+        
+        /*
+        try {
+            jogos = BancoDeDados.leBD();
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
+        try {
+            BancoDeDados.atualizaBD(jogos);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Função teste das listas
+    private void mostraListas(){
+        for(Jogo j:jogos) System.out.println(j);
+        System.out.println();
+        for(Cliente c:clientes) System.out.println(c);
+        System.out.println();
+        for(Desenvolvedor d:desenvolvedores) System.out.println(d);
     }
 
     /**
