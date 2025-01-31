@@ -7,7 +7,7 @@ public class Cliente extends Usuario {
     
     private String dataNascimento;
     private double saldoCarteira;
-    private String endereco;
+    private String endereco = "";
     private List<Jogo> listaJogos;
 
     // Construtores
