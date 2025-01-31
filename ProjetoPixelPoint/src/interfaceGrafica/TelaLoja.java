@@ -102,7 +102,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         jCheckBoxPesquisaGenero = new javax.swing.JCheckBox();
         jButtonComprar = new javax.swing.JButton();
         jButtonRemoverJogo = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonPerfil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Perfil do Desenvolvedor");
@@ -175,10 +175,10 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Acessar Perfil");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonPerfil.setText("Acessar Perfil");
+        jButtonPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonPerfilActionPerformed(evt);
             }
         });
 
@@ -199,7 +199,7 @@ public final class TelaLoja extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxPesquisaGenero)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonPerfil)
                         .addGap(26, 26, 26)
                         .addComponent(jButtonVoltar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -220,7 +220,7 @@ public final class TelaLoja extends javax.swing.JFrame {
                     .addComponent(jTextFieldPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxPesquisaNome)
                     .addComponent(jCheckBoxPesquisaGenero)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonPerfil))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -312,7 +312,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonRemoverJogoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPerfilActionPerformed
         // TODO add your handling code here:
         try{
             new TelaPerfilCliente().setVisible(true);
@@ -325,7 +325,7 @@ public final class TelaLoja extends javax.swing.JFrame {
             new TelaLoginCliente().setVisible(true);
             this.dispose();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -370,9 +370,9 @@ public final class TelaLoja extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCadastrarJogo;
     private javax.swing.JButton jButtonComprar;
+    private javax.swing.JButton jButtonPerfil;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonRemoverJogo;
     private javax.swing.JButton jButtonVoltar;

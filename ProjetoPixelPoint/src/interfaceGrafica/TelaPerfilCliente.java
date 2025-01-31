@@ -437,8 +437,8 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // Se botao for igual a nulo, quer dizer que ele não está editando nenhuma informações e quer voltar para a tela de login/tela anterior
         if (botao == null){
-            new TelaLoginCliente().setVisible(true);
             cliente = null;
+            new TelaLoginCliente().setVisible(true);
             this.dispose();
         }
         // Se não, ele quer voltar para a tela inicial sem fazer as alterações

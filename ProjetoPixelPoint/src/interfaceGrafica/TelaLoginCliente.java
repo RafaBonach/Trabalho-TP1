@@ -22,6 +22,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         initComponents();
         
         listaClientes = TelaPrincipal.clientes;
+        cliente = null;
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -277,6 +278,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         // TODO add your handling code here:
+        cliente = null;
         new TelaPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed

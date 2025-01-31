@@ -26,6 +26,12 @@ public class TelaComprar extends javax.swing.JFrame {
     public TelaComprar() {
         initComponents();
         
+        if(transferencia.possui()){
+            JOptionPane.showMessageDialog(null,"Este jogo já foi adquirido, escolha outro jogo da loja para comprar", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            new TelaLoja().setVisible(true);
+            this.dispose();
+        }
+        
         // Aplica a mascara em todos os JFormattedTextField
         aplicaMascara();
         
@@ -34,11 +40,13 @@ public class TelaComprar extends javax.swing.JFrame {
         btnConfirmar.setEnabled(true);
         
         // Desabilita campos de texto
+        txtNomeJogo.setEnabled(false);
         ftxtSaldo.setEnabled(false);
         ftxtSaldoRestante.setEnabled(false);
         ftxtPreco.setEnabled(false);
         
         // Inicializa os valores nos campos de texto
+        txtNomeJogo.setText(TelaLoja.jogo.getNome());
         ftxtSaldo.setValue(transferencia.clienteSaldo());
         ftxtPreco.setValue(transferencia.precoJogo());
         ftxtSaldoRestante.setValue((double) ftxtSaldo.getValue() - (double) ftxtPreco.getValue());
@@ -97,6 +105,8 @@ public class TelaComprar extends javax.swing.JFrame {
         txtNomeJogo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNomeJogo.setText("Nome do Jogo");
         txtNomeJogo.setBorder(null);
+        txtNomeJogo.setDisabledTextColor(new java.awt.Color(0, 0, 51));
+        txtNomeJogo.setSelectedTextColor(new java.awt.Color(242, 242, 242));
 
         lbSaldo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         lbSaldo.setText("Saldo:");
@@ -105,7 +115,9 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtSaldo.setBorder(null);
         ftxtSaldo.setForeground(new java.awt.Color(51, 51, 255));
         ftxtSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        ftxtSaldo.setDisabledTextColor(new java.awt.Color(51, 51, 255));
         ftxtSaldo.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        ftxtSaldo.setSelectedTextColor(new java.awt.Color(242, 242, 242));
         ftxtSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ftxtSaldoActionPerformed(evt);
@@ -119,6 +131,7 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtPreco.setBorder(null);
         ftxtPreco.setForeground(new java.awt.Color(255, 51, 51));
         ftxtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        ftxtPreco.setDisabledTextColor(new java.awt.Color(255, 51, 51));
         ftxtPreco.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
         lbSaldoRestante1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -130,6 +143,7 @@ public class TelaComprar extends javax.swing.JFrame {
         ftxtSaldoRestante.setEditable(false);
         ftxtSaldoRestante.setBorder(null);
         ftxtSaldoRestante.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        ftxtSaldoRestante.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ftxtSaldoRestante.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         ftxtSaldoRestante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
