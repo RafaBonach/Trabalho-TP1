@@ -13,12 +13,12 @@ package backend;
 public class Jogo {
     private String nome;
     private int id;
-    private float preco;
-    private float versao;
+    private double preco;
+    private int versao;
     private String genero;
     private String requisitos;
     
-    public Jogo (String nome, int id, float preco, float versao, String genero, String requisitos){
+    public Jogo (String nome, int id, double preco, int versao, String genero, String requisitos){
         this.nome = nome;
         this.id = id;
         this.preco = preco;
@@ -35,11 +35,11 @@ public class Jogo {
         return this.id;
     }
     
-    public float getPreco(){
+    public double getPreco(){
         return this.preco;
     }
     
-    public float getVersao(){
+    public int getVersao(){
         return this.versao;
     }
     
@@ -59,11 +59,11 @@ public class Jogo {
         this.id = id;
     }
     
-    public void setPreco(float preco){
+    public void setPreco(double preco){
         this.preco = preco;
     }
     
-    public void setVersao(float versao){
+    public void setVersao(int versao){
         this.versao = versao;
     }
     
