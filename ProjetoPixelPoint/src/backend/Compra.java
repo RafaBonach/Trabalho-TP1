@@ -1,5 +1,7 @@
 package backend;
 
+import java.util.List;
+
 public class Compra {
     private Jogo jogo;
     private Cliente cliente;
@@ -49,5 +51,10 @@ public class Compra {
         else{
             return 1;
         }
+    }
+    
+    public boolean possui(){
+        List<Jogo> listaJogosCliente = cliente.getListaJogos();
+        return listaJogosCliente.contains(jogo);
     }
 }
