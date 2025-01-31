@@ -36,7 +36,7 @@ public class BancoDeDados {
                 // Divide a linha com base no símbolo "|"
                 String[] parts = linha.split("\\|");
 
-            Jogo jogo = new Jogo (parts[0], Integer.parseInt(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]), parts[4], parts[5]);
+            Jogo jogo = new Jogo (parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[2]), Integer.parseInt(parts[3]), parts[4], parts[5]);
             jogos.add(jogo);
         }
         
