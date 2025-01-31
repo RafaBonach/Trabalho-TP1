@@ -6,6 +6,7 @@ package interfaceGrafica;
 
 import backend.Desenvolvedor;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,14 +15,13 @@ import javax.swing.JOptionPane;
  */
 public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
-    static ArrayList<Desenvolvedor> listaDesenvolvedores;
+    static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
     private char previousEchoChar = '\u2022';
-    String botao;
     
     public TelaCadastroDesenvolvedor() {
         initComponents();
         
-        this.inicializaListaDesenvolvedores();
+        acessaBanco('r');
         
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -35,15 +35,16 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     }
     
-    private void inicializaListaDesenvolvedores(){
-        try{
+    private void acessaBanco(char operacao){
+        /**
+         * Se operacao = r, ele vai puxar as informacoes do banco de dados
+         * Se operacao = w, ele adicionar um novo desenvolvedor no banco de dados
+         */
+        if(operacao == 'r'){
             listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
-        } catch (Exception e){
-            System.err.println(e);
-            listaDesenvolvedores = new ArrayList<>();
+        }else if(operacao == 'w'){
         }
     }
-
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -261,7 +262,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
                 txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Todos os campos obrigatorios devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
             String username = txtUsername.getText();
@@ -282,12 +283,15 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
             if (equalName == false){
                 if (senha.equals(confSenha)){
                     // Criando objeto
-                    int id = listaDesenvolvedores.size();
-                    
                     Desenvolvedor desenvolvedor = new Desenvolvedor(username, email, senha);
+                    listaDesenvolvedores.add(desenvolvedor);
+                    
+                    int id = listaDesenvolvedores.indexOf(desenvolvedor);
                     desenvolvedor.setId(id);
                     
-                    listaDesenvolvedores.add(desenvolvedor);
+                    /**
+                     * Inserir aqui as informações no banco de dados quando ele estiver pronto
+                    */
 
                     new TelaLoginDesenvolvedor().setVisible(true);
                     this.setVisible(false);
@@ -310,7 +314,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         //Sair da tela
-        new TelaLoginCliente().setVisible(true);
+        new TelaLoginDesenvolvedor().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEntrarActionPerformed
 
@@ -331,8 +335,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
-        new TelaPrincipal().setVisible(true);
-        this.dispose();
+        this.btnEntrarActionPerformed(evt);
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**

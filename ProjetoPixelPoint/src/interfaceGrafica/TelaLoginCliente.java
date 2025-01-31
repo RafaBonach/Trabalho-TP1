@@ -244,7 +244,6 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                 if (!senhaCorrespondente) JOptionPane.showMessageDialog(null,"Senha invalida", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             }else {
                 JOptionPane.showMessageDialog(null,"Nenhuma conta registrada com essas informações, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                this.btnCadastrarActionPerformed(evt);
             }
             
             //Limpar email

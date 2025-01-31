@@ -5,6 +5,8 @@
 package interfaceGrafica;
 
 import backend.Cliente;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
@@ -16,12 +18,14 @@ import javax.swing.text.MaskFormatter;
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
 
-    public static List<Cliente> listaClientes = TelaPrincipal.clientes;
-    String botao;
+    public static List<Cliente> listaClientes = new ArrayList<>();
     private char previousEchoChar = '\u2022';
     
     public TelaCadastroCliente() {
         initComponents();
+        
+        listaClientes = TelaPrincipal.clientes;
+
                 
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -44,7 +48,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             
             ftxtData.setFormatterFactory(new DefaultFormatterFactory(mascara));
             
-        } catch (Exception e){
+        } catch (ParseException e){
             System.err.println(e);
         }
     }
@@ -284,7 +288,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
                 !ftxtData.getText().matches("\\d{2}/\\d{2}/\\d{4}") || txtSenha.getText().equals("") || 
                 txtConfirmaSenha.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Todos os campos obrigatorios devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
             String username = txtUsername.getText();
