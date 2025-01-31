@@ -7,6 +7,7 @@ package interfaceGrafica;
 import backend.BancoDeDados;
 import backend.Jogo;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class TelaLoja extends javax.swing.JFrame {
     
-    public static List<Jogo> listaJogos = TelaPrincipal.jogos;
+    public static List<Jogo> listaJogos = new ArrayList();
     public static Jogo jogo;
     
 
@@ -28,6 +29,7 @@ public final class TelaLoja extends javax.swing.JFrame {
      */
     public TelaLoja() {
         initComponents();
+        inicializaBanco();
         carregarTabelaJogos();
         jCheckBoxPesquisaNome.setSelected(true);
     }
@@ -82,6 +84,19 @@ public final class TelaLoja extends javax.swing.JFrame {
         tabelaJogos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
     
+    private void inicializaBanco(){
+        // Criando alguns jogos para Teste
+        Jogo jogo1 = new Jogo("Dark Souls", 1, 10, 1, "Ação", "Windows");
+        Jogo jogo2 = new Jogo("Minecraft", 1, 25, 2, "Sobrevivência", "Windows");
+        Jogo jogo3 = new Jogo("Doom", 1, 15, 1, "FPS", "Windows");
+        listaJogos.add(jogo1);
+        listaJogos.add(jogo2);
+        listaJogos.add(jogo3);
+        
+        /**
+         * implementar o banco de dados aqui;
+         */
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,14 +109,12 @@ public final class TelaLoja extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaJogos = new javax.swing.JTable();
-        jButtonCadastrarJogo = new javax.swing.JButton();
         jButtonPesquisar = new javax.swing.JButton();
         jTextFieldPesquisa = new javax.swing.JTextField();
         jButtonVoltar = new javax.swing.JButton();
         jCheckBoxPesquisaNome = new javax.swing.JCheckBox();
         jCheckBoxPesquisaGenero = new javax.swing.JCheckBox();
         jButtonComprar = new javax.swing.JButton();
-        jButtonRemoverJogo = new javax.swing.JButton();
         jButtonPerfil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -119,13 +132,6 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(tabelaJogos);
-
-        jButtonCadastrarJogo.setText("Cadastrar Jogo");
-        jButtonCadastrarJogo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCadastrarJogoActionPerformed(evt);
-            }
-        });
 
         jButtonPesquisar.setText("Pesquisar");
         jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -168,13 +174,6 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         });
 
-        jButtonRemoverJogo.setText("Remover Jogo");
-        jButtonRemoverJogo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRemoverJogoActionPerformed(evt);
-            }
-        });
-
         jButtonPerfil.setText("Acessar Perfil");
         jButtonPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,10 +202,7 @@ public final class TelaLoja extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jButtonVoltar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButtonCadastrarJogo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonRemoverJogo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonComprar)))
                 .addContainerGap())
         );
@@ -224,20 +220,12 @@ public final class TelaLoja extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCadastrarJogo)
-                    .addComponent(jButtonComprar)
-                    .addComponent(jButtonRemoverJogo))
+                .addComponent(jButtonComprar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonCadastrarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarJogoActionPerformed
-        new TelaCadastrarJogo().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButtonCadastrarJogoActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         carregarTabelaJogos();
@@ -281,36 +269,6 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButtonComprarActionPerformed
-
-    private void jButtonRemoverJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverJogoActionPerformed
-        int i = tabelaJogos.getSelectedRow();
-        if (i == -1){
-            JOptionPane.showMessageDialog(null,"Nenhum jogo selecionado", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-        }
-        else {
-            int resposta = JOptionPane.showConfirmDialog(
-            null, // Componente pai (null para janela centralizada)
-            "Gostaria de remover " + listaJogos.get(i).getNome() + "?", // Mensagem exibida
-            "Confirmação", // Título da janela
-            JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
-            );
-
-            // Verifica qual botão foi pressionado
-            if (resposta == JOptionPane.YES_OPTION) {
-                //Remove o jogo da lista de jogos
-                listaJogos.remove(i);
-                //Remove o jogo do banco de dados
-                try {
-                    BancoDeDados.atualizaBD(listaJogos);
-                } catch (IOException ex) {
-                    Logger.getLogger(TelaCadastrarJogo.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                //Recarrega a tabela
-                carregarTabelaJogos();
-                JOptionPane.showMessageDialog(null,"Jogo removido com sucesso", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_jButtonRemoverJogoActionPerformed
 
     private void jButtonPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPerfilActionPerformed
         // TODO add your handling code here:
@@ -370,11 +328,9 @@ public final class TelaLoja extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCadastrarJogo;
     private javax.swing.JButton jButtonComprar;
     private javax.swing.JButton jButtonPerfil;
     private javax.swing.JButton jButtonPesquisar;
-    private javax.swing.JButton jButtonRemoverJogo;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JCheckBox jCheckBoxPesquisaGenero;
     private javax.swing.JCheckBox jCheckBoxPesquisaNome;
