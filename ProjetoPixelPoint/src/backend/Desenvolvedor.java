@@ -4,6 +4,7 @@
  */
 package backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Desenvolvedor extends Usuario {
@@ -12,11 +13,13 @@ public class Desenvolvedor extends Usuario {
     private List<Jogo> jogosCriados;
 
     public Desenvolvedor() {
+        this.jogosCriados = new ArrayList<>();
     }
     
     
     public Desenvolvedor(String nomeUsuario, String email, String senha){
         super(nomeUsuario, email, senha);
+        this.jogosCriados = new ArrayList<>();
     }
 
     // Getters e Setters
@@ -44,10 +47,21 @@ public class Desenvolvedor extends Usuario {
         this.jogosCriados = jogosCriados;
     }
     
+    public void adicionaJogo(String nome, int id, float preco, float versao, String genero, String requisitos){
+        Jogo jogo = new Jogo(nome, id, preco, versao, genero, requisitos);
+        jogosCriados.add(jogo);
+    }
+    
+    public void excluirJogo(int id){
+        jogosCriados.remove(id);
+    }
+    
     @Override
     public String toString(){
-        return super.toSting() + 
-                "\nWebsite: " + website + 
-                "\nDescrição: " + descricao;
+        String jogos = "";
+        for (Jogo j:jogosCriados){
+            jogos = "\\|" + j.getId();
+        }
+        return super.toSting() + "\\|" + website + "\\|" + descricao + jogos;
     }
 }
