@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Desenvolvedor extends Usuario {
-    private String website;
-    private String descricao;
+    private String website = "";
+    private String descricao = "";
     private List<Jogo> jogosCriados;
 
     public Desenvolvedor() {
@@ -47,7 +47,7 @@ public class Desenvolvedor extends Usuario {
         this.jogosCriados = jogosCriados;
     }
     
-    public void adicionaJogo(String nome, int id, float preco, float versao, String genero, String requisitos){
+    public void adicionaJogo(String nome, int id, double preco, int versao, String genero, String requisitos){
         Jogo jogo = new Jogo(nome, id, preco, versao, genero, requisitos);
         jogosCriados.add(jogo);
     }
