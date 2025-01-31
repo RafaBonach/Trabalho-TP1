@@ -86,9 +86,10 @@ public class Cliente extends Usuario {
     
     @Override
     public String toString() {
-        return super.toSting() + 
-                "\nData de Nascimento: " + dataNascimento +
-                "\nSaldo na Carteira: " + saldoCarteira +
-                "\nEndereco: " + endereco;
+        String jogos = "";
+        for (Jogo j:listaJogos){
+            jogos = "\\|" + j.getId();
+        }
+        return super.toSting() + "\\|" + dataNascimento + "\\|" + saldoCarteira + "\\|" + endereco + jogos;
     }
 }

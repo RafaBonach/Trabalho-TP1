@@ -51,8 +51,6 @@ abstract class Usuario {
     }
     
     public String toSting(){
-        return "Usuario: " + nomeUsuario +
-                "\nEmail: " + email +
-                "\nID: " + id;
+        return nomeUsuario + "\\|" + email +"\\|" + senha + "\\|" + id;
     }
 }
