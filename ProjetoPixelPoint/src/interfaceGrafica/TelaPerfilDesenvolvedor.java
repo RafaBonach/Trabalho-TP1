@@ -7,6 +7,7 @@ package interfaceGrafica;
 import backend.Desenvolvedor;
 import backend.Jogo;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,7 +19,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     
     static ArrayList<Jogo> listaJogos;
     static ArrayList<Desenvolvedor> listaDesenvolvedores;
-    static Desenvolvedor desenvolvedor = TelaLoginDesenvolvedor.desenvolvedorSelecionado;
+    static Desenvolvedor desenvolvedor;
     private char previousEchoChar = '\u2022';
     String botao;
     /**
@@ -27,25 +28,34 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     public TelaPerfilDesenvolvedor() {
         initComponents();
         
+        desenvolvedor = TelaLoginDesenvolvedor.desenvolvedorSelecionado;
+        
         this.inicializaListaDesenvolvedores();
+        
         this.setInicial();
+        
+        carregaTabelaJogos();
         
     }
     
-    public void carregaTabelaJogos(){
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos", "Preço"},0);
-        for(Jogo jogos:listaJogos){
-            Object linha[] = new Object[]{jogos.getNome(),
-                                        jogos.getGenero(),
-                                        jogos.getRequisitos()};
+    private void carregaTabelaJogos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos","Preço"},0);
+        List<Jogo> lJogosDes = desenvolvedor.getJogosCriados();
+        for(int i = 0; i<lJogosDes.size(); i++){
+            Object linha[] = new Object[]{lJogosDes.get(i).getNome(),
+                                        lJogosDes.get(i).getGenero(),
+                                        lJogosDes.get(i).getRequisitos(),
+                                        lJogosDes.get(i).getPreco()};
             modelo.addRow(linha);
         }
+        
         // Alocando modelo na tabela
         tblJogos.setModel(modelo);
         
-        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(30);
-        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(10);
-        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(10);
+        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(1);
     }
 
     private void inicializaListaDesenvolvedores(){
