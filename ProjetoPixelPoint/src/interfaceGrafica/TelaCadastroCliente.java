@@ -5,6 +5,8 @@
 package interfaceGrafica;
 
 import backend.Cliente;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
@@ -16,13 +18,14 @@ import javax.swing.text.MaskFormatter;
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
 
-    public static List<Cliente> listaClientes = TelaPrincipal.clientes;
-    String botao;
+    public static List<Cliente> listaClientes = new ArrayList<>();
     private char previousEchoChar = '\u2022';
     
     public TelaCadastroCliente() {
         initComponents();
-                
+        
+        acessaBanco('r');
+        
         //Habilitar botões
         btnCadastrar.setEnabled(true);
         btnEntrar.setEnabled(true);
@@ -37,6 +40,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         aplicaMascara();
     }
     
+    // Aplica mascara nos JFormattedTextFields
     private void aplicaMascara(){
         try{
             MaskFormatter mascara = new MaskFormatter("##/##/####");
@@ -44,7 +48,21 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             
             ftxtData.setFormatterFactory(new DefaultFormatterFactory(mascara));
             
-        } catch (Exception e){
+        } catch (ParseException e){
+            System.err.println(e);
+        }
+    }
+    
+    private void acessaBanco(char operacao){
+        try{
+            /**
+             * Se operacao = r, ele vai puxar as informacoes do banco de dados
+             * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
+             */
+            if(operacao == 'r'){
+                listaClientes = TelaCadastroCliente.listaClientes;
+            }else if(operacao == 'w');
+        }catch(Exception e){
             System.err.println(e);
         }
     }
@@ -281,18 +299,20 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // Verifica se os campos principais possuem informação para serem modificados
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
                 !ftxtData.getText().matches("\\d{2}/\\d{2}/\\d{4}") || txtSenha.getText().equals("") || 
                 txtConfirmaSenha.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Todos os campos devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Todos os campos obrigatorios devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             String email = txtEmail.getText();
             String username = txtUsername.getText();
             String data = ftxtData.getText();
             String senha = txtSenha.getText();
             String confSenha = txtConfirmaSenha.getText();
-            boolean equalName = false;
             
+            // Verifica se já existe algum desenvolvedor com este nome
+            boolean equalName = false;
             if (listaClientes.isEmpty() == false){
                 for(Cliente cli:listaClientes){
                     if (cli.getNomeUsuario().equals(username)){
@@ -337,7 +357,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        //Sair da tela
+        // Voltar pra tela de login
         new TelaLoginCliente().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEntrarActionPerformed
@@ -347,6 +367,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_ftxtDataActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
+        // Revela ou esconde a senha
         if (txtSenha.getEchoChar() != '\u0000' && txtConfirmaSenha.getEchoChar() != '\u0000'){
             previousEchoChar = txtSenha.getEchoChar();
             txtSenha.setEchoChar('\u0000');

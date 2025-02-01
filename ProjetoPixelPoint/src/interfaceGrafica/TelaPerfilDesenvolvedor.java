@@ -7,6 +7,7 @@ package interfaceGrafica;
 import backend.Desenvolvedor;
 import backend.Jogo;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,9 +17,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     
-    static ArrayList<Jogo> listaJogos;
-    static ArrayList<Desenvolvedor> listaDesenvolvedores;
-    static Desenvolvedor desenvolvedor = TelaLoginDesenvolvedor.desenvolvedorSelecionado;
+    static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
+    static Desenvolvedor desenvolvedor;
     private char previousEchoChar = '\u2022';
     String botao;
     /**
@@ -26,35 +26,36 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
      */
     public TelaPerfilDesenvolvedor() {
         initComponents();
+        // Puxa o desenvolvedor da tela de login
+        desenvolvedor = TelaLoginDesenvolvedor.desenvolvedor;
         
-        this.inicializaListaDesenvolvedores();
+        // Lê do banco de dados
+        acessaBanco('r');
+        
+        // Inicializa os campos 
         this.setInicial();
+        carregaTabelaJogos();
         
     }
     
-    public void carregaTabelaJogos(){
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos", "Preço"},0);
-        for(Jogo jogos:listaJogos){
-            Object linha[] = new Object[]{jogos.getNome(),
-                                        jogos.getGenero(),
-                                        jogos.getRequisitos()};
+    private void carregaTabelaJogos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos","Preço"},0);
+        List<Jogo> lJogosDes = desenvolvedor.getJogosCriados();
+        for(int i = 0; i<lJogosDes.size(); i++){
+            Object linha[] = new Object[]{lJogosDes.get(i).getNome(),
+                                        lJogosDes.get(i).getGenero(),
+                                        lJogosDes.get(i).getRequisitos(),
+                                        lJogosDes.get(i).getPreco()};
             modelo.addRow(linha);
         }
+        
         // Alocando modelo na tabela
         tblJogos.setModel(modelo);
         
-        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(30);
-        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(10);
-        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(10);
-    }
-
-    private void inicializaListaDesenvolvedores(){
-        try{
-            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
-        } catch (Exception e){
-            System.err.println(e);
-            listaDesenvolvedores = new ArrayList<>();
-        }
+        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(1);
     }
     
     private void setInicial(){
@@ -62,18 +63,18 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         btnCriarJogo.setEnabled(true);
         btnEditar.setEnabled(true);
         btnExcluirConta.setEnabled(true);
-        btnExcluirJogo.setEnabled(false);
+        btnExcluirJogo.setEnabled(true);
         btnRevelarSenha.setEnabled(true);
         btnSair.setEnabled(true);
         btnSalvar.setEnabled(false);
         
         // Desabilitando campos de Texto
-        txtDescricao.setEditable(false);
-        txtEmail.setEditable(false);
-        txtID.setEditable(false);
-        txtSenha.setEditable(false);
-        txtUsuario.setEditable(false);
-        txtWebsite.setEditable(false);
+        txtDescricao.setEnabled(false);
+        txtEmail.setEnabled(false);
+        txtID.setEnabled(false);
+        txtSenha.setEnabled(false);
+        txtUsuario.setEnabled(false);
+        txtWebsite.setEnabled(false);
         
         // Carregar informações do ciente
         txtDescricao.setText(desenvolvedor.getDescricao());
@@ -85,6 +86,18 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         
         botao = null;
     }
+    
+    private void acessaBanco(char operacao){
+        /**
+         * Se operacao = r, ele vai puxar as informacoes do banco de dados
+         * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
+         */
+        if(operacao == 'r'){
+            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
+        }else if(operacao == 'w'){
+        }
+    }
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,14 +126,12 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         lbSenha = new javax.swing.JLabel();
         lbEmail = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
-        lbEndereco = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         lbID = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         txtUsuario = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        txtEndereço = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblJogos = new javax.swing.JTable();
         lbJogos = new javax.swing.JLabel();
@@ -232,6 +243,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tela de perfil do desenvolvedor");
 
         lbTitulo.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
         lbTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -247,9 +259,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         lbEmail.setText("Email");
 
         txtSenha.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-
-        lbEndereco.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        lbEndereco.setText("Endereço");
 
         btnSalvar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnSalvar.setText("Salvar");
@@ -278,8 +287,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         txtUsuario.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
         txtEmail.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-
-        txtEndereço.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
         tblJogos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -361,11 +368,8 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEndereço)
-                            .addComponent(lbEndereco)
-                            .addComponent(lbEmail))
-                        .addGap(77, 77, 77))
+                        .addComponent(lbEmail)
+                        .addContainerGap(789, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -442,17 +446,13 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lbEndereco)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEndereço, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(lbDescrição)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbJogos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSair)
@@ -468,8 +468,10 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        // volta pra tela principal ou seta os valores para o inicio
         if(botao == null){
-            new TelaLoja().setVisible(true);
+            desenvolvedor = null;
+            new TelaPrincipal().setVisible(true);
             this.dispose();
         } else{
             this.setInicial();
@@ -479,15 +481,21 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private void btnCriarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarJogoActionPerformed
         // TODO add your handling code here:
         new TelaCadastrarJogo().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCriarJogoActionPerformed
 
     private void btnExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirContaActionPerformed
         // TODO add your handling code here:
+        /**
+         * Implementar a exclusão do desenvolvedor do banco de dados
+         * Implementar a exclusão do jogo do banco de dados
+         */
         new TelaCadastrarJogo().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnExcluirContaActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
+        // Revela a senha
         if (txtSenha.getEchoChar() != '\u0000'){
             previousEchoChar = txtSenha.getEchoChar();
             txtSenha.setEchoChar('\u0000');
@@ -496,6 +504,20 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
     private void btnExcluirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirJogoActionPerformed
         // TODO add your handling code here:
+        //guarda o indice da linha selecionada
+        int index = tblJogos.getSelectedRow();
+        
+        //verificar se a linha selecionada é válida
+        if(index>=0 && index<desenvolvedor.getJogosCriados().size()){
+            // Remove o jogo da ista de jogos criados
+            desenvolvedor.excluirJogo(index);
+            /**
+             * Implementar a exclusão do jogo nos bancos de dados do Desenvolvedor e do cliente
+             */
+        }
+        
+        carregaTabelaJogos();
+        
     }//GEN-LAST:event_btnExcluirJogoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -512,44 +534,58 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         btnSalvar.setEnabled(true);
         
         // Habilitar e desabilitar campos de Texto
-        txtDescricao.setEditable(true);
-        txtEmail.setEditable(true);
-        txtID.setEditable(false);
-        txtSenha.setEditable(true);
-        txtUsuario.setEditable(true);
-        txtWebsite.setEditable(true);
+        txtDescricao.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtID.setEnabled(false);
+        txtSenha.setEnabled(true);
+        txtUsuario.setEnabled(true);
+        txtWebsite.setEnabled(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
+        // Verifica se os campos principais possuem informação para serem modificados
         if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Os campos principais precisam ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-        } else{
-            if(botao.equals("editar")){
-                String usuario = txtUsuario.getName();
-                String senha = txtSenha.getText();
-                String email = txtEmail.getText();
-                String descricao = txtDescricao.getText();
-                String website = txtWebsite.getText();
+            JOptionPane.showMessageDialog(null,"Os campos obrigatorios precisam ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        } else {
+            String usuario = txtUsuario.getText();
+            String senha = txtSenha.getText();
+            String email = txtEmail.getText();
+            String descricao = txtDescricao.getText();
+            String website = txtWebsite.getText();
                 
-                boolean equalName = false;
-                for(Desenvolvedor des:listaDesenvolvedores){
-                    if(des.getNomeUsuario().equals(usuario) && des.getId() != desenvolvedor.getId()){
-                        JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                        equalName = true;
-                        break;
-                    }
+            // Verifica se já existe algum desenvolvedor com este nome
+            boolean equalName = false;
+            for(Desenvolvedor des:listaDesenvolvedores){
+                if(des.getNomeUsuario().equals(usuario) && des.getId() != desenvolvedor.getId()){
+                    JOptionPane.showMessageDialog(null,"Já existe um usuario com este nome, insira um novo nome.", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                    equalName = true;
+                    break;
                 }
-                
-                if (equalName == false){
+            }
+
+            if (equalName == false){
+                // Verifica se algum dos campos obrigatorios foi modificado
+                if(!desenvolvedor.getNomeUsuario().equals(usuario) ||
+                    !desenvolvedor.getSenha().equals(senha) ||
+                    !desenvolvedor.getEmail().equals(email) ||
+                    !desenvolvedor.getDescricao().equals(descricao) ||
+                    !desenvolvedor.getWebsite().equals(usuario)){
+                    
                     desenvolvedor.setNomeUsuario(usuario);
                     desenvolvedor.setSenha(senha);
                     desenvolvedor.setEmail(email);
                     desenvolvedor.setDescricao(descricao);
                     desenvolvedor.setWebsite(website);
-                    
-                    this.setInicial();
+                    listaDesenvolvedores.set(desenvolvedor.getId(), desenvolvedor);
+
+                    /**
+                     * Implementar atualização do banco de dados
+                    */
+
+                    System.out.println("\n" + desenvolvedor + "\n" + listaDesenvolvedores);
                 }
+                this.setInicial();
             }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -614,7 +650,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lbDescrição;
     private javax.swing.JLabel lbEmail;
-    private javax.swing.JLabel lbEndereco;
     private javax.swing.JLabel lbID;
     private javax.swing.JLabel lbJogos;
     private javax.swing.JLabel lbRevelarSenha;
@@ -628,7 +663,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JTable tblJogos;
     private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtEndereço;
     private javax.swing.JTextField txtID;
     private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtUsuario;

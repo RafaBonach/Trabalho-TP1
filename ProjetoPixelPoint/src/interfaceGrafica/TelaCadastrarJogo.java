@@ -4,9 +4,14 @@
  */
 package interfaceGrafica;
 
-import backend.Biblioteca;
+import backend.Desenvolvedor;
 import backend.Jogo;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.*;
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -14,21 +19,34 @@ import javax.swing.JOptionPane;
  */
 public final class TelaCadastrarJogo extends javax.swing.JFrame {
     
-    private String nome;
-    private int id;
-    private String idStr;
-    private float preco;
-    private String precoStr;
-    private float versao;
-    private String versaoStr;
-    private String genero;
-    private String requisitos;
+    Desenvolvedor desenvolvedor;
+    private List<Jogo> listaJogos = new ArrayList<>();
 
     /**
      * Creates new form CadastrarJogo
      */
     public TelaCadastrarJogo() {
-        initComponents();
+        try{
+            initComponents();
+            aplicaMascara();
+            desenvolvedor = TelaPerfilDesenvolvedor.desenvolvedor;
+
+            // Habilitando campos de Texto
+            jFormattedTextFieldPreco.setEnabled(true);
+            jFormattedTextFieldVersao.setEnabled(true);
+        } catch(Exception e){
+            System.err.println(e);
+            JOptionPane.showMessageDialog(null,"Nenhum desenvolvedor encontrado,\ncadastre-se em uma conta de desenvolvedor para criar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            new TelaLoginDesenvolvedor().setVisible(true);
+            this.dispose();
+        }
+        try{
+            listaJogos = TelaPrincipal.listaJogos;
+        }
+        catch (Exception e){
+            System.err.println(e);
+        }
+
     }
 
     /**
@@ -46,22 +64,23 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButtonOk = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jTextFieldId = new javax.swing.JTextField();
-        jTextFieldPreco = new javax.swing.JTextField();
-        jTextFieldVersao = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldGenero = new javax.swing.JTextField();
         jTextFieldRequisitos = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jButtonCancela = new javax.swing.JButton();
+        jFormattedTextFieldPreco = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldVersao = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel1.setText("Nome:");
 
+        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel2.setText("Preço:");
 
+        jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel3.setText("Versão:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -75,10 +94,10 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Id:");
-
+        jLabel6.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel6.setText("Gênero:");
 
+        jLabel7.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel7.setText("Requisitos:");
 
         jButtonCancela.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
@@ -89,47 +108,42 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
             }
         });
 
+        jFormattedTextFieldPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+
+        jFormattedTextFieldVersao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        jFormattedTextFieldVersao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldVersaoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(209, 209, 209)
+                .addGap(189, 189, 189)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(24, 24, 24)
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextFieldVersao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonCancela)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonOk))
-                            .addComponent(jTextFieldRequisitos, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(212, Short.MAX_VALUE))
+                            .addComponent(jButtonCancela)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonOk))
+                        .addComponent(jLabel4)
+                        .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldRequisitos, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jFormattedTextFieldPreco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                        .addComponent(jFormattedTextFieldVersao, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,81 +154,114 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel2)
+                    .addComponent(jFormattedTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldVersao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel3)
+                    .addComponent(jFormattedTextFieldVersao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jTextFieldGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldRequisitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextFieldRequisitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonOk)
-                    .addComponent(jButtonCancela))
-                .addContainerGap(111, Short.MAX_VALUE))
+                    .addComponent(jButtonCancela)
+                    .addComponent(jButtonOk))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private boolean isFloat (String str){
-        try {
-            Float.parseFloat(str);
-            return true;
-        }
-        catch (NumberFormatException e) {
-            return false;
-        }
+    private void aplicaMascara(){
+        // Configurando o formato de número para moeda
+        NumberFormat formatoMonetario = DecimalFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        NumberFormatter formatter = new NumberFormatter(formatoMonetario);
+        formatter.setMinimum(0.0); // Define o valor mínimo permitido
+        formatter.setMaximum(Double.MAX_VALUE); // Define o valor máximo permitido
+        formatter.setAllowsInvalid(false); // Evita entradas inválidas
+        
+        // Alterando o formato do campo de texto de preco
+        jFormattedTextFieldPreco.setFormatterFactory(new DefaultFormatterFactory(formatter));
+        jFormattedTextFieldPreco.setValue(0.0);
+        
+        // Criando uma máscara para números no formato "###"
+        NumberFormat formatoDecimal = DecimalFormat.getInstance(new Locale("pt", "BR"));
+        formatoDecimal.setMaximumFractionDigits(2); // Define 2 casas decimais
+        
+        formatter = new NumberFormatter(formatoDecimal);
+        formatter.setAllowsInvalid(false); // Impede entrada inválida
+        formatter.setOverwriteMode(true);  // Substitui valores ao digitar
+        formatter.setMinimum(0);         // Define valor mínimo
+        
+        // Alterando o formato do campo de texto de preco
+        jFormattedTextFieldVersao.setFormatterFactory(new DefaultFormatterFactory(formatter));
+        jFormattedTextFieldVersao.setValue(0); // Define um valor inicial
     }
+
     
     private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkActionPerformed
-        nome = jTextFieldNome.getText();
-        idStr = jTextFieldId.getText();
-        precoStr = jTextFieldPreco.getText();
-        versaoStr = jTextFieldVersao.getText();
-        genero = jTextFieldGenero.getText();
-        requisitos = jTextFieldRequisitos.getText();
+        String nome = jTextFieldNome.getText();
+        double preco = (double) jFormattedTextFieldPreco.getValue();
+        int versao = (int) jFormattedTextFieldVersao.getValue();
+        String genero = jTextFieldGenero.getText();
+        String requisitos = jTextFieldRequisitos.getText();
         
-        if (!isFloat(idStr) || !isFloat(precoStr) || !isFloat(versaoStr) || nome.equals("") || genero.equals("") || requisitos.equals("")){
-            JOptionPane.showMessageDialog(null,"Campos Inválidos", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-        }
-        else{
-            id = Integer.parseInt(jTextFieldId.getText());
-            preco = Float.parseFloat(jTextFieldPreco.getText());
-            versao = Float.parseFloat(jTextFieldVersao.getText());
-            Jogo jogo = new Jogo (nome, id, preco, versao, genero, requisitos);
-            Biblioteca.jogos.add(jogo);
+        if (nome.equals("") || preco < 0 || versao < 0 || genero.equals("") || requisitos.equals("")){
+            JOptionPane.showMessageDialog(null,"Preencha todos os campos com valores válidos", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+        }else{
+            int id = desenvolvedor.getJogosCriados().size();
+            desenvolvedor.adicionaJogo(nome, id, preco, versao, genero, requisitos);
+            
+            
+            /**
+             * Atualizar o cando de dados de desenvolvedor com o novo jogo
+             */
+            Jogo jogo = desenvolvedor.getJogosCriados().get(id);
+            listaJogos.add(jogo);
+            
+            
             JOptionPane.showMessageDialog(null,"Jogo Cadastrado!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            
+            int resposta = JOptionPane.showConfirmDialog(
+            null, // Componente pai (null para janela centralizada)
+            "Gostaria de criar um novo jogo ?",// Mensagem exibida
+            "Confirmação", // Título da janela
+            JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
+            );
+
+            // Verifica qual botão foi pressionado
+            if (resposta == JOptionPane.NO_OPTION) {
+                // Voltar para a tela de Desenvolvedor
+                new TelaPerfilDesenvolvedor().setVisible(true);
+                this.dispose();
+            } else{
+                //Limpar Campos
+                jTextFieldNome.setText("");
+                jFormattedTextFieldPreco.setText("");
+                jFormattedTextFieldVersao.setText("");
+                jTextFieldGenero.setText("");
+                jTextFieldRequisitos.setText("");
+            }
         }
-        
-        //Limpar Campos
-        jTextFieldNome.setText("");
-        jTextFieldId.setText("");
-        jTextFieldPreco.setText("");
-        jTextFieldVersao.setText("");
-        jTextFieldGenero.setText("");
-        jTextFieldRequisitos.setText("");
-        
-        // Voltar para a tela de Desenvolvedor
-        this.dispose();
     }//GEN-LAST:event_jButtonOkActionPerformed
 
     private void jButtonCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelaActionPerformed
         // TODO add your handling code here:
+        new TelaPerfilDesenvolvedor().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButtonCancelaActionPerformed
+
+    private void jFormattedTextFieldVersaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldVersaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldVersaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,19 +304,17 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancela;
     private javax.swing.JButton jButtonOk;
+    private javax.swing.JFormattedTextField jFormattedTextFieldPreco;
+    private javax.swing.JFormattedTextField jFormattedTextFieldVersao;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField jTextFieldGenero;
-    private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldNome;
-    private javax.swing.JTextField jTextFieldPreco;
     private javax.swing.JTextField jTextFieldRequisitos;
-    private javax.swing.JTextField jTextFieldVersao;
     // End of variables declaration//GEN-END:variables
 
 }

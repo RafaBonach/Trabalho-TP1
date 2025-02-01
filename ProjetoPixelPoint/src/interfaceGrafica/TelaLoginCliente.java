@@ -5,6 +5,7 @@
 package interfaceGrafica;
 
 import backend.Cliente;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -14,14 +15,16 @@ import javax.swing.JOptionPane;
  */
 public class TelaLoginCliente extends javax.swing.JFrame {
     
-    static List<Cliente> listaClientes;
+    static List<Cliente> listaClientes = new ArrayList();
     static Cliente cliente;
     private char previousEchoChar = '\u2022';
     
     public TelaLoginCliente() {
         initComponents();
         
-        listaClientes = TelaPrincipal.clientes;
+        cliente = null;
+        
+        acessaBanco();
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -35,6 +38,15 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         //Limpa campos de texto
         txtUsername.setText("");
         txtSenha.setText("");
+    }
+    
+    private void acessaBanco(){
+        //Criando alguns Clientes para Teste
+        Cliente c = new Cliente("Rafael", "rafa.bonach@gmail.com", "2853", "13/05/2004");
+        listaClientes.add(c);
+        /**
+         * Implementar o banco de dados aqui
+         */
     }
 
     /**
@@ -217,19 +229,22 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // Verifica se os campos principais possuem informação para serem modificados
         if (txtUsername.getText().equals("") || txtSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Insira o Email e a Senha!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             //Procurar clientes na lista de clientes
             String username = txtUsername.getText();
             String senha = txtSenha.getText();
+            
+            // Verifica se existem algum cliente com este nome e senha
             boolean nomeCorrespondente = false;
             boolean senhaCorrespondente = false;
-            
             for (Cliente c:listaClientes){
                 if(c.getNomeUsuario().equals(username)){
                     nomeCorrespondente = true;
                     if(c.getSenha().equals(senha)){
+                        // Entra na tela de desenvolvedor
                         senhaCorrespondente = true;
                         cliente = c;
                         new TelaPerfilCliente().setVisible(true);
@@ -239,11 +254,11 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                 }
             }
 
+            // Algum campo está inválido ou o cliente não foi registrado
             if (nomeCorrespondente) {
                 if (!senhaCorrespondente) JOptionPane.showMessageDialog(null,"Senha invalida", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             }else {
                 JOptionPane.showMessageDialog(null,"Nenhuma conta registrada com essas informações, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                this.btnCadastrarActionPerformed(evt);
             }
             
             //Limpar email
@@ -265,6 +280,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
+        // Revela ou esconde a senha
         if (txtSenha.getEchoChar() != '\u0000'){
             previousEchoChar = txtSenha.getEchoChar();
             txtSenha.setEchoChar('\u0000');
@@ -277,6 +293,8 @@ public class TelaLoginCliente extends javax.swing.JFrame {
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         // TODO add your handling code here:
+        // Volta para a tela principal e desloga do cliente que tiver logado
+        cliente = null;
         new TelaPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed

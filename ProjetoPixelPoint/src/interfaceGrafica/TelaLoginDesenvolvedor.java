@@ -6,6 +6,7 @@ package interfaceGrafica;
 
 import backend.Desenvolvedor;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,14 +16,15 @@ import javax.swing.JOptionPane;
 public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     
     // Inicializando a lista de desenvolvedores e a variavel de mostrar senha
-    static ArrayList<Desenvolvedor> listaDesenvolvedores;
+    static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
     private char previousEchoChar = '\u2022';
-    static Desenvolvedor desenvolvedorSelecionado;
+    static Desenvolvedor desenvolvedor;
     
     public TelaLoginDesenvolvedor() {
         initComponents();
         
-        inicializaListaDesenvolvedores();
+        acessaBanco();
+        desenvolvedor = null;
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -38,19 +40,13 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         txtSenha.setText("");
     }
     
-    private void inicializaListaDesenvolvedores(){
-        try {
-            listaDesenvolvedores = TelaCadastroDesenvolvedor.listaDesenvolvedores;
-            if (listaDesenvolvedores.isEmpty()){
-                Desenvolvedor desenvolvedor = new Desenvolvedor("teste", "teste", "teste");
-                listaDesenvolvedores.add(desenvolvedor);
-            }
-        } catch (Exception e){
-            System.err.println(e);
-            listaDesenvolvedores = new ArrayList<>();
-            Desenvolvedor desenvolvedor = new Desenvolvedor("teste", "teste", "teste");
-            listaDesenvolvedores.add(desenvolvedor);
-        }
+    private void acessaBanco(){
+        // Criando alguns Desenvolvedores para Teste
+        Desenvolvedor des = new Desenvolvedor("Dumativa", "dumativa@dumativa.com.br", "1234");
+        listaDesenvolvedores.add(des);
+        /**
+         * Implementar o banco de dados aqui
+         */
     }
 
     /**
@@ -75,6 +71,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tela de login do Desenvolvedor");
 
         lbTitulo.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
         lbTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -155,7 +152,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
                             .addComponent(txtSenha))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(lbRevelarSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -187,9 +184,11 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
                     .addComponent(lbSenha)
                     .addComponent(lbRevelarSenha))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRevelarSenha))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRevelarSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)))
                 .addGap(68, 68, 68)
                 .addComponent(btnLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -220,27 +219,35 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // Verifica se os campos principais possuem informação para serem modificados
         if(txtNomeDesenvolvedor.getText().equals("") || txtSenha.getText().equals("")){
            JOptionPane.showMessageDialog(null,"Insira o Email e a Senha!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
+            //Procurar d na lista
             String nomeDesenvolvedor = txtNomeDesenvolvedor.getText();
             String senha = txtSenha.getText();
-            boolean dadosCorrespondentes = false;
             
-            try{
-                for(Desenvolvedor desenvolvedor:listaDesenvolvedores){
-                    if(desenvolvedor.getNomeUsuario().equals(nomeDesenvolvedor) && txtSenha.getText().equals(senha)) {
-                        desenvolvedorSelecionado = desenvolvedor;
+            // Verifica se existe algum desenvolvedor com este nome e senha
+            boolean nomeCorrespondente = false;
+            boolean senhaCorrespondente = false;
+            for(Desenvolvedor d:listaDesenvolvedores){
+                if(d.getNomeUsuario().equals(nomeDesenvolvedor)) {
+                    nomeCorrespondente = true;
+                    if (d.getSenha().equals(senha)){
+                        // Entra na tela de desenvolvedor
+                        senhaCorrespondente = true;
+                        desenvolvedor = d;
                         new TelaPerfilDesenvolvedor().setVisible(true);
                         this.dispose();
-                        dadosCorrespondentes = true;
                         break;
                     }
                 }
-                if (dadosCorrespondentes != true) JOptionPane.showMessageDialog(null,"Email ou senha invalido", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            } catch (Exception e){
-                JOptionPane.showMessageDialog(null,"Nenhum Desenvolvedor registrado ainda, cadastre-se para inserir seus jogos na PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                this.btnCadastrarActionPerformed(evt);
+            }
+            // Algum campo está inválido ou o cliente não foi registrado
+            if (nomeCorrespondente){
+                if(!senhaCorrespondente) JOptionPane.showMessageDialog(null,"senha invalida", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,"Nenhuma conta registrada com essas informações, cadastre-se para acessar todos os recursos do PixelPoint", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             }
             
             //Limpar senha
@@ -264,6 +271,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         // TODO add your handling code here:
+        desenvolvedor = null;
         new TelaPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed

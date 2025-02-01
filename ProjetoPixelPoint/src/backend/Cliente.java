@@ -7,11 +7,10 @@ public class Cliente extends Usuario {
     
     private String dataNascimento;
     private double saldoCarteira;
-    private String endereco;
+    private String endereco = "";
     private List<Jogo> listaJogos;
 
     // Construtores
-
     public Cliente() {
         this.listaJogos = new ArrayList<>();
     }
@@ -60,6 +59,7 @@ public class Cliente extends Usuario {
         this.listaJogos = listaJogos;
     }
     
+    // Coloca mais saldo na conta
     public boolean somaSaldo(double valor){
         if(valor >= 0){
             this.saldoCarteira += valor;
@@ -68,6 +68,7 @@ public class Cliente extends Usuario {
         return false;
     }
     
+    // Retira saldo da conta
     public boolean subtraiSaldo(double valor){
         if(valor >= 0 && (this.saldoCarteira-valor) >= 0){
             this.saldoCarteira -= valor;
@@ -76,19 +77,27 @@ public class Cliente extends Usuario {
         return false;   
     }
     
+    // Adiciona jogo a lista de jogos do cliente
     public void adicionaJogo(Jogo jogo){
         listaJogos.add(jogo);
     }
     
+    // Remove jogo da lista de jogos do cliente pelo ID ou pelo tipo
     public void removeJogo(Jogo jogo){
         listaJogos.remove(jogo);
     }
     
+    public void removeJogo(int Id){
+        listaJogos.remove(Id);
+    }
+    
+    // Mostra as informações do cliente para serem salvas no banco de dados
     @Override
     public String toString() {
-        return super.toSting() + 
-                "\nData de Nascimento: " + dataNascimento +
-                "\nSaldo na Carteira: " + saldoCarteira +
-                "\nEndereco: " + endereco;
+        String jogos = "";
+        for (Jogo j:listaJogos){
+            jogos = "|" + j.getNome();
+        }
+        return super.toSting() + "|" + dataNascimento + "|" + saldoCarteira + "|" + endereco + jogos;
     }
 }

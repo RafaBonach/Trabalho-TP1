@@ -13,12 +13,16 @@ package backend;
 public class Jogo {
     private String nome;
     private int id;
-    private float preco;
-    private float versao;
+    private double preco;
+    private int versao;
     private String genero;
     private String requisitos;
+
+    // Construtores
+    public Jogo() {
+    }
     
-    public Jogo (String nome, int id, float preco, float versao, String genero, String requisitos){
+    public Jogo (String nome, int id, double preco, int versao, String genero, String requisitos){
         this.nome = nome;
         this.id = id;
         this.preco = preco;
@@ -27,6 +31,7 @@ public class Jogo {
         this.requisitos = requisitos;
     }
     
+    //Getters
     public String getNome(){
         return this.nome;
     }
@@ -35,11 +40,11 @@ public class Jogo {
         return this.id;
     }
     
-    public float getPreco(){
+    public double getPreco(){
         return this.preco;
     }
     
-    public float getVersao(){
+    public int getVersao(){
         return this.versao;
     }
     
@@ -51,6 +56,7 @@ public class Jogo {
         return this.requisitos;
     }
     
+    //Setters
     public void setNome(String nome){
         this.nome = nome;
     }
@@ -59,11 +65,11 @@ public class Jogo {
         this.id = id;
     }
     
-    public void setPreco(float preco){
+    public void setPreco(double preco){
         this.preco = preco;
     }
     
-    public void setVersao(float versao){
+    public void setVersao(int versao){
         this.versao = versao;
     }
     
@@ -77,7 +83,7 @@ public class Jogo {
 
     @Override
     public String toString() {
-        return "Jogo{" + "nome=" + nome + ", id=" + id + ", preco=" + preco + ", versao=" + versao + ", genero=" + genero + ", requisitos=" + requisitos + '}';
+        return nome + "|" + id + "|" + preco + "|" + versao + "|" + genero + "|" + requisitos;
     }
     
 }

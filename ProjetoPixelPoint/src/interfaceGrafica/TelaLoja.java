@@ -4,12 +4,9 @@
  */
 package interfaceGrafica;
 
-import backend.BancoDeDados;
 import backend.Jogo;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class TelaLoja extends javax.swing.JFrame {
     
-    public static List<Jogo> listaJogos = TelaPrincipal.jogos;
+    public static List<Jogo> listaJogos = new ArrayList();
     public static Jogo jogo;
     
 
@@ -28,15 +25,22 @@ public final class TelaLoja extends javax.swing.JFrame {
      */
     public TelaLoja() {
         initComponents();
+        acessaBanco();
         carregarTabelaJogos();
         jCheckBoxPesquisaNome.setSelected(true);
     }
     
+    // Pega as informações do banco de dados e carrega na tabela de jogos
     public void carregarTabelaJogos(){
+        // Define o modelo da tabela de jogos
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Nome","Preço","Gênero","Requisitos"},0);
+        // Seta o modelo da tabela 
         tabelaJogos.setModel(modelo);
+        
+        // Se a caixa de pesquisa por nome estiver selecionado, ele vai realizar uma pesquisa pelo nome do jogo, se não ele faz uma pesquisa por gênero
         if (jCheckBoxPesquisaNome.isSelected()){
             for(int i=0;i<listaJogos.size();i++){
+                // Se o campo de pesquisa não estiver vazio, ele realiza a pesquisa pelo jogo pelo nome
                 if (!jTextFieldPesquisa.getText().trim().isEmpty()){
                     if (listaJogos.get(i).getNome().contains(jTextFieldPesquisa.getText())){
                         Object linha[] = new Object[]{listaJogos.get(i).getNome(),
@@ -46,6 +50,7 @@ public final class TelaLoja extends javax.swing.JFrame {
                         modelo.addRow(linha);
                     }
                 }
+                // Se não ele mostra todos os jogos
                 else {
                     Object linha[] = new Object[]{listaJogos.get(i).getNome(),
                                             String.format("%.2f", listaJogos.get(i).getPreco()) + " R$",
@@ -57,6 +62,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         }
         else {
             for(int i=0;i<listaJogos.size();i++){
+                // Se o campo de pesquisa não estiver vazio, ele realiza a pesquisa pelo jogo pelo gênero
                 if (!jTextFieldPesquisa.getText().trim().isEmpty()){
                     if (listaJogos.get(i).getGenero().contains(jTextFieldPesquisa.getText())){
                         Object linha[] = new Object[]{listaJogos.get(i).getNome(),
@@ -66,6 +72,7 @@ public final class TelaLoja extends javax.swing.JFrame {
                         modelo.addRow(linha);
                     }
                 }
+                // Se não ele mostra todos os jogos
                 else {
                     Object linha[] = new Object[]{listaJogos.get(i).getNome(),
                                             String.format("%.2f", listaJogos.get(i).getPreco()) + " R$",
@@ -76,12 +83,21 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         }
         
+        // Seta a largura das colunas
         tabelaJogos.getColumnModel().getColumn(0).setPreferredWidth(200);
         tabelaJogos.getColumnModel().getColumn(1).setPreferredWidth(1);
         tabelaJogos.getColumnModel().getColumn(2).setPreferredWidth(200);
         tabelaJogos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
     
+    // Função que extrai os dados do banco de dados
+    private void acessaBanco(){
+        // Criando alguns jogos para Teste
+        listaJogos = TelaPrincipal.listaJogos;
+        /**
+         * implementar o banco de dados aqui;
+         */
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,15 +110,13 @@ public final class TelaLoja extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaJogos = new javax.swing.JTable();
-        jButtonCadastrarJogo = new javax.swing.JButton();
         jButtonPesquisar = new javax.swing.JButton();
         jTextFieldPesquisa = new javax.swing.JTextField();
         jButtonVoltar = new javax.swing.JButton();
         jCheckBoxPesquisaNome = new javax.swing.JCheckBox();
         jCheckBoxPesquisaGenero = new javax.swing.JCheckBox();
         jButtonComprar = new javax.swing.JButton();
-        jButtonRemoverJogo = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonPerfil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Perfil do Desenvolvedor");
@@ -119,13 +133,6 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(tabelaJogos);
-
-        jButtonCadastrarJogo.setText("Cadastrar Jogo");
-        jButtonCadastrarJogo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCadastrarJogoActionPerformed(evt);
-            }
-        });
 
         jButtonPesquisar.setText("Pesquisar");
         jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -168,17 +175,10 @@ public final class TelaLoja extends javax.swing.JFrame {
             }
         });
 
-        jButtonRemoverJogo.setText("Remover Jogo");
-        jButtonRemoverJogo.addActionListener(new java.awt.event.ActionListener() {
+        jButtonPerfil.setText("Acessar Perfil");
+        jButtonPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRemoverJogoActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Acessar Perfil");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonPerfilActionPerformed(evt);
             }
         });
 
@@ -199,14 +199,11 @@ public final class TelaLoja extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxPesquisaGenero)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonPerfil)
                         .addGap(26, 26, 26)
                         .addComponent(jButtonVoltar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButtonCadastrarJogo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonRemoverJogo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonComprar)))
                 .addContainerGap())
         );
@@ -220,24 +217,16 @@ public final class TelaLoja extends javax.swing.JFrame {
                     .addComponent(jTextFieldPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxPesquisaNome)
                     .addComponent(jCheckBoxPesquisaGenero)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonPerfil))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCadastrarJogo)
-                    .addComponent(jButtonComprar)
-                    .addComponent(jButtonRemoverJogo))
+                .addComponent(jButtonComprar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonCadastrarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarJogoActionPerformed
-        new TelaCadastrarJogo().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButtonCadastrarJogoActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         carregarTabelaJogos();
@@ -248,30 +237,36 @@ public final class TelaLoja extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldPesquisaActionPerformed
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
+        // Volta para a tela principal
         new TelaPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jCheckBoxPesquisaNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPesquisaNomeActionPerformed
+        // Se o botão de nome estiver selecionado, ele deseleciona o botao de gênero
         jCheckBoxPesquisaGenero.setSelected(false);
     }//GEN-LAST:event_jCheckBoxPesquisaNomeActionPerformed
 
     private void jCheckBoxPesquisaGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPesquisaGeneroActionPerformed
+        // Se o botão de nome estiver selecionado, ele deseleciona o botao de gênero
         jCheckBoxPesquisaNome.setSelected(false);
     }//GEN-LAST:event_jCheckBoxPesquisaGeneroActionPerformed
 
     private void jButtonComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComprarActionPerformed
         int i = tabelaJogos.getSelectedRow();
+        // Verifica se algum jogo foi selecionado
         if (i == -1){
             JOptionPane.showMessageDialog(null,"Nenhum jogo selecionado", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }
         else {
+            // Tenta realizar a compra do jogo
             try {
                 System.out.println(listaJogos.get(i).getNome());
                 jogo = listaJogos.get(i);
                 new TelaComprar().setVisible(true);
                 this.dispose();
             } catch (Exception e){
+                // Se não tiver nenhuma conta registrada, é informado ao usuario e abre a tela de login
                 System.err.println(e);
                 
                 JOptionPane.showMessageDialog(null,"Nenhuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
@@ -282,38 +277,9 @@ public final class TelaLoja extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonComprarActionPerformed
 
-    private void jButtonRemoverJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverJogoActionPerformed
-        int i = tabelaJogos.getSelectedRow();
-        if (i == -1){
-            JOptionPane.showMessageDialog(null,"Nenhum jogo selecionado", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-        }
-        else {
-            int resposta = JOptionPane.showConfirmDialog(
-            null, // Componente pai (null para janela centralizada)
-            "Gostaria de remover " + listaJogos.get(i).getNome() + "?", // Mensagem exibida
-            "Confirmação", // Título da janela
-            JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
-            );
-
-            // Verifica qual botão foi pressionado
-            if (resposta == JOptionPane.YES_OPTION) {
-                //Remove o jogo da lista de jogos
-                listaJogos.remove(i);
-                //Remove o jogo do banco de dados
-                try {
-                    BancoDeDados.atualizaBD(listaJogos);
-                } catch (IOException ex) {
-                    Logger.getLogger(TelaCadastrarJogo.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                //Recarrega a tabela
-                carregarTabelaJogos();
-                JOptionPane.showMessageDialog(null,"Jogo removido com sucesso", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_jButtonRemoverJogoActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPerfilActionPerformed
         // TODO add your handling code here:
+        // Tenta abrir a tela de perfil do usuario, se não conseguir, ele informa que nenhum usuario foi encontrado e abre a tela de login
         try{
             new TelaPerfilCliente().setVisible(true);
             this.dispose();
@@ -325,7 +291,7 @@ public final class TelaLoja extends javax.swing.JFrame {
             new TelaLoginCliente().setVisible(true);
             this.dispose();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -370,11 +336,9 @@ public final class TelaLoja extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButtonCadastrarJogo;
     private javax.swing.JButton jButtonComprar;
+    private javax.swing.JButton jButtonPerfil;
     private javax.swing.JButton jButtonPesquisar;
-    private javax.swing.JButton jButtonRemoverJogo;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JCheckBox jCheckBoxPesquisaGenero;
     private javax.swing.JCheckBox jCheckBoxPesquisaNome;
