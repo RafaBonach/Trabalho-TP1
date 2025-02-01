@@ -26,13 +26,14 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
      */
     public TelaPerfilDesenvolvedor() {
         initComponents();
-        
+        // Puxa o desenvolvedor da tela de login
         desenvolvedor = TelaLoginDesenvolvedor.desenvolvedor;
         
+        // Lê do banco de dados
         acessaBanco('r');
         
+        // Inicializa os campos 
         this.setInicial();
-        
         carregaTabelaJogos();
         
     }
@@ -89,7 +90,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private void acessaBanco(char operacao){
         /**
          * Se operacao = r, ele vai puxar as informacoes do banco de dados
-         * Se operacao = w, ele adicionar um novo desenvolvedor no banco de dados
+         * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
          */
         if(operacao == 'r'){
             listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
@@ -467,6 +468,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        // volta pra tela principal ou seta os valores para o inicio
         if(botao == null){
             desenvolvedor = null;
             new TelaPrincipal().setVisible(true);
@@ -493,6 +495,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirContaActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
+        // Revela a senha
         if (txtSenha.getEchoChar() != '\u0000'){
             previousEchoChar = txtSenha.getEchoChar();
             txtSenha.setEchoChar('\u0000');
@@ -541,6 +544,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
+        // Verifica se os campos principais possuem informação para serem modificados
         if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Os campos obrigatorios precisam ser preenchidos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         } else {
@@ -550,6 +554,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
             String descricao = txtDescricao.getText();
             String website = txtWebsite.getText();
                 
+            // Verifica se já existe algum desenvolvedor com este nome
             boolean equalName = false;
             for(Desenvolvedor des:listaDesenvolvedores){
                 if(des.getNomeUsuario().equals(usuario) && des.getId() != desenvolvedor.getId()){
@@ -560,6 +565,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
             }
 
             if (equalName == false){
+                // Verifica se algum dos campos obrigatorios foi modificado
                 if(!desenvolvedor.getNomeUsuario().equals(usuario) ||
                     !desenvolvedor.getSenha().equals(senha) ||
                     !desenvolvedor.getEmail().equals(email) ||

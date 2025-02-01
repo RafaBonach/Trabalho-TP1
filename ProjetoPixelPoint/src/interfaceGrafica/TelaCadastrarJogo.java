@@ -5,13 +5,12 @@
 package interfaceGrafica;
 
 import backend.Desenvolvedor;
+import backend.Jogo;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
+import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
 /**
@@ -21,19 +20,33 @@ import javax.swing.text.NumberFormatter;
 public final class TelaCadastrarJogo extends javax.swing.JFrame {
     
     Desenvolvedor desenvolvedor;
+    private List<Jogo> listaJogos = new ArrayList<>();
 
     /**
      * Creates new form CadastrarJogo
      */
     public TelaCadastrarJogo() {
-        initComponents();
-        aplicaMascara();
-        desenvolvedor = TelaPerfilDesenvolvedor.desenvolvedor;
-        
-        // Habilitando campos de Texto
-        jFormattedTextFieldPreco.setEnabled(true);
-        jFormattedTextFieldVersao.setEnabled(true);
-        
+        try{
+            initComponents();
+            aplicaMascara();
+            desenvolvedor = TelaPerfilDesenvolvedor.desenvolvedor;
+
+            // Habilitando campos de Texto
+            jFormattedTextFieldPreco.setEnabled(true);
+            jFormattedTextFieldVersao.setEnabled(true);
+        } catch(Exception e){
+            System.err.println(e);
+            JOptionPane.showMessageDialog(null,"Nenhum desenvolvedor encontrado,\ncadastre-se em uma conta de desenvolvedor para criar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            new TelaLoginDesenvolvedor().setVisible(true);
+            this.dispose();
+        }
+        try{
+            listaJogos = TelaPrincipal.listaJogos;
+        }
+        catch (Exception e){
+            System.err.println(e);
+        }
+
     }
 
     /**
@@ -98,6 +111,11 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         jFormattedTextFieldPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
 
         jFormattedTextFieldVersao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        jFormattedTextFieldVersao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldVersaoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,9 +220,14 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
             int id = desenvolvedor.getJogosCriados().size();
             desenvolvedor.adicionaJogo(nome, id, preco, versao, genero, requisitos);
             
+            
             /**
              * Atualizar o cando de dados de desenvolvedor com o novo jogo
              */
+            Jogo jogo = desenvolvedor.getJogosCriados().get(id);
+            listaJogos.add(jogo);
+            
+            
             JOptionPane.showMessageDialog(null,"Jogo Cadastrado!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             
             int resposta = JOptionPane.showConfirmDialog(
@@ -235,6 +258,10 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         new TelaPerfilDesenvolvedor().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonCancelaActionPerformed
+
+    private void jFormattedTextFieldVersaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldVersaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldVersaoActionPerformed
 
     /**
      * @param args the command line arguments

@@ -24,9 +24,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     public TelaCadastroCliente() {
         initComponents();
         
-        listaClientes = TelaPrincipal.clientes;
-
-                
+        acessaBanco('r');
+        
         //Habilitar botões
         btnCadastrar.setEnabled(true);
         btnEntrar.setEnabled(true);
@@ -41,6 +40,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         aplicaMascara();
     }
     
+    // Aplica mascara nos JFormattedTextFields
     private void aplicaMascara(){
         try{
             MaskFormatter mascara = new MaskFormatter("##/##/####");
@@ -49,6 +49,20 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             ftxtData.setFormatterFactory(new DefaultFormatterFactory(mascara));
             
         } catch (ParseException e){
+            System.err.println(e);
+        }
+    }
+    
+    private void acessaBanco(char operacao){
+        try{
+            /**
+             * Se operacao = r, ele vai puxar as informacoes do banco de dados
+             * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
+             */
+            if(operacao == 'r'){
+                listaClientes = TelaCadastroCliente.listaClientes;
+            }else if(operacao == 'w');
+        }catch(Exception e){
             System.err.println(e);
         }
     }
@@ -285,6 +299,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // Verifica se os campos principais possuem informação para serem modificados
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
                 !ftxtData.getText().matches("\\d{2}/\\d{2}/\\d{4}") || txtSenha.getText().equals("") || 
                 txtConfirmaSenha.getText().equals("")){
@@ -295,8 +310,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             String data = ftxtData.getText();
             String senha = txtSenha.getText();
             String confSenha = txtConfirmaSenha.getText();
-            boolean equalName = false;
             
+            // Verifica se já existe algum desenvolvedor com este nome
+            boolean equalName = false;
             if (listaClientes.isEmpty() == false){
                 for(Cliente cli:listaClientes){
                     if (cli.getNomeUsuario().equals(username)){
@@ -341,7 +357,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        //Sair da tela
+        // Voltar pra tela de login
         new TelaLoginCliente().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEntrarActionPerformed
@@ -351,6 +367,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_ftxtDataActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
+        // Revela ou esconde a senha
         if (txtSenha.getEchoChar() != '\u0000' && txtConfirmaSenha.getEchoChar() != '\u0000'){
             previousEchoChar = txtSenha.getEchoChar();
             txtSenha.setEchoChar('\u0000');

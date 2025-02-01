@@ -34,54 +34,25 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
      * Creates new form TelaPerfil
      */
     public TelaPerfilCliente() {
-        initComponents();
-        cliente = TelaLoginCliente.cliente;
-        
-        listaClientes = TelaPrincipal.clientes;
-        
-        // Inicializa os campos formatados
-        this.aplicaMascara();
-        
-        this.carregaTabelaJogos();
-        
-        this.setInicial();
-        
-        /*
-        botao = null;
-        
-        // Inicializando os botões
-        btnLoja.setEnabled(true);
-        btnSalvar.setEnabled(false);
-        btnEditar.setEnabled(true);
-        btnSair.setEnabled(true);
-        btnExcluirConta.setEnabled(true);
-        
-        // Desabilitando campos de Texto
-        txtUsuario.setEnabled(false);
-        txtID.setEnabled(false);
-        txtSenha.setEnabled(false);
-        ftxtDataNascimento.setEnabled(false);
-        ftxtSaldo.setEnabled(false);
-        txtEmail.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        
-        // Carregar informações do cliente
-        txtUsuario.setText(cliente.getNomeUsuario());
-        txtID.setText(String.valueOf(cliente.getId()));
-        txtSenha.setText(cliente.getSenha());
-        txtEmail.setText(cliente.getEmail());
-        txtEndereco.setText(cliente.getEndereco());
-        
-        // Carregando as informações do Cliente nos campos formatados
-        if (cliente.getDataNascimento().matches("\\d{2}/\\d{2}/\\d{4}")) {
-            ftxtDataNascimento.setText(cliente.getDataNascimento());
+        // Tenta inicializar os campos se tiver algum cliente logado
+        try{
+            cliente = TelaLoginCliente.cliente;
+            initComponents();
+
+            acessaBanco('r');
+
+            // Inicializa os campos formatados
+            this.aplicaMascara();
+
+            this.carregaTabelaJogos();
+
+            this.setInicial();
+        }catch(Exception e){
+            System.err.println(e);
+            JOptionPane.showMessageDialog(null,"Nenhum Cliente encontrado,\ncadastre-se em uma conta para acessar o perfil", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+            new TelaLoginCliente().setVisible(true);
+            this.dispose();
         }
-        if (cliente.getSaldoCarteira(cliente.getSenha()) >= 0){
-            ftxtSaldo.setValue(cliente.getSaldoCarteira(cliente.getSenha()));
-        }
-        */
-        
-        System.out.println(listaClientes);
     }
     
     private void carregaTabelaJogos(){
@@ -102,6 +73,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         tblJogos.getColumnModel().getColumn(2).setPreferredWidth(100);
     }
     
+    // Aplica mascara nos JFormattedTextFields
     private void aplicaMascara(){
         try{
             MaskFormatter mascara = new MaskFormatter("##/##/####");
@@ -154,6 +126,18 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         ftxtSaldo.setValue(cliente.getSaldoCarteira());
 
         botao = null;
+    }
+    
+    // Tenta acessar o banco de dados
+    private void acessaBanco(char operacao){
+        /**
+         * Se operacao = r, ele vai puxar as informacoes do banco de dados
+         * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
+         */
+        if(operacao == 'r'){
+            listaClientes = TelaCadastroCliente.listaClientes;
+        }else if(operacao == 'w'){
+        }
     }
     
     /**
@@ -462,6 +446,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirContaActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
+        // Revela ou esconde a senha
         if (txtSenha.getEchoChar() != '\u0000'){
             previousEchoChar = txtSenha.getEchoChar();
             txtSenha.setEchoChar('\u0000');
@@ -491,6 +476,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
+        // Verifica se os campos principais possuem informação para serem modificados
         if (botao.equals("editar")){
             if (txtUsuario.getText().equals("") || txtSenha.getText().equals("") || txtEmail.getText().equals("") ||
                 !ftxtDataNascimento.getText().matches("\\d{2}/\\d{2}/\\d{4}")){
@@ -502,6 +488,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                 String dataNascimento = ftxtDataNascimento.getText();
                 String endereco = txtEndereco.getText();
 
+                // Verifica se já existe algum cliente com este nome
                 boolean equalName = false;
                 for(Cliente cli:listaClientes){
                     if (cli.getNomeUsuario().equals(usuario) && cli.getId() != cliente.getId()){
@@ -512,12 +499,14 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                 }
 
                 if (equalName == false){
+                    // Verifica se algum dos campos obrigatorios foi modificado
                     if(!cliente.getNomeUsuario().equals(usuario) ||
                             !cliente.getSenha().equals(senha) ||
                             !cliente.getEmail().equals(email) ||
                             !cliente.getDataNascimento().equals(dataNascimento) ||
                             !cliente.getEndereco().equals(endereco)){
                         
+                        // Faz a alteração
                         cliente.setNomeUsuario(usuario);
                         cliente.setSenha(senha);
                         cliente.setEmail(email);
@@ -535,11 +524,15 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                     this.setInicial();
                 }
             }
+        // Modifica o saldo
         } else if (botao.equals("alterar saldo")){
             double saldo = (double) ftxtSaldo.getValue();
+            // Verifica se o saldo é diferente
             if(saldo != cliente.getSaldoCarteira()){
                 boolean saldoAlterado = cliente.setSaldoCarteira(saldo);
-            
+                /**
+                 * Inserir aqui as informações no banco de dados quando ele estiver pronto
+                */
                 if (!saldoAlterado){
                     JOptionPane.showMessageDialog(null,"Insira um valor valido maior que 0", "Mensagem",JOptionPane.PLAIN_MESSAGE);
                 } 

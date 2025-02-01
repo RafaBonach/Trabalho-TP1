@@ -260,6 +260,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // Verifica se os campos principais possuem informação para serem modificados
         if (txtEmail.getText().equals("") || txtUsername.getText().equals("") || 
                 txtSenha.getText().equals("") || txtConfirmaSenha.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Todos os campos obrigatorios devem ser inseridos!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
@@ -268,8 +269,9 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
             String username = txtUsername.getText();
             String senha = txtSenha.getText();
             String confSenha = txtConfirmaSenha.getText();
-            boolean equalName = false;
             
+            // Verifica se já existe algum desenvolvedor com este nome
+            boolean equalName = false;
             if (listaDesenvolvedores.isEmpty() == false){
                 for(Desenvolvedor des:listaDesenvolvedores){
                     if (des.getNomeUsuario().equals(username)){
@@ -313,12 +315,13 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        //Sair da tela
+        // Volta para a tela de login
         new TelaLoginDesenvolvedor().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
+        // Revela ou esconde a senha
         if (txtSenha.getEchoChar() != '\u0000' && txtConfirmaSenha.getEchoChar() != '\u0000'){
             previousEchoChar = txtSenha.getEchoChar();
             txtSenha.setEchoChar('\u0000');
@@ -335,6 +338,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
+        // Volta pra tela de login
         this.btnEntrarActionPerformed(evt);
     }//GEN-LAST:event_btnSairActionPerformed
 

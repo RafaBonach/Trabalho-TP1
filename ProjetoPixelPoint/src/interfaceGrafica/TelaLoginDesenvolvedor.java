@@ -5,6 +5,7 @@
 package interfaceGrafica;
 
 import backend.Desenvolvedor;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -15,14 +16,14 @@ import javax.swing.JOptionPane;
 public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     
     // Inicializando a lista de desenvolvedores e a variavel de mostrar senha
-    static List<Desenvolvedor> listaDesenvolvedores;
+    static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
     private char previousEchoChar = '\u2022';
     static Desenvolvedor desenvolvedor;
     
     public TelaLoginDesenvolvedor() {
         initComponents();
         
-        inicializaBanco();
+        acessaBanco();
         desenvolvedor = null;
         
         //Habilitar botões
@@ -39,7 +40,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         txtSenha.setText("");
     }
     
-    private void inicializaBanco(){
+    private void acessaBanco(){
         // Criando alguns Desenvolvedores para Teste
         Desenvolvedor des = new Desenvolvedor("Dumativa", "dumativa@dumativa.com.br", "1234");
         listaDesenvolvedores.add(des);
@@ -218,19 +219,22 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // Verifica se os campos principais possuem informação para serem modificados
         if(txtNomeDesenvolvedor.getText().equals("") || txtSenha.getText().equals("")){
            JOptionPane.showMessageDialog(null,"Insira o Email e a Senha!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
             //Procurar d na lista
             String nomeDesenvolvedor = txtNomeDesenvolvedor.getText();
             String senha = txtSenha.getText();
+            
+            // Verifica se existe algum desenvolvedor com este nome e senha
             boolean nomeCorrespondente = false;
             boolean senhaCorrespondente = false;
-            
             for(Desenvolvedor d:listaDesenvolvedores){
                 if(d.getNomeUsuario().equals(nomeDesenvolvedor)) {
                     nomeCorrespondente = true;
                     if (d.getSenha().equals(senha)){
+                        // Entra na tela de desenvolvedor
                         senhaCorrespondente = true;
                         desenvolvedor = d;
                         new TelaPerfilDesenvolvedor().setVisible(true);
@@ -239,6 +243,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
                     }
                 }
             }
+            // Algum campo está inválido ou o cliente não foi registrado
             if (nomeCorrespondente){
                 if(!senhaCorrespondente) JOptionPane.showMessageDialog(null,"senha invalida", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             } else {

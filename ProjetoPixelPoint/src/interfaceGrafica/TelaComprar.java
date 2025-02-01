@@ -24,32 +24,32 @@ public class TelaComprar extends javax.swing.JFrame {
      * Creates new form comprar
      */
     public TelaComprar() {
-        initComponents();
-        
         if(transferencia.possui()){
             JOptionPane.showMessageDialog(null,"Este jogo já foi adquirido, escolha outro jogo da loja para comprar", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             new TelaLoja().setVisible(true);
             this.dispose();
+        }else{
+            initComponents();
+
+            // Aplica a mascara em todos os JFormattedTextField
+            aplicaMascara();
+
+            // Inicializa botões
+            btnCancelar.setEnabled(true);
+            btnConfirmar.setEnabled(true);
+
+            // Desabilita campos de texto
+            txtNomeJogo.setEnabled(false);
+            ftxtSaldo.setEnabled(false);
+            ftxtSaldoRestante.setEnabled(false);
+            ftxtPreco.setEnabled(false);
+
+            // Inicializa os valores nos campos de texto
+            txtNomeJogo.setText(TelaLoja.jogo.getNome());
+            ftxtSaldo.setValue(transferencia.clienteSaldo());
+            ftxtPreco.setValue(transferencia.precoJogo());
+            ftxtSaldoRestante.setValue((double) ftxtSaldo.getValue() - (double) ftxtPreco.getValue());
         }
-        
-        // Aplica a mascara em todos os JFormattedTextField
-        aplicaMascara();
-        
-        // Inicializa botões
-        btnCancelar.setEnabled(true);
-        btnConfirmar.setEnabled(true);
-        
-        // Desabilita campos de texto
-        txtNomeJogo.setEnabled(false);
-        ftxtSaldo.setEnabled(false);
-        ftxtSaldoRestante.setEnabled(false);
-        ftxtPreco.setEnabled(false);
-        
-        // Inicializa os valores nos campos de texto
-        txtNomeJogo.setText(TelaLoja.jogo.getNome());
-        ftxtSaldo.setValue(transferencia.clienteSaldo());
-        ftxtPreco.setValue(transferencia.precoJogo());
-        ftxtSaldoRestante.setValue((double) ftxtSaldo.getValue() - (double) ftxtPreco.getValue());
     }
     
     private void aplicaMascara(){
@@ -256,6 +256,7 @@ public class TelaComprar extends javax.swing.JFrame {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
         int compraRealizada = transferencia.efetuaCompra();
+        // Verifica se a compra foi realizada com suscesso ou não
         switch (compraRealizada) {
             case 0 -> {
                 int resposta = JOptionPane.showConfirmDialog(
