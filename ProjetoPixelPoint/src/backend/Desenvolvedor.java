@@ -12,6 +12,7 @@ public class Desenvolvedor extends Usuario {
     private String descricao = "";
     private List<Jogo> jogosCriados;
 
+    //Construtores
     public Desenvolvedor() {
         this.jogosCriados = new ArrayList<>();
     }
@@ -47,15 +48,21 @@ public class Desenvolvedor extends Usuario {
         this.jogosCriados = jogosCriados;
     }
     
+    // Função que adiciona jogo a lista de jogos do desenvolvedor
     public void adicionaJogo(String nome, int id, double preco, int versao, String genero, String requisitos){
         Jogo jogo = new Jogo(nome, id, preco, versao, genero, requisitos);
         jogosCriados.add(jogo);
     }
-    
+    // Função que exclui jogo por ID ou pela classe jogo
     public void excluirJogo(int id){
         jogosCriados.remove(id);
     }
     
+    public void excluirJogo(Jogo jogo){
+        jogosCriados.remove(jogo);
+    }
+    
+    // Função para adicionar dados no banco de dados
     @Override
     public String toString(){
         String jogos = "";

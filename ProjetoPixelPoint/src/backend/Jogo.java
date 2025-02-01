@@ -17,6 +17,10 @@ public class Jogo {
     private int versao;
     private String genero;
     private String requisitos;
+
+    // Construtores
+    public Jogo() {
+    }
     
     public Jogo (String nome, int id, double preco, int versao, String genero, String requisitos){
         this.nome = nome;
@@ -27,6 +31,7 @@ public class Jogo {
         this.requisitos = requisitos;
     }
     
+    //Getters
     public String getNome(){
         return this.nome;
     }
@@ -51,6 +56,7 @@ public class Jogo {
         return this.requisitos;
     }
     
+    //Setters
     public void setNome(String nome){
         this.nome = nome;
     }
