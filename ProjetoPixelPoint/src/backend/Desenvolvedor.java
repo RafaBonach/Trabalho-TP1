@@ -67,8 +67,8 @@ public class Desenvolvedor extends Usuario {
     public String toString(){
         String jogos = "";
         for (Jogo j:jogosCriados){
-            jogos = "\\|" + j.getId();
+            jogos = "|" + j.getNome();
         }
-        return super.toSting() + "\\|" + website + "\\|" + descricao + jogos;
+        return super.toSting() + "|" + website + "|" + descricao + jogos;
     }
 }

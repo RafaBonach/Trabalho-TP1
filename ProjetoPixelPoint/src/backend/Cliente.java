@@ -96,8 +96,8 @@ public class Cliente extends Usuario {
     public String toString() {
         String jogos = "";
         for (Jogo j:listaJogos){
-            jogos = "\\|" + j.getId();
+            jogos = "|" + j.getNome();
         }
-        return super.toSting() + "\\|" + dataNascimento + "\\|" + saldoCarteira + "\\|" + endereco + jogos;
+        return super.toSting() + "|" + dataNascimento + "|" + saldoCarteira + "|" + endereco + jogos;
     }
 }

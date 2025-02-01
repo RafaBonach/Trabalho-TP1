@@ -83,7 +83,7 @@ public class Jogo {
 
     @Override
     public String toString() {
-        return nome + "\\|" + id + "\\|" + preco + "\\|" + versao + "\\|" + genero + "\\|" + requisitos;
+        return nome + "|" + id + "|" + preco + "|" + versao + "|" + genero + "|" + requisitos;
     }
     
 }
