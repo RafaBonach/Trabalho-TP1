@@ -1,0 +1,6 @@
+Doom|2|15.0|1|FPS|Windows
+a|3|0.0|0|a|a
+b|4|0.0|0|bb|b
+c|5|0.0|0|c|c
+z|4|0.0|0|z|z
+A lenda do heroi|5|50.0|1|Aventura|Windows

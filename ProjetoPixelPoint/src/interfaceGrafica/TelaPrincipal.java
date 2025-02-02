@@ -4,9 +4,15 @@
  */
 package interfaceGrafica;
 
+import backend.BdCliente;
+import backend.BdDev;
+import backend.BdJogos;
+import backend.Cliente;
+import backend.Desenvolvedor;
 import backend.Jogo;
 import java.awt.Component;
 import java.awt.PopupMenu;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +22,8 @@ import java.util.List;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     public static List<Jogo> listaJogos = new ArrayList<>();
+    public static List<Cliente> listaClientes = new ArrayList<>();
+    public static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
     
     @Override
     public void add(PopupMenu popup) {
@@ -32,14 +40,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
-        
-        // Cria 
-        Jogo jogo1 = new Jogo("Dark Souls", 1, 10, 1, "Ação", "Windows");
-        Jogo jogo2 = new Jogo("Minecraft", 1, 25, 2, "Sobrevivência", "Windows");
-        Jogo jogo3 = new Jogo("Doom", 1, 15, 1, "FPS", "Windows");
-        listaJogos.add(jogo1);
-        listaJogos.add(jogo2);
-        listaJogos.add(jogo3);
+        inicializaListas();
+    }
+    
+    private void inicializaListas(){
+        try {
+            listaJogos = BdJogos.leBD();
+            listaClientes = BdCliente.leBD(listaJogos);
+            listaDesenvolvedores = BdDev.leBD(listaJogos);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -57,7 +68,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         btnDesenvolvedor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tela Principal");
 
+        btnLoja.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnLoja.setText("Loja");
         btnLoja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,6 +81,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tituloCadastrarCliente.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
         tituloCadastrarCliente.setText("PixelPoint");
 
+        btnUsuario.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnUsuario.setText("Login de Úsuario");
         btnUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,6 +89,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnDesenvolvedor.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnDesenvolvedor.setText("Login Desenvolvedor");
         btnDesenvolvedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,23 +109,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(btnDesenvolvedor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tituloCadastrarCliente)
-                .addGap(45, 45, 45)
+                .addGap(39, 39, 39)
                 .addComponent(btnLoja)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDesenvolvedor)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLojaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLojaActionPerformed

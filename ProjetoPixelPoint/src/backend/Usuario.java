@@ -19,7 +19,7 @@ abstract class Usuario {
 
     // Getters e Setters
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -27,7 +27,7 @@ abstract class Usuario {
     }
     
     public String getNomeUsuario() {
-        return nomeUsuario;
+        return this.nomeUsuario;
     }
 
     public void setNomeUsuario(String nomeUsuario) {
@@ -35,7 +35,7 @@ abstract class Usuario {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -43,14 +43,16 @@ abstract class Usuario {
     }
 
     public String getSenha() {
-        return senha;
+        return this.senha;
     }
 
     public void setSenha(String senha) {
         this.senha = senha;
     }
     
-    public String toSting(){
-        return nomeUsuario + "|" + email + "|" + senha + "|" + id;
+    
+    @Override
+    public String toString(){
+        return this.nomeUsuario + "|" + this.email + "|" + this.senha + "|" + this.id;
     }
 }

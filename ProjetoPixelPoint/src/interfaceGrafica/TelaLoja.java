@@ -19,13 +19,12 @@ public final class TelaLoja extends javax.swing.JFrame {
     public static List<Jogo> listaJogos = new ArrayList();
     public static Jogo jogo;
     
-
     /**
      * Creates new form JogoJFrame
      */
     public TelaLoja() {
         initComponents();
-        acessaBanco();
+        listaJogos = TelaPrincipal.listaJogos;
         carregarTabelaJogos();
         jCheckBoxPesquisaNome.setSelected(true);
     }
@@ -90,14 +89,8 @@ public final class TelaLoja extends javax.swing.JFrame {
         tabelaJogos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
     
-    // Função que extrai os dados do banco de dados
-    private void acessaBanco(){
-        // Criando alguns jogos para Teste
-        listaJogos = TelaPrincipal.listaJogos;
-        /**
-         * implementar o banco de dados aqui;
-         */
-    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -226,6 +219,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
@@ -260,19 +254,20 @@ public final class TelaLoja extends javax.swing.JFrame {
         }
         else {
             // Tenta realizar a compra do jogo
-            try {
-                System.out.println(listaJogos.get(i).getNome());
-                jogo = listaJogos.get(i);
-                new TelaComprar().setVisible(true);
-                this.dispose();
-            } catch (Exception e){
-                // Se não tiver nenhuma conta registrada, é informado ao usuario e abre a tela de login
+            try{
+                if(TelaLoginCliente.cliente != null){
+                    System.out.println(listaJogos.get(i).getNome());
+                    jogo = listaJogos.get(i);
+                    new TelaComprar().setVisible(true);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null,"Nenhuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+
+                    new TelaLoginCliente().setVisible(true);
+                    this.dispose();
+                }
+            } catch(Exception e){
                 System.err.println(e);
-                
-                JOptionPane.showMessageDialog(null,"Nenhuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                
-                new TelaLoginCliente().setVisible(true);
-                this.dispose();
             }
         }
     }//GEN-LAST:event_jButtonComprarActionPerformed

@@ -21,10 +21,8 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     
     public TelaLoginCliente() {
         initComponents();
-        
+        listaClientes = TelaPrincipal.listaClientes;        
         cliente = null;
-        
-        acessaBanco();
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -38,15 +36,6 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         //Limpa campos de texto
         txtUsername.setText("");
         txtSenha.setText("");
-    }
-    
-    private void acessaBanco(){
-        //Criando alguns Clientes para Teste
-        Cliente c = new Cliente("Rafael", "rafa.bonach@gmail.com", "2853", "13/05/2004");
-        listaClientes.add(c);
-        /**
-         * Implementar o banco de dados aqui
-         */
     }
 
     /**
@@ -192,7 +181,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                                     .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(311, 311, 311)
+                        .addGap(300, 300, 300)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 229, Short.MAX_VALUE))
         );

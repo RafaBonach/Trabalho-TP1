@@ -4,9 +4,16 @@
  */
 package interfaceGrafica;
 
+import backend.BdCliente;
+import backend.BdJogos;
+import backend.Cliente;
 import backend.Compra;
+import backend.Jogo;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
@@ -18,19 +25,25 @@ import javax.swing.text.NumberFormatter;
  */
 public class TelaComprar extends javax.swing.JFrame {
     
-    private Compra transferencia = new Compra(TelaLoja.jogo, TelaPerfilCliente.cliente);
+    static List<Cliente> listaClientes = new ArrayList<>();
+    static Cliente cliente = TelaLoginCliente.cliente;
+    static Jogo jogo = TelaLoja.jogo;
+    static Compra transferencia;
+
     
     /**
      * Creates new form comprar
      */
     public TelaComprar() {
+        initComponents();
+        listaClientes = TelaPrincipal.listaClientes;
+        transferencia = new Compra(jogo, cliente);
+
         if(transferencia.possui()){
             JOptionPane.showMessageDialog(null,"Este jogo já foi adquirido, escolha outro jogo da loja para comprar", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             new TelaLoja().setVisible(true);
             this.dispose();
         }else{
-            initComponents();
-
             // Aplica a mascara em todos os JFormattedTextField
             aplicaMascara();
 
@@ -74,6 +87,14 @@ public class TelaComprar extends javax.swing.JFrame {
         } catch (Exception e){
             System.err.println(e);
         }   
+    }
+    
+    private void alteraBanco(){
+        try{
+            BdCliente.atualizaBD(listaClientes);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
 
 
@@ -237,6 +258,7 @@ public class TelaComprar extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -268,7 +290,16 @@ public class TelaComprar extends javax.swing.JFrame {
                 
                 // Verifica qual botão foi pressionado
                 if (resposta == JOptionPane.NO_OPTION) transferencia.cancelaCompra();
-                else JOptionPane.showMessageDialog(null,"Jogo adquirido com sucesso!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                else{
+                    if(cliente.getListaJogos().contains(jogo) == false){
+                        cliente.adicionaJogo(jogo);
+                    }
+                    System.out.println(listaClientes);
+                    //listaClientes.set(cliente.getId(), cliente);
+                    alteraBanco();
+                    
+                    JOptionPane.showMessageDialog(null,"Jogo adquirido com sucesso!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+                }
                 
             }
             case 1 -> JOptionPane.showMessageDialog(null,"Saldo insuficiente, coloque mais saldo na conta para comprar este jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);

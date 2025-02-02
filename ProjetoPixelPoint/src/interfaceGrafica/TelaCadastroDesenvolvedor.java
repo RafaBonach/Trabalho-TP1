@@ -4,7 +4,9 @@
  */
 package interfaceGrafica;
 
+import backend.BdDev;
 import backend.Desenvolvedor;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     public TelaCadastroDesenvolvedor() {
         initComponents();
         
-        acessaBanco('r');
+        listaDesenvolvedores = TelaPrincipal.listaDesenvolvedores;
         
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -35,14 +37,11 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     }
     
-    private void acessaBanco(char operacao){
-        /**
-         * Se operacao = r, ele vai puxar as informacoes do banco de dados
-         * Se operacao = w, ele adicionar um novo desenvolvedor no banco de dados
-         */
-        if(operacao == 'r'){
-            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
-        }else if(operacao == 'w'){
+    private void alteraBanco(){
+        try{
+            BdDev.atualizaBD(listaDesenvolvedores);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
     
@@ -202,21 +201,20 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(lbConfSenha)
-                                        .addComponent(txtConfirmaSenha)
-                                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lbSenha))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbRevelarSenha)
-                                    .addComponent(btnRevelarSenha))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lbConfSenha)
+                                .addComponent(txtConfirmaSenha)
+                                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbSenha))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbRevelarSenha)
+                            .addComponent(btnRevelarSenha))
                         .addContainerGap(212, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(287, 287, 287)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,9 +240,9 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                 .addComponent(lbConfSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
+                .addGap(80, 80, 80))
         );
 
         pack();
@@ -291,9 +289,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                     int id = listaDesenvolvedores.indexOf(desenvolvedor);
                     desenvolvedor.setId(id);
                     
-                    /**
-                     * Inserir aqui as informações no banco de dados quando ele estiver pronto
-                    */
+                    alteraBanco();
 
                     new TelaLoginDesenvolvedor().setVisible(true);
                     this.setVisible(false);
@@ -338,8 +334,9 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
-        // Volta pra tela de login
-        this.btnEntrarActionPerformed(evt);
+        // Volta pra tela principal
+        new TelaPrincipal().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**

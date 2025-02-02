@@ -4,12 +4,12 @@
  */
 package interfaceGrafica;
 
+import backend.BdDev;
 import backend.Desenvolvedor;
-import backend.Jogo;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,34 +28,12 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         initComponents();
         // Puxa o desenvolvedor da tela de login
         desenvolvedor = TelaLoginDesenvolvedor.desenvolvedor;
-        
-        // Lê do banco de dados
-        acessaBanco('r');
+        listaDesenvolvedores = TelaPrincipal.listaDesenvolvedores;
         
         // Inicializa os campos 
         this.setInicial();
-        carregaTabelaJogos();
+        //carregaTabelaJogos();
         
-    }
-    
-    private void carregaTabelaJogos(){
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"Nome","Gênero","Requisitos","Preço"},0);
-        List<Jogo> lJogosDes = desenvolvedor.getJogosCriados();
-        for(int i = 0; i<lJogosDes.size(); i++){
-            Object linha[] = new Object[]{lJogosDes.get(i).getNome(),
-                                        lJogosDes.get(i).getGenero(),
-                                        lJogosDes.get(i).getRequisitos(),
-                                        lJogosDes.get(i).getPreco()};
-            modelo.addRow(linha);
-        }
-        
-        // Alocando modelo na tabela
-        tblJogos.setModel(modelo);
-        
-        tblJogos.getColumnModel().getColumn(0).setPreferredWidth(200);
-        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tblJogos.getColumnModel().getColumn(2).setPreferredWidth(100);
-        tblJogos.getColumnModel().getColumn(1).setPreferredWidth(1);
     }
     
     private void setInicial(){
@@ -63,7 +41,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         btnCriarJogo.setEnabled(true);
         btnEditar.setEnabled(true);
         btnExcluirConta.setEnabled(true);
-        btnExcluirJogo.setEnabled(true);
         btnRevelarSenha.setEnabled(true);
         btnSair.setEnabled(true);
         btnSalvar.setEnabled(false);
@@ -87,18 +64,13 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         botao = null;
     }
     
-    private void acessaBanco(char operacao){
-        /**
-         * Se operacao = r, ele vai puxar as informacoes do banco de dados
-         * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
-         */
-        if(operacao == 'r'){
-            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
-        }else if(operacao == 'w'){
+    private void alteraBanco(){
+        try{
+            BdDev.atualizaBD(listaDesenvolvedores);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,9 +104,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         txtID = new javax.swing.JTextField();
         txtUsuario = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblJogos = new javax.swing.JTable();
-        lbJogos = new javax.swing.JLabel();
         btnCriarJogo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnExcluirConta = new javax.swing.JButton();
@@ -145,7 +114,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         lbDescrição = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDescricao = new javax.swing.JTextArea();
-        btnExcluirJogo = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -288,22 +256,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
         txtEmail.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
-        tblJogos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nome", "Gênero", "Requisitos", "Preço"
-            }
-        ));
-        jScrollPane2.setViewportView(tblJogos);
-
-        lbJogos.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        lbJogos.setText("Jogos");
-
         btnCriarJogo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnCriarJogo.setText("Criar Jogo");
         btnCriarJogo.addActionListener(new java.awt.event.ActionListener() {
@@ -352,14 +304,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         txtDescricao.setRows(5);
         jScrollPane3.setViewportView(txtDescricao);
 
-        btnExcluirJogo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnExcluirJogo.setText("Excluir Jogo");
-        btnExcluirJogo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirJogoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -368,55 +312,50 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbEmail)
-                        .addContainerGap(789, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSair)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCriarJogo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnExcluirJogo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSalvar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnExcluirConta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lbUsername)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(lbID)
-                                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(lbSenha)
-                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING)))
-                                    .addComponent(jScrollPane3))
-                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(77, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbWebsite)
-                            .addComponent(lbJogos)
                             .addComponent(lbDescrição))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbEmail)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbUsername)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lbID)
+                                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lbSenha)
+                                            .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addComponent(jScrollPane3))
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(77, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(117, 117, 117)
+                .addComponent(btnSair)
+                .addGap(18, 18, 18)
+                .addComponent(btnCriarJogo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSalvar)
+                .addGap(18, 18, 18)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnExcluirConta, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,21 +389,17 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lbJogos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSair)
                     .addComponent(btnCriarJogo)
-                    .addComponent(btnExcluirJogo)
                     .addComponent(btnSalvar)
                     .addComponent(btnEditar)
                     .addComponent(btnExcluirConta))
-                .addGap(14, 14, 14))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -486,12 +421,21 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
 
     private void btnExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirContaActionPerformed
         // TODO add your handling code here:
-        /**
-         * Implementar a exclusão do desenvolvedor do banco de dados
-         * Implementar a exclusão do jogo do banco de dados
-         */
-        new TelaCadastrarJogo().setVisible(true);
-        this.dispose();
+        int resposta = JOptionPane.showConfirmDialog(
+            null, // Componente pai (null para janela centralizada)
+            "Deseja mesmo excluir esta conta?",// Mensagem exibida
+            "Confirmação", // Título da janela
+            JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
+            );
+
+        // Verifica qual botão foi pressionado
+        if (resposta == JOptionPane.YES_OPTION) {
+            listaDesenvolvedores.remove(desenvolvedor);
+            alteraBanco();
+            desenvolvedor = null;
+            new TelaPrincipal().setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnExcluirContaActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed
@@ -502,24 +446,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         }else txtSenha.setEchoChar(previousEchoChar);
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
-    private void btnExcluirJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirJogoActionPerformed
-        // TODO add your handling code here:
-        //guarda o indice da linha selecionada
-        int index = tblJogos.getSelectedRow();
-        
-        //verificar se a linha selecionada é válida
-        if(index>=0 && index<desenvolvedor.getJogosCriados().size()){
-            // Remove o jogo da ista de jogos criados
-            desenvolvedor.excluirJogo(index);
-            /**
-             * Implementar a exclusão do jogo nos bancos de dados do Desenvolvedor e do cliente
-             */
-        }
-        
-        carregaTabelaJogos();
-        
-    }//GEN-LAST:event_btnExcluirJogoActionPerformed
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         botao = "editar";
@@ -528,7 +454,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         btnCriarJogo.setEnabled(false);
         btnEditar.setEnabled(false);
         btnExcluirConta.setEnabled(false);
-        btnExcluirJogo.setEnabled(false);
         btnRevelarSenha.setEnabled(true);
         btnSair.setEnabled(false);
         btnSalvar.setEnabled(true);
@@ -579,9 +504,8 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                     desenvolvedor.setWebsite(website);
                     listaDesenvolvedores.set(desenvolvedor.getId(), desenvolvedor);
 
-                    /**
-                     * Implementar atualização do banco de dados
-                    */
+                    //alteraBanco(false);
+                    alteraBanco();
 
                     System.out.println("\n" + desenvolvedor + "\n" + listaDesenvolvedores);
                 }
@@ -632,7 +556,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JButton btnCriarJogo;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluirConta;
-    private javax.swing.JButton btnExcluirJogo;
     private javax.swing.JButton btnRevelarSenha;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
@@ -644,14 +567,12 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lbDescrição;
     private javax.swing.JLabel lbEmail;
     private javax.swing.JLabel lbID;
-    private javax.swing.JLabel lbJogos;
     private javax.swing.JLabel lbRevelarSenha;
     private javax.swing.JLabel lbSaldo;
     private javax.swing.JLabel lbSaldo1;
@@ -660,7 +581,6 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JLabel lbTitulo;
     private javax.swing.JLabel lbUsername;
     private javax.swing.JLabel lbWebsite;
-    private javax.swing.JTable tblJogos;
     private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtID;
@@ -668,4 +588,5 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsuario;
     private javax.swing.JTextField txtWebsite;
     // End of variables declaration//GEN-END:variables
+
 }

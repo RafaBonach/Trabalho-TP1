@@ -4,7 +4,9 @@
  */
 package interfaceGrafica;
 
+import backend.BdCliente;
 import backend.Cliente;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     public TelaCadastroCliente() {
         initComponents();
         
-        acessaBanco('r');
+        listaClientes = TelaPrincipal.listaClientes;
         
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -53,17 +55,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         }
     }
     
-    private void acessaBanco(char operacao){
+    private void alteraBanco(){
         try{
-            /**
-             * Se operacao = r, ele vai puxar as informacoes do banco de dados
-             * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
-             */
-            if(operacao == 'r'){
-                listaClientes = TelaCadastroCliente.listaClientes;
-            }else if(operacao == 'w');
-        }catch(Exception e){
-            System.err.println(e);
+            BdCliente.atualizaBD(listaClientes);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
     
@@ -245,7 +241,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtConfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11)))
                         .addGap(242, 242, 242))))
         );
         layout.setVerticalGroup(
@@ -332,9 +330,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                     int id = listaClientes.indexOf(cliente);
                     cliente.setId(id);
                     
-                    /**
-                     * Inserir aqui as informações no banco de dados quando ele estiver pronto
-                    */
+                    alteraBanco();
 
                     new TelaLoginCliente().setVisible(true);
                     this.dispose();
@@ -379,8 +375,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevelarSenhaActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        // Mesma ação do botão entrar
-        this.btnEntrarActionPerformed(evt);
+        // Volta pra tela principal
+        new TelaPrincipal().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**
