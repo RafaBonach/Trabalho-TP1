@@ -219,6 +219,7 @@ public final class TelaLoja extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
@@ -253,19 +254,20 @@ public final class TelaLoja extends javax.swing.JFrame {
         }
         else {
             // Tenta realizar a compra do jogo
-            try {
-                System.out.println(listaJogos.get(i).getNome());
-                jogo = listaJogos.get(i);
-                new TelaComprar().setVisible(true);
-                this.dispose();
-            } catch (Exception e){
-                // Se não tiver nenhuma conta registrada, é informado ao usuario e abre a tela de login
+            try{
+                if(TelaLoginCliente.cliente != null){
+                    System.out.println(listaJogos.get(i).getNome());
+                    jogo = listaJogos.get(i);
+                    new TelaComprar().setVisible(true);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null,"Nenhuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
+
+                    new TelaLoginCliente().setVisible(true);
+                    this.dispose();
+                }
+            } catch(Exception e){
                 System.err.println(e);
-                
-                JOptionPane.showMessageDialog(null,"Nenhuma conta encontrada, cadastre-se ou entre em uma conta antes de comprar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                
-                new TelaLoginCliente().setVisible(true);
-                this.dispose();
             }
         }
     }//GEN-LAST:event_jButtonComprarActionPerformed

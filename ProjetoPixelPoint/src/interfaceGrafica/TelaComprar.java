@@ -28,7 +28,7 @@ public class TelaComprar extends javax.swing.JFrame {
     static List<Cliente> listaClientes = new ArrayList<>();
     static Cliente cliente = TelaLoginCliente.cliente;
     static Jogo jogo = TelaLoja.jogo;
-    static Compra transferencia = new Compra(jogo, cliente);
+    static Compra transferencia;
 
     
     /**
@@ -36,6 +36,9 @@ public class TelaComprar extends javax.swing.JFrame {
      */
     public TelaComprar() {
         initComponents();
+        listaClientes = TelaPrincipal.listaClientes;
+        transferencia = new Compra(jogo, cliente);
+
         if(transferencia.possui()){
             JOptionPane.showMessageDialog(null,"Este jogo já foi adquirido, escolha outro jogo da loja para comprar", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             new TelaLoja().setVisible(true);
@@ -255,6 +258,7 @@ public class TelaComprar extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -290,7 +294,8 @@ public class TelaComprar extends javax.swing.JFrame {
                     if(cliente.getListaJogos().contains(jogo) == false){
                         cliente.adicionaJogo(jogo);
                     }
-                    listaClientes.set(cliente.getId(), cliente);
+                    System.out.println(listaClientes);
+                    //listaClientes.set(cliente.getId(), cliente);
                     alteraBanco();
                     
                     JOptionPane.showMessageDialog(null,"Jogo adquirido com sucesso!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
