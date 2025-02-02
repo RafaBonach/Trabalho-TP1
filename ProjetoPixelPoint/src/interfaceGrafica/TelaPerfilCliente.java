@@ -7,7 +7,6 @@ package interfaceGrafica;
 import backend.BdCliente;
 import backend.Cliente;
 import backend.Jogo;
-import static interfaceGrafica.TelaCadastroCliente.listaClientes;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -444,6 +443,21 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
 
     private void btnExcluirContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirContaActionPerformed
         // TODO add your handling code here:
+        int resposta = JOptionPane.showConfirmDialog(
+            null, // Componente pai (null para janela centralizada)
+            "Deseja mesmo excluir esta conta?",// Mensagem exibida
+            "Confirmação", // Título da janela
+            JOptionPane.YES_NO_OPTION // Tipos de botões exibidos
+            );
+
+        // Verifica qual botão foi pressionado
+        if (resposta == JOptionPane.YES_OPTION) {
+            listaClientes.remove(cliente);
+            alteraBanco();
+            cliente = null;
+            new TelaPrincipal().setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnExcluirContaActionPerformed
 
     private void btnRevelarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevelarSenhaActionPerformed

@@ -181,7 +181,7 @@ public class TelaLoginCliente extends javax.swing.JFrame {
                                     .addComponent(btnRevelarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addComponent(lbRevelarSenha, javax.swing.GroupLayout.Alignment.TRAILING)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(311, 311, 311)
+                        .addGap(300, 300, 300)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 229, Short.MAX_VALUE))
         );

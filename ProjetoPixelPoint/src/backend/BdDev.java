@@ -25,8 +25,8 @@ public class BdDev {
     
     public static void atualizaBD(List<Desenvolvedor> desenvolvedores) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(NOME_ARQUIVO));
-        for (Desenvolvedor desenvolvedor : desenvolvedores){
-            writer.write(desenvolvedor.toString());
+        for (Desenvolvedor d : desenvolvedores){
+            writer.write(d.toString());
             writer.newLine();
         }
         writer.close();
@@ -43,18 +43,6 @@ public class BdDev {
         while ((linha = reader.readLine()) != null) {
             // Divide a linha com base no símbolo "|"
             String[] parts = linha.split("\\|");
-            
-            //Cria uma lista de jogos pegando os nomes dos jogos no banco de dados do desenvolvedor e comparando com os nomes dos jogos na lista de jogos
-            for (int i = 6; i < parts.length; i++){
-                for (Jogo jogo : jogos){
-                    if (parts[i].equals(jogo.getNome())){
-                        jogosCriados.add(jogo);
-                    }
-                }
-            }
-            
-            //Cria um novo desenvolvedor usando uma linha do banco de dados.
-            //String nomeUsuario, String email, String senha, int id, String website, String descricao, List<Jogo> jogosCriados
             d = new Desenvolvedor (parts[0], parts[1], parts[2]);
             d.setId(Integer.parseInt(parts[3]));
             try{
@@ -63,7 +51,6 @@ public class BdDev {
             } catch(Exception e){
                 System.err.println(e);
             }
-            d.setJogosCriados(jogosCriados);
             desenvolvedores.add(d);
         }
         reader.close();

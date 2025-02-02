@@ -4,18 +4,14 @@
  */
 package interfaceGrafica;
 
-import backend.BdDev;
 import backend.BdJogos;
-import backend.Desenvolvedor;
 import backend.Jogo;
-import static interfaceGrafica.TelaCadastroDesenvolvedor.listaDesenvolvedores;
-import static interfaceGrafica.TelaPerfilDesenvolvedor.desenvolvedor;
-import static interfaceGrafica.TelaPerfilDesenvolvedor.listaDesenvolvedores;
-import static interfaceGrafica.TelaPerfilDesenvolvedor.listaJogos;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
@@ -26,41 +22,40 @@ import javax.swing.text.NumberFormatter;
  */
 public final class TelaCadastrarJogo extends javax.swing.JFrame {
     
-    Desenvolvedor desenvolvedor;
-    static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
+    //static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
     static List<Jogo> listaJogos = new ArrayList<>();
 
     /**
      * Creates new form CadastrarJogo
      */
     public TelaCadastrarJogo() {
-        try{
-            initComponents();
-            aplicaMascara();
-            desenvolvedor = TelaPerfilDesenvolvedor.desenvolvedor;
-            listaDesenvolvedores = TelaPrincipal.listaDesenvolvedores;
-            listaJogos = TelaPrincipal.listaJogos;
+        initComponents();
+        aplicaMascara();
+        acessaBanco('l');
 
-            // Habilitando campos de Texto
-            jFormattedTextFieldPreco.setEnabled(true);
-            jFormattedTextFieldVersao.setEnabled(true);
-        } catch(Exception e){
-            System.err.println(e);
-            JOptionPane.showMessageDialog(null,"Nenhum desenvolvedor encontrado,\ncadastre-se em uma conta de desenvolvedor para criar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            new TelaPrincipal().setVisible(true);
-            this.dispose();
-        }
+        // Habilitando campos de Texto
+        jFormattedTextFieldPreco.setEnabled(true);
+        jFormattedTextFieldVersao.setEnabled(true);
     }
     
-    private void alteraBanco(){
-        try{
-            BdJogos.atualizaBD(listaJogos);
-            BdDev.atualizaBD(listaDesenvolvedores);
-        }catch (IOException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void acessaBanco(char s){
+        //escreve no banco de dados
+        if (s == 'e'){
+            try{
+                BdJogos.atualizaBD(listaJogos);
+            }catch (IOException ex) {
+                java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+        //le do banco de dados
+        else if (s == 'l'){
+            try {
+                listaJogos = BdJogos.leBD();
+            } catch (IOException ex) {
+                Logger.getLogger(TelaCadastrarJogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -230,14 +225,12 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         if (nome.equals("") || preco < 0 || versao < 0 || genero.equals("") || requisitos.equals("")){
             JOptionPane.showMessageDialog(null,"Preencha todos os campos com valores válidos", "Mensagem",JOptionPane.PLAIN_MESSAGE);
         }else{
-            int id = desenvolvedor.getJogosCriados().size();
-            desenvolvedor.adicionaJogo(nome, id, preco, versao, genero, requisitos);
-            listaDesenvolvedores.set(desenvolvedor.getId(), desenvolvedor);
-            Jogo jogo = desenvolvedor.getJogosCriados().get(id);
-            listaJogos.add(jogo);
+            int id = listaJogos.size();
+            Jogo j = new Jogo (nome, id, preco, versao, genero, requisitos);
             
-            alteraBanco();
+            listaJogos.add(j);
             
+            acessaBanco('e');
             
             JOptionPane.showMessageDialog(null,"Jogo Cadastrado!", "Mensagem",JOptionPane.PLAIN_MESSAGE);
             
@@ -299,6 +292,18 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TelaCadastrarJogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
