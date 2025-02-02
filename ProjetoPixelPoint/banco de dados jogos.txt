@@ -1,0 +1,6 @@
+Dark Souls|0|10.0|1|Ação|Windows
+Minecraft|1|25.0|2|Sobrevivência|Windows
+Doom|2|15.0|1|FPS|Windows
+novo|3|10.0|123|luta|pc
+abc|4|1.0|1|a|b
+Teste|0|10.0|1|teste|teste

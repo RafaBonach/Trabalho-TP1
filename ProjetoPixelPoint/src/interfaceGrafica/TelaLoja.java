@@ -19,13 +19,12 @@ public final class TelaLoja extends javax.swing.JFrame {
     public static List<Jogo> listaJogos = new ArrayList();
     public static Jogo jogo;
     
-
     /**
      * Creates new form JogoJFrame
      */
     public TelaLoja() {
         initComponents();
-        acessaBanco();
+        listaJogos = TelaPrincipal.listaJogos;
         carregarTabelaJogos();
         jCheckBoxPesquisaNome.setSelected(true);
     }
@@ -90,14 +89,8 @@ public final class TelaLoja extends javax.swing.JFrame {
         tabelaJogos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
     
-    // Função que extrai os dados do banco de dados
-    private void acessaBanco(){
-        // Criando alguns jogos para Teste
-        listaJogos = TelaPrincipal.listaJogos;
-        /**
-         * implementar o banco de dados aqui;
-         */
-    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

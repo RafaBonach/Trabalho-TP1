@@ -21,10 +21,8 @@ public class TelaLoginCliente extends javax.swing.JFrame {
     
     public TelaLoginCliente() {
         initComponents();
-        
+        listaClientes = TelaPrincipal.listaClientes;        
         cliente = null;
-        
-        acessaBanco();
         
         //Habilitar botões
         btnLogin.setEnabled(true);
@@ -38,15 +36,6 @@ public class TelaLoginCliente extends javax.swing.JFrame {
         //Limpa campos de texto
         txtUsername.setText("");
         txtSenha.setText("");
-    }
-    
-    private void acessaBanco(){
-        //Criando alguns Clientes para Teste
-        Cliente c = new Cliente("Rafael", "rafa.bonach@gmail.com", "2853", "13/05/2004");
-        listaClientes.add(c);
-        /**
-         * Implementar o banco de dados aqui
-         */
     }
 
     /**

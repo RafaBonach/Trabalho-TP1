@@ -4,8 +4,12 @@
  */
 package interfaceGrafica;
 
+import backend.BdDev;
+import backend.BdJogos;
 import backend.Desenvolvedor;
 import backend.Jogo;
+import static interfaceGrafica.TelaCadastroDesenvolvedor.listaDesenvolvedores;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -18,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     
     static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
+    static List<Jogo> listaJogos = new ArrayList<>();
     static Desenvolvedor desenvolvedor;
     private char previousEchoChar = '\u2022';
     String botao;
@@ -28,9 +33,8 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         initComponents();
         // Puxa o desenvolvedor da tela de login
         desenvolvedor = TelaLoginDesenvolvedor.desenvolvedor;
-        
-        // Lê do banco de dados
-        acessaBanco('r');
+        listaDesenvolvedores = TelaPrincipal.listaDesenvolvedores;
+        listaJogos = TelaPrincipal.listaJogos;
         
         // Inicializa os campos 
         this.setInicial();
@@ -87,14 +91,15 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         botao = null;
     }
     
-    private void acessaBanco(char operacao){
-        /**
-         * Se operacao = r, ele vai puxar as informacoes do banco de dados
-         * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
-         */
-        if(operacao == 'r'){
-            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
-        }else if(operacao == 'w'){
+    private void alteraBanco(boolean alteraBancoJogos){
+        try{
+            // Se tiver que mudar o banco de dados de jogos
+            if(alteraBancoJogos == true){
+                BdJogos.atualizaBD(listaJogos);
+            }
+            BdDev.atualizaBD(listaDesenvolvedores);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -511,9 +516,9 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
         if(index>=0 && index<desenvolvedor.getJogosCriados().size()){
             // Remove o jogo da ista de jogos criados
             desenvolvedor.excluirJogo(index);
-            /**
-             * Implementar a exclusão do jogo nos bancos de dados do Desenvolvedor e do cliente
-             */
+            listaDesenvolvedores.set(desenvolvedor.getId(), desenvolvedor);
+            listaJogos.remove(index);
+            atualizaBanco(true);
         }
         
         carregaTabelaJogos();
@@ -579,9 +584,7 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
                     desenvolvedor.setWebsite(website);
                     listaDesenvolvedores.set(desenvolvedor.getId(), desenvolvedor);
 
-                    /**
-                     * Implementar atualização do banco de dados
-                    */
+                    alteraBanco(false);
 
                     System.out.println("\n" + desenvolvedor + "\n" + listaDesenvolvedores);
                 }
@@ -668,4 +671,8 @@ public class TelaPerfilDesenvolvedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsuario;
     private javax.swing.JTextField txtWebsite;
     // End of variables declaration//GEN-END:variables
+
+    private void atualizaBanco(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

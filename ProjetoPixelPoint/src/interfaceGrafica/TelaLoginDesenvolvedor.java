@@ -23,7 +23,7 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
     public TelaLoginDesenvolvedor() {
         initComponents();
         
-        acessaBanco();
+        listaDesenvolvedores = TelaPrincipal.listaDesenvolvedores;
         desenvolvedor = null;
         
         //Habilitar botões
@@ -38,15 +38,6 @@ public class TelaLoginDesenvolvedor extends javax.swing.JFrame {
         //Limpa campos de texto
         txtNomeDesenvolvedor.setText("");
         txtSenha.setText("");
-    }
-    
-    private void acessaBanco(){
-        // Criando alguns Desenvolvedores para Teste
-        Desenvolvedor des = new Desenvolvedor("Dumativa", "dumativa@dumativa.com.br", "1234");
-        listaDesenvolvedores.add(des);
-        /**
-         * Implementar o banco de dados aqui
-         */
     }
 
     /**

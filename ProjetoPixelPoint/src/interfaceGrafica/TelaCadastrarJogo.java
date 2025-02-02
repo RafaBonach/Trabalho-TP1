@@ -4,8 +4,15 @@
  */
 package interfaceGrafica;
 
+import backend.BdDev;
+import backend.BdJogos;
 import backend.Desenvolvedor;
 import backend.Jogo;
+import static interfaceGrafica.TelaCadastroDesenvolvedor.listaDesenvolvedores;
+import static interfaceGrafica.TelaPerfilDesenvolvedor.desenvolvedor;
+import static interfaceGrafica.TelaPerfilDesenvolvedor.listaDesenvolvedores;
+import static interfaceGrafica.TelaPerfilDesenvolvedor.listaJogos;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
@@ -20,7 +27,8 @@ import javax.swing.text.NumberFormatter;
 public final class TelaCadastrarJogo extends javax.swing.JFrame {
     
     Desenvolvedor desenvolvedor;
-    private List<Jogo> listaJogos = new ArrayList<>();
+    static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
+    static List<Jogo> listaJogos = new ArrayList<>();
 
     /**
      * Creates new form CadastrarJogo
@@ -30,6 +38,8 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
             initComponents();
             aplicaMascara();
             desenvolvedor = TelaPerfilDesenvolvedor.desenvolvedor;
+            listaDesenvolvedores = TelaPrincipal.listaDesenvolvedores;
+            listaJogos = TelaPrincipal.listaJogos;
 
             // Habilitando campos de Texto
             jFormattedTextFieldPreco.setEnabled(true);
@@ -37,16 +47,18 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         } catch(Exception e){
             System.err.println(e);
             JOptionPane.showMessageDialog(null,"Nenhum desenvolvedor encontrado,\ncadastre-se em uma conta de desenvolvedor para criar um jogo", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-            new TelaLoginDesenvolvedor().setVisible(true);
+            new TelaPrincipal().setVisible(true);
             this.dispose();
         }
+    }
+    
+    private void alteraBanco(){
         try{
-            listaJogos = TelaPrincipal.listaJogos;
+            BdJogos.atualizaBD(listaJogos);
+            BdDev.atualizaBD(listaDesenvolvedores);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        catch (Exception e){
-            System.err.println(e);
-        }
-
     }
 
     /**
@@ -219,13 +231,11 @@ public final class TelaCadastrarJogo extends javax.swing.JFrame {
         }else{
             int id = desenvolvedor.getJogosCriados().size();
             desenvolvedor.adicionaJogo(nome, id, preco, versao, genero, requisitos);
-            
-            
-            /**
-             * Atualizar o cando de dados de desenvolvedor com o novo jogo
-             */
+            listaDesenvolvedores.set(desenvolvedor.getId(), desenvolvedor);
             Jogo jogo = desenvolvedor.getJogosCriados().get(id);
             listaJogos.add(jogo);
+            
+            alteraBanco();
             
             
             JOptionPane.showMessageDialog(null,"Jogo Cadastrado!", "Mensagem",JOptionPane.PLAIN_MESSAGE);

@@ -4,9 +4,15 @@
  */
 package interfaceGrafica;
 
+import backend.BdCliente;
+import backend.BdDev;
+import backend.BdJogos;
+import backend.Cliente;
+import backend.Desenvolvedor;
 import backend.Jogo;
 import java.awt.Component;
 import java.awt.PopupMenu;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +22,8 @@ import java.util.List;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     public static List<Jogo> listaJogos = new ArrayList<>();
+    public static List<Cliente> listaClientes = new ArrayList<>();
+    public static List<Desenvolvedor> listaDesenvolvedores = new ArrayList<>();
     
     @Override
     public void add(PopupMenu popup) {
@@ -32,14 +40,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
-        
-        // Cria 
-        Jogo jogo1 = new Jogo("Dark Souls", 1, 10, 1, "Ação", "Windows");
-        Jogo jogo2 = new Jogo("Minecraft", 1, 25, 2, "Sobrevivência", "Windows");
-        Jogo jogo3 = new Jogo("Doom", 1, 15, 1, "FPS", "Windows");
-        listaJogos.add(jogo1);
-        listaJogos.add(jogo2);
-        listaJogos.add(jogo3);
+        inicializaListas();
+    }
+    
+    private void inicializaListas(){
+        try {
+            listaJogos = BdJogos.leBD();
+            listaClientes = BdCliente.leBD(listaJogos);
+            listaDesenvolvedores = BdDev.leBD(listaJogos);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
 
     /**

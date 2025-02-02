@@ -4,8 +4,11 @@
  */
 package interfaceGrafica;
 
+import backend.BdCliente;
 import backend.Cliente;
 import backend.Jogo;
+import static interfaceGrafica.TelaCadastroCliente.listaClientes;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -39,8 +42,8 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
             cliente = TelaLoginCliente.cliente;
             initComponents();
 
-            acessaBanco('r');
-
+            listaClientes = TelaPrincipal.listaClientes;
+            
             // Inicializa os campos formatados
             this.aplicaMascara();
 
@@ -129,14 +132,11 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
     }
     
     // Tenta acessar o banco de dados
-    private void acessaBanco(char operacao){
-        /**
-         * Se operacao = r, ele vai puxar as informacoes do banco de dados
-         * Se operacao = w, ele alterar as informações do desenvolvedor no banco de dados
-         */
-        if(operacao == 'r'){
-            listaClientes = TelaCadastroCliente.listaClientes;
-        }else if(operacao == 'w'){
+    private void alteraBanco(){
+        try{
+            BdCliente.atualizaBD(listaClientes);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
     
@@ -425,7 +425,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
         // Se botao for igual a nulo, quer dizer que ele não está editando nenhuma informações e quer voltar para a tela de login/tela anterior
         if (botao == null){
             cliente = null;
-            new TelaLoginCliente().setVisible(true);
+            new TelaPrincipal().setVisible(true);
             this.dispose();
         }
         // Se não, ele quer voltar para a tela inicial sem fazer as alterações
@@ -514,9 +514,7 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
                         cliente.setEndereco(endereco);
                         listaClientes.set(cliente.getId(), cliente); 
 
-                        /**
-                         * Inserir aqui as informações no banco de dados quando ele estiver pronto
-                        */
+                        alteraBanco();
 
                         System.out.println("\n" + cliente + "\n" + listaClientes);
                     }
@@ -530,12 +528,11 @@ public class TelaPerfilCliente extends javax.swing.JFrame {
             // Verifica se o saldo é diferente
             if(saldo != cliente.getSaldoCarteira()){
                 boolean saldoAlterado = cliente.setSaldoCarteira(saldo);
-                /**
-                 * Inserir aqui as informações no banco de dados quando ele estiver pronto
-                */
                 if (!saldoAlterado){
                     JOptionPane.showMessageDialog(null,"Insira um valor valido maior que 0", "Mensagem",JOptionPane.PLAIN_MESSAGE);
-                } 
+                }else{
+                    alteraBanco();
+                }
                 // Volta para as configurações iniciais, com os valores alterados
                 this.setInicial();
 

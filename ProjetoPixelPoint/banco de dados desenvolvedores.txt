@@ -1,0 +1,2 @@
+Teste|a@gmail.com|123|0|temp|temp|Teste
+Dumativa|dumativa@gmail.com|1234|1|||Teste

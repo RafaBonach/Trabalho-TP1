@@ -4,7 +4,9 @@
  */
 package interfaceGrafica;
 
+import backend.BdDev;
 import backend.Desenvolvedor;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
     public TelaCadastroDesenvolvedor() {
         initComponents();
         
-        acessaBanco('r');
+        listaDesenvolvedores = TelaPrincipal.listaDesenvolvedores;
         
         //Habilitar botões
         btnCadastrar.setEnabled(true);
@@ -35,14 +37,11 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     }
     
-    private void acessaBanco(char operacao){
-        /**
-         * Se operacao = r, ele vai puxar as informacoes do banco de dados
-         * Se operacao = w, ele adicionar um novo desenvolvedor no banco de dados
-         */
-        if(operacao == 'r'){
-            listaDesenvolvedores = TelaLoginDesenvolvedor.listaDesenvolvedores;
-        }else if(operacao == 'w'){
+    private void alteraBanco(){
+        try{
+            BdDev.atualizaBD(listaDesenvolvedores);
+        }catch (IOException ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
     
@@ -291,9 +290,7 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
                     int id = listaDesenvolvedores.indexOf(desenvolvedor);
                     desenvolvedor.setId(id);
                     
-                    /**
-                     * Inserir aqui as informações no banco de dados quando ele estiver pronto
-                    */
+                    alteraBanco();
 
                     new TelaLoginDesenvolvedor().setVisible(true);
                     this.setVisible(false);
@@ -338,8 +335,9 @@ public class TelaCadastroDesenvolvedor extends javax.swing.JFrame {
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
-        // Volta pra tela de login
-        this.btnEntrarActionPerformed(evt);
+        // Volta pra tela principal
+        new TelaPrincipal().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**

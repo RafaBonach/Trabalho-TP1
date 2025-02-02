@@ -12,15 +12,13 @@ import java.util.List;
  *
  * @author rafaelb
  */
-public class BancoDeDados {
-    private static final String NOME_ARQUIVO = "banco de dados.txt";
+public class BdJogos {
+    private static final String NOME_ARQUIVO = "banco de dados jogos.txt";
     
     public static void atualizaBD(List<Jogo> jogos) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(NOME_ARQUIVO));
         for (Jogo jogo : jogos){
-            writer.write(jogo.getNome() + "|" + String.valueOf(jogo.getId()) + "|" + 
-                    String.valueOf(jogo.getPreco()) + "|" + String.valueOf(jogo.getVersao()) + "|" + 
-                    jogo.getGenero() + "|" + jogo.getRequisitos());
+            writer.write(jogo.toString());
             writer.newLine();
         }
         writer.close();
@@ -33,9 +31,10 @@ public class BancoDeDados {
         
         String linha;
         while ((linha = reader.readLine()) != null) {
-                // Divide a linha com base no símbolo "|"
-                String[] parts = linha.split("\\|");
+            // Divide a linha com base no símbolo "|"
+            String[] parts = linha.split("\\|");
 
+            //Cria um objeto Jogo com base nos dados de uma linha no banco de dados
             Jogo jogo = new Jogo (parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[2]), Integer.parseInt(parts[3]), parts[4], parts[5]);
             jogos.add(jogo);
         }
